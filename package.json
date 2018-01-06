@@ -1,0 +1,48 @@
+{
+  "name": "My-stuff",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Anurag gautam",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "webpack -p --progress --profile --colors && node server",
+    "start:dev": "node server"
+  },
+  "dependencies": {
+    "autoprefixer": "^7.1.2",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "body-parser": "^1.17.2",
+    "connect-history-api-fallback": "^1.3.0",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.28.5",
+    "express": "^4.15.4",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^2.30.1",
+    "mongoose": "^4.11.7",
+    "node-sass": "^4.5.3",
+    "nodemon": "^1.11.0",
+    "postcss-loader": "^2.0.6",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-hot-loader": "^3.0.0-beta.6",
+    "react-router": "^4.1.2",
+    "react-router-dom": "^4.1.2",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.5.5",
+    "webpack-dev-middleware": "^1.12.0",
+    "webpack-hot-middleware": "^2.18.2",
+    "webpack-merge": "^4.1.0",
+    "whatwg-fetch": "^2.0.3",
+	"bootstrap": "^3.3.7",
+	 "font-awesome": "^4.7.0"
+  }
+}
