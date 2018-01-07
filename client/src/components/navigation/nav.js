@@ -9,7 +9,7 @@ class NavMenu extends Component{
 
 
   logoutclick(){
-    alert(1)
+      alert("Logout");
       window.localStorage.removeItem('isLoggedIn');
   };
 
