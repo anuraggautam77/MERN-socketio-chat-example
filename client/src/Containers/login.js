@@ -6,14 +6,14 @@ export default class Login extends Component {
   constructor(props) {
     super (props);
     this.state = {
-          firstName: '',
-          lastName: '',
-          email: '',
-          password: '',
-          username:'',
-          loginpass:'',
-          loginError: '',
-          signupError: ''
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      username: 'anurag@gmail.com',
+      loginpass: '1234567890',
+      loginError: '',
+      signupError: ''
     };
     this.handleSignup = this.handleSignup.bind (this);
     this.handleSignIn = this.handleSignIn.bind (this);
@@ -21,40 +21,60 @@ export default class Login extends Component {
 
   handleSignup() {
     this.callNewUserApi (this.state);
-  };
-  
-  handleSignIn(){
-    
-     this.callSignInApi (this.state);
-  };
-  
-  callSignInApi(data){
-    
-    console.log(data.loginpass);
-    console.log(data.username);
-    
-  };
-  
-  
- callNewUserApi(data) {
+  }
+  ;
+    handleSignIn() {
+
+    if (this.state.username !== '' && this.state.loginpass !== '') {
+      this.callSignInApi (this.state);
+    } else {
+      alert ("Please Enter Login Information ")
+
+    }
+  }
+
+  callSignInApi(data) {
+
+    fetch ('/api/singin', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify (data)
+    }
+    ).then (res => res.json ()).then (json => {
+      this.serviceSignInHandler (json)
+    });
+
+
+  }
+  ;
+    callNewUserApi(data) {
     fetch ('/api/newuser', {method: 'post', headers: {'Content-Type': 'application/json'}, body: JSON.stringify (data)})
       .then (res => res.json ())
       .then (json => {
         this.serviceHandler (json)
       });
+  }
+  ;
+    serviceHandler(data) {
+    if (data.status === 'success') {
+      alert ('store Data');
+    }
+
   };
   
-  serviceHandler(data){
-    if(data.status==='sucuess'){
-      alert('store Data');
+  
+  serviceSignInHandler(data){
+    
+    if (data.status === 'success') {
+      
+      // navigation to dashboard
+    }else{
+      alert(data.message);
     }
     
   };
-  
-  
-  
-  
-    render() {
+ 
+ render() {
     return (
       <div className="login-component">
         <div className="container">
@@ -77,18 +97,21 @@ export default class Login extends Component {
                     <div className="form-group">
                       <label className="sr-only"  >Username</label>
                       <input type="text" name="form-username"
-                      value ={this.state.username}   onChange={(event) => {this.setState ({username: event.target.value})}}
-      placeholder="Username..."   className="form-username form-control" id="form-username"/>
-                      
+                             value ={this.state.username}   onChange={(event) => {
+          this.setState ({username: event.target.value})}}
+                             placeholder="Username..."   className="form-username form-control" id="form-username"/>
+      
                     </div>
                     <div className="form-group">
                       <label className="sr-only"  >Password</label>
                       <input type="password" name="form-password" 
-                        value ={this.state.loginpass}   onChange={(event) => {this.setState ({loginpass: event.target.value})}}
-                      placeholder="Password..."  className="form-password form-control" id="form-password"/>
+                             value ={
+            this.state.loginpass}   onChange={(event) => {
+              this.setState ({loginpass: event.target.value})}}
+                             placeholder="Password..."  className="form-password form-control" id="form-password"/>
                     </div>
                     <button type="button" onClick={
-                        this.handleSignIn} className="btn btn-link-1">Sign in!</button>
+                this.handleSignIn} className="btn btn-link-1">Sign in!</button>
                   </form>
                 </div>
               </div>
@@ -128,29 +151,34 @@ export default class Login extends Component {
                   <form role="form"  className="registration-form">
                     <div className="form-group">
                       <label className="sr-only" >First name</label>
-                      <input type="text" name="form-first-name"  value ={this.state.firstName}   onChange={(event) => {this.setState ({firstName: event.target.value})}} placeholder="First name..." className="form-first-name form-control" id="form-first-name"/>
+                      <input type="text" name="form-first-name"  value ={this.state.firstName}   onChange={(event) => {
+                  this.setState ({firstName: event.target.value})}} placeholder="First name..." className="form-first-name form-control" id="form-first-name"/>
                     </div>
                     <div className="form-group">
                       <label className="sr-only" >Last name</label>
-                      <input type="text"  value ={this.state.lastName}   onChange={(event) => { this.setState ({lastName: event.target.value})}}  name="form-last-name" placeholder="Last name..." className="form-last-name form-control" id="form-last-name"/>
+                      <input type="text"  value ={
+                    this.state.lastName}   onChange={(event) => {
+                      this.setState ({lastName: event.target.value})}}  name="form-last-name" placeholder="Last name..." className="form-last-name form-control" id="form-last-name"/>
                     </div>
                     <div className="form-group">
                       <label className="sr-only"  >Email</label>
-                      <input type="text" name="form-email"  value ={ this.state.email}  onChange={(event) => { this.setState ({email: event.target.value})}} placeholder="Email..." className="form-email form-control" id="form-email"/>
+                      <input type="text" name="form-email"  value ={
+                        this.state.email}  onChange={(event) => {
+                          this.setState ({email: event.target.value})}} placeholder="Email..." className="form-email form-control" id="form-email"/>
                     </div>
                     <div className="form-group">
                       <label className="sr-only"  >Password</label>
                       <input type="Password" name="form-password" 
                              value={
-                    this.state.password}
+                            this.state.password}
                              onChange={(event) => {
-                      this.setState ({password: event.target.value})}}
+                              this.setState ({password: event.target.value})}}
                              placeholder="Password..." className="form-email form-control" 
                              id="form-signup-password"/>
                     </div>
       
                     <button type="button" onClick={
-                        this.handleSignup} className="btn">Sign me up!</button>
+                                this.handleSignup} className="btn">Sign me up!</button>
                   </form>
                 </div>
               </div>
@@ -160,6 +188,6 @@ export default class Login extends Component {
           </div>
         </div>
       </div>
-             )
-    }
-}
+                              )
+              }
+            }
