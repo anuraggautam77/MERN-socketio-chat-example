@@ -10,6 +10,7 @@ class NavMenu extends Component{
 
   logoutclick(){
       alert("Logout");
+      window.localStorage.removeItem('accessToken');
       window.localStorage.removeItem('isLoggedIn');
   };
 

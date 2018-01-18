@@ -7,19 +7,18 @@ class LandingLayout extends Component {
 
   constructor(props) {
     super (props);
-    var propsData = this.props;
-    console.log (">>1");
+    this.state=props;
   }
 
   render() {
-    console.log (">>2");
-    console.log (">>>>>>", this.propsData);
+   
+
     return (
       <div className="container">
         <div className="row">
           <div className="card hovercard">
             <Header/>  
-            <LoginForm statedata={this.propsData} />
+            <LoginForm/>
           </div>
         </div>
       </div>

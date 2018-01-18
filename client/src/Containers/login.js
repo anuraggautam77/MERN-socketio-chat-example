@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../style/css/signup.scss';
+import PubSub from 'pubsub-js';
 
 export default class Login extends Component {
 
@@ -21,9 +22,9 @@ export default class Login extends Component {
 
   handleSignup() {
     this.callNewUserApi (this.state);
-  }
-  ;
-    handleSignIn() {
+  };
+  
+  handleSignIn() {
 
     if (this.state.username !== '' && this.state.loginpass !== '') {
       this.callSignInApi (this.state);
@@ -45,16 +46,14 @@ export default class Login extends Component {
     });
 
 
-  }
-  ;
+  };
     callNewUserApi(data) {
     fetch ('/api/newuser', {method: 'post', headers: {'Content-Type': 'application/json'}, body: JSON.stringify (data)})
       .then (res => res.json ())
       .then (json => {
         this.serviceHandler (json)
       });
-  }
-  ;
+  };
     serviceHandler(data) {
     if (data.status === 'success') {
       alert ('store Data');
@@ -66,7 +65,7 @@ export default class Login extends Component {
   serviceSignInHandler(data){
     
     if (data.status === 'success') {
-      
+        PubSub.publish('IS_LOGIN', {status: true, token:data.accesstoken});
       // navigation to dashboard
     }else{
       alert(data.message);
