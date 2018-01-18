@@ -9,6 +9,7 @@ import Login from '../Containers/login';
 import NavMenu from '../components/navigation/nav';
 
 export default class Routing extends Component {
+    
     render() {
         return (
             <Router>

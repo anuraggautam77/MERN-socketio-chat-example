@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Auth} from './common/auth';
 import PubSub from 'pubsub-js';
 import './style/css/App.scss';
 
@@ -13,6 +14,9 @@ class App extends Component {
     this.state = {
       "isLoggedIn": false
     };
+    var auth1 = new Auth ();
+    auth1.validateToken ();
+
     this.mySubscriber = this.mySubscriber.bind (this);
   }
   ;
@@ -20,8 +24,8 @@ class App extends Component {
     this.setState ({
       isLoggedIn: data.status
     });
-    window.localStorage.setItem('accessToken',data.token);
-    window.localStorage.setItem('isLoggedIn', true);
+    window.localStorage.setItem ('accessToken', data.token);
+    window.localStorage.setItem ('isLoggedIn', true);
   }
   ;
     componentWillMount() {

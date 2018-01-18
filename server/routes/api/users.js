@@ -1,13 +1,40 @@
 const Users = require ('../../models/User');
-
 const bcrypt = require ('bcrypt');
 const jwt = require ('jsonwebtoken');
+
+
 const saltRounds = 10;
+const SECRETKEY = 'iamnewinthistechstack';
 const DUPLICATE_CODE = 11000;
 
 module.exports = (apiRoutes) => {
 
+  function tokenVerify(req, res) {
+    var token = req.headers['x-access-token'];
+    if (token) {
+      jwt.verify (token, SECRETKEY, function (err, decoded) {
+        if (decoded === undefined) {
+          res.status (403).json ({
+            message: 'No token provided'
+          });
+          
+        }else{
+          res.status (200).json ({
+            message: 'valid token'
+          });
+        }
+       
+      });
+    } else {
+      console.log ("Token Invalid");
+      res.status (403).json ({
+        message: 'No token provided'
+      });
+    }
+  }
+
   apiRoutes.post ('/newuser', function (req, res) {
+
     bcrypt.hash (req.body.password, saltRounds, function (err, hash) {
       req.body.password = hash;
       const users = new Users (req.body);
@@ -31,16 +58,18 @@ module.exports = (apiRoutes) => {
 
   apiRoutes.post ('/singin', function (req, res) {
 
+    // 
+
     Users.find ({email: req.body.username}, function (err, userdata) {
       if (userdata.length > 0) {
         bcrypt.compare (req.body.loginpass, userdata[0].password, function (err, flag) {
-          
-          var token = jwt.sign ({data:"password"}, 'iamnewinthistechstack', {
-               expiresIn: 1440  
+
+          var token = jwt.sign ({data: "password"}, SECRETKEY, {
+            expiresIn: 1440
           });
 
           if (flag) {
-            res.json ({status: "success", message: 'Login Successfully!!', accesstoken:token});
+            res.json ({status: "success", message: 'Login Successfully!!', accesstoken: token});
           } else {
             res.json ({status: "Error", message: 'Invalid Password!!!'});
           }
@@ -54,11 +83,11 @@ module.exports = (apiRoutes) => {
   });
 
 
+  apiRoutes.post ('/authvalidate', function (req, res) {
 
-
-
-
-
+      tokenVerify (req, res);
+     
+  });
 
 
 
