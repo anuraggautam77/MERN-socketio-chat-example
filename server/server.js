@@ -1,7 +1,7 @@
 const bodyParser = require ('body-parser');
 const express = require ('express');
 const morgan = require ('morgan');
-const jwt = require ('jsonwebtoken');
+
 const fs = require ('fs');
 const historyApiFallback = require ('connect-history-api-fallback');
 const mongoose = require ('mongoose');
@@ -42,7 +42,6 @@ app.use (bodyParser.urlencoded ({extended: true}));
 app.use (bodyParser.json ());
 
 app.use (morgan ('dev'));
-
 app.use ('/api', apiRoutes);
 // API routes
 require ('./routes') (apiRoutes);

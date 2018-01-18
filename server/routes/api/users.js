@@ -1,11 +1,11 @@
 const Users = require ('../../models/User');
 
-var bcrypt = require ('bcrypt');
+const bcrypt = require ('bcrypt');
+const jwt = require ('jsonwebtoken');
 const saltRounds = 10;
 const DUPLICATE_CODE = 11000;
 
 module.exports = (apiRoutes) => {
-
 
   apiRoutes.post ('/newuser', function (req, res) {
     bcrypt.hash (req.body.password, saltRounds, function (err, hash) {
@@ -31,25 +31,30 @@ module.exports = (apiRoutes) => {
 
   apiRoutes.post ('/singin', function (req, res) {
 
-    Users.find ({email: req.body.username} , function (err, userdata) {
-     if(userdata.length>0){
-       bcrypt.compare(req.body.loginpass, userdata[0].password, function(err, flag) {
-         if(flag){
-             res.json ({status: "success",  message: 'Login Successfully!!'});
-         }else{
-             res.json ({status: "Error",  message: 'Invalid Password!!!'});
-         }
+    Users.find ({email: req.body.username}, function (err, userdata) {
+      if (userdata.length > 0) {
+        bcrypt.compare (req.body.loginpass, userdata[0].password, function (err, flag) {
+          
+          var token = jwt.sign ({data:"password"}, 'iamnewinthistechstack', {
+               expiresIn: 1440  
+          });
+
+          if (flag) {
+            res.json ({status: "success", message: 'Login Successfully!!', accesstoken:token});
+          } else {
+            res.json ({status: "Error", message: 'Invalid Password!!!'});
+          }
         });
-     }else{
-          res.json ({status: "Error",  message: 'Invalid Username!!!'});
-     }
-     
+      } else {
+        res.json ({status: "Error", message: 'Invalid Username!!!'});
+      }
+
     });
 
   });
-  
-  
- 
+
+
+
 
 
 

@@ -20,10 +20,10 @@ class App extends Component {
 
     
   componentDidMount() {
-    this.checkinterval = setInterval(
+/*    this.checkinterval = setInterval(
       () => this.isLoggedIn(),
       1000
-    );
+    );*/
   };
 
   componentWillUnmount() {
@@ -40,7 +40,7 @@ class App extends Component {
  
 
   render() {
-    return (this.state.isLoggedIn)? <DashBoard/> : <Landing/>;
+    return (this.state.isLoggedIn)? <DashBoard/> : <Landing handler = {this.state}  />;
   }
 
 }
