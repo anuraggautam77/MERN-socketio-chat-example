@@ -14,35 +14,39 @@ class App extends Component {
     this.state = {
       "isLoggedIn": false
     };
-    var auth1 = new Auth ();
-    auth1.validateToken ();
+    this.auth = new Auth ();
+    this.auth.validateToken (function () {
+      //this.props.history.push("/");
+    });
 
     this.mySubscriber = this.mySubscriber.bind (this);
   }
+
   ;
     mySubscriber(msg, data) {
     this.setState ({
-      isLoggedIn: data.status
+        isLoggedIn: data.status
     });
-    window.localStorage.setItem ('accessToken', data.token);
-    window.localStorage.setItem ('isLoggedIn', true);
+    if (data.status) {
+      window.localStorage.setItem ('accessToken', data.token);
+      window.localStorage.setItem ('isLoggedIn', true);
+    } else {
+      this.auth.distroyedToken();
+      window.localStorage.removeItem ('accessToken');
+      window.localStorage.removeItem ('isLoggedIn');
+    }
+
   }
   ;
     componentWillMount() {
-
     this.isLoggedIn ();
     PubSub.subscribe ('IS_LOGIN', this.mySubscriber);
   }
   ;
-    componentWillUpdate() {
-    console.log ("statechnage");
-
-  }
-
-  isLoggedIn() {
+    isLoggedIn() {
     var boolFlag = window.localStorage.getItem ('isLoggedIn');
     this.setState ({
-      isLoggedIn: (boolFlag !== null) ? JSON.parse (boolFlag) : false
+      isLoggedIn: (boolFlag !== null && boolFlag !== '') ? JSON.parse (boolFlag) : false
     });
     return true;
   }

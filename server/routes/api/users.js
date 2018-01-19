@@ -5,6 +5,7 @@ const jwt = require ('jsonwebtoken');
 
 const saltRounds = 10;
 const SECRETKEY = 'iamnewinthistechstack';
+const SECRETKEY_WRONG = 'wrongtoken';
 const DUPLICATE_CODE = 11000;
 
 module.exports = (apiRoutes) => {
@@ -15,20 +16,22 @@ module.exports = (apiRoutes) => {
       jwt.verify (token, SECRETKEY, function (err, decoded) {
         if (decoded === undefined) {
           res.status (403).json ({
-            message: 'No token provided'
+            message: 'No token provided',
+            statuscode: 403
           });
-          
-        }else{
+
+        } else {
           res.status (200).json ({
             message: 'valid token'
           });
         }
-       
+
       });
     } else {
       console.log ("Token Invalid");
       res.status (403).json ({
-        message: 'No token provided'
+        message: 'No token provided',
+        statuscode: 403
       });
     }
   }
@@ -58,14 +61,12 @@ module.exports = (apiRoutes) => {
 
   apiRoutes.post ('/singin', function (req, res) {
 
-    // 
-
     Users.find ({email: req.body.username}, function (err, userdata) {
       if (userdata.length > 0) {
         bcrypt.compare (req.body.loginpass, userdata[0].password, function (err, flag) {
 
           var token = jwt.sign ({data: "password"}, SECRETKEY, {
-            expiresIn: 1440
+            expiresIn: '1h'
           });
 
           if (flag) {
@@ -85,9 +86,20 @@ module.exports = (apiRoutes) => {
 
   apiRoutes.post ('/authvalidate', function (req, res) {
 
-      tokenVerify (req, res);
-     
+    tokenVerify (req, res);
+
   });
+
+
+  apiRoutes.post ('/invalidate', function (req, res) {
+
+    jwt.sign ({data: "password"}, SECRETKEY, {
+      expiresIn: '1'
+    });
+
+
+  });
+
 
 
 
