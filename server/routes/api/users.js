@@ -10,31 +10,35 @@ const DUPLICATE_CODE = 11000;
 
 module.exports = (apiRoutes) => {
 
-  function tokenVerify(req, res) {
+  function getTokenHeader(req) {
     var token = req.headers['x-access-token'];
+    return token;
+  }
+
+  
+  function tokenVerify(req, res) {
+    var token = getTokenHeader(req);
     if (token) {
       jwt.verify (token, SECRETKEY, function (err, decoded) {
         if (decoded === undefined) {
-          res.status (403).json ({
-            message: 'No token provided',
-            statuscode: 403
-          });
-
+          console.log('invalid or no token Provided');
         } else {
-          res.status (200).json ({
-            message: 'valid token'
-          });
+            console.log('valid');
         }
-
       });
     } else {
-      console.log ("Token Invalid");
-      res.status (403).json ({
-        message: 'No token provided',
-        statuscode: 403
-      });
+        console.log('invalid or no token Provided');
     }
   }
+
+
+  function  generateNewToken() {
+    var token = jwt.sign ({data: "password"}, SECRETKEY, {
+      expiresIn: 7500 // 75 sec
+    });
+    return token;
+  };
+
 
   apiRoutes.post ('/newuser', function (req, res) {
 
@@ -65,9 +69,7 @@ module.exports = (apiRoutes) => {
       if (userdata.length > 0) {
         bcrypt.compare (req.body.loginpass, userdata[0].password, function (err, flag) {
 
-          var token = jwt.sign ({data: "password"}, SECRETKEY, {
-            expiresIn: '1h'
-          });
+          var token = generateNewToken ();
 
           if (flag) {
             res.json ({status: "success", message: 'Login Successfully!!', accesstoken: token});
@@ -84,21 +86,67 @@ module.exports = (apiRoutes) => {
   });
 
 
-  apiRoutes.post ('/authvalidate', function (req, res) {
 
-    tokenVerify (req, res);
+  apiRoutes.post ('/authvalidate', function (req, res) {
+    var token = getTokenHeader(req);
+    if (token) {
+      jwt.verify (token, SECRETKEY, function (err, decoded) {
+        if (decoded === undefined) {
+          res.status (403).json ({
+            message: 'No token provided',
+            statuscode: 403
+          });
+
+        } else {
+          res.status (200).json ({
+            message: 'valid token'
+          });
+        }
+
+      });
+    } else {
+      console.log ("Token Invalid");
+      res.status (403).json ({
+        message: 'No token provided',
+        statuscode: 403
+      });
+    }
 
   });
 
 
   apiRoutes.post ('/invalidate', function (req, res) {
 
-    jwt.sign ({data: "password"}, SECRETKEY, {
-      expiresIn: '1'
-    });
-
 
   });
+
+
+
+
+  apiRoutes.post ('/newtoken', function (req, res) {
+     var headerToken = getTokenHeader(req);
+       if (headerToken) {
+       
+       var token = generateNewToken ();
+          if (flag) {
+            res.json ({status: "success", message: 'Login Successfully!!', accesstoken: token});
+          } else {
+            res.json ({status: "Error", message: 'Invalid Password!!!'});
+          }
+       
+      } else {
+      console.log ("Token Invalid");
+      res.status (403).json ({
+        message: 'No token provided',
+        statuscode: 403
+      });
+    }
+
+  });
+
+
+
+
 
 
 

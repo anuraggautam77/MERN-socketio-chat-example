@@ -15,7 +15,8 @@ export default class Routing extends Component {
             <Router>
                 <div>
                     <NavMenu/>
-                    <Route exact path="/" component={Home} />
+                      <Route exact path="/" component={Home} />
+                    <Route exact path="/home" component={Home} />
                     <Route path="/profile" component={Profile} />
                     <Route path="/list" component={List} />
                     <Route path="/login" component={Login} />
