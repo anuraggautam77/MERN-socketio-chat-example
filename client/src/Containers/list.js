@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import   '../style/css/chatwindow.scss';
+  import   '../style/css/chatwindow.scss';
 import UserList from '../components/userlist/userlist';
 import Chatwindow from '../components/chatwindow/chatwindow';
-  export default class List extends Component {
+export default class List extends Component {
   render() {
     return (
       <div>
@@ -12,7 +12,6 @@ import Chatwindow from '../components/chatwindow/chatwindow';
             <div className="right-side popup-box"><Chatwindow/> </div>
           </div>
         </main>
-      
       </div>
       )
   }

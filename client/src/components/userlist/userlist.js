@@ -1,64 +1,69 @@
 import React, { Component } from "react";
+import PubSub from 'pubsub-js';
 import "../../style/css/userlist.scss";
 class UserList extends Component {
 
-render() {
-return (
-<div className="userlist-container">
-<div className="row-section">
-  <div className="container">
-    <div className="col-md-6 offset-md-1 row-block">
-      <ul>
-        <li><div className="media">
-            <div className="media-left align-self-center">
-              <img className="rounded-circle" src="https://randomuser.me/api/portraits/women/50.jpg"/>
-            </div>
-            <div className="media-body">
-              <h4>Camila Terry</h4>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-            </div>
-            <div className="media-right align-self-center">
-              <a href="#" className="btn btn-default">Contact Now</a>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div className="media">
-            <div className="media-left align-self-center">
-              <img className="rounded-circle" src="https://randomuser.me/api/portraits/men/42.jpg"/>
-            </div>
-            <div className="media-body">
-              <h4>Joel Williamson</h4>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-            </div>
-            <div className="media-right align-self-center">
-              <a href="#" className="btn btn-default">Contact Now</a>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div className="media">
-            <div className="media-left align-self-center">
-              <img className="rounded-circle" src="https://randomuser.me/api/portraits/women/50.jpg"/>
-            </div>
-            <div className="media-body">
-              <h4>Leona Hunter</h4>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
-            </div>
-            <div className="media-right align-self-center">
-              <a href="#" className="btn btn-default">Contact Now</a>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-</div>
-)
-};
+  constructor(props) {
+    super (props);
 
-};
+    this.state = {
+      userList: []
+    };
+    this.onchatnowClick = this.onchatnowClick.bind (this);
+  }
+  componentDidMount() {
+
+    var id = window.localStorage.getItem ('userid');
+    fetch (`/api/getuserlist/${id}`, {method: 'get', headers: {'Content-Type': 'application/json'}}
+    ).then (res => res.json ()
+    ).then (json => {
+      if (json.hasOwnProperty ('list')) {
+        this.setState ({userList: json.list});
+      }
+    });
+
+  }
+  onchatnowClick(e) {
+     PubSub.publish ('TRIGGER_CHAT_ENABLE', {status: true,towhome:e.target.id});
+  }
+
+  render() {
+    var userList = this.state.userList;
+    // console.log (this.state);
+
+    let listItems = userList.map ((obj) => {
+      return(<li key={obj._id} id={obj._id}><div className="media">
+          <div className="media-left align-self-center">
+            <img className="rounded-circle" src="https://picsum.photos/100/100/?random"/>
+          </div>
+          <div className="media-body">
+            <h4>{obj.firstName}  {obj.lastName}</h4>
+            <p> quis nostrud exercitation</p>
+          </div>
+          <div className="media-right align-self-center">
+            <a href='#' id={obj._id} key={obj._id} onClick={this.onchatnowClick} className="btn btn-default">Chat Now</a>
+          </div>
+        </div>
+      </li>)
+    });
+
+    return (
+      <div className="userlist-container">
+        <div className="row-section">
+          <div className="container">
+            <div className="col-md-5 offset-md-1 row-block">
+              <ul>
+                {listItems}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      );
+  }
+  ;
+}
+;
 
 export default UserList;
 

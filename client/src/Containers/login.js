@@ -66,7 +66,7 @@ export default class Login extends Component {
     serviceSignInHandler(data) {
 
     if (data.status === 'success') {
-      PubSub.publish ('IS_LOGIN', {status: true, token: data.accesstoken});
+      PubSub.publish ('IS_LOGIN', {status: true, token: data.accesstoken,userid:data.userid});
     } else {
       alert (data.message);
     }

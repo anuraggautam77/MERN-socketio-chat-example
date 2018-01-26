@@ -1,7 +1,5 @@
 .userlist-container{
-  .row-section{
-               float:left; width:100%; background: #42275a;  /* fallback for old browsers */
-              }
+  .row-section{ float:left; width:100%; background: #42275a;}
   .row-section h2{float:left; width:100%; color:#fff; margin-bottom:30px; font-size: 14px;}
   .row-section h2 span{font-family: 'Libre Baskerville', serif; display:block; font-size:45px; text-transform:none; margin-bottom:20px; margin-top:30px;font-weight:700;}
   .row-section h2 a{color:#d2abce;}
@@ -9,7 +7,6 @@
   .row-section .row-block ul{margin:0; padding:0;}
   .row-section .row-block ul li{list-style:none; margin-bottom:20px;}
   .row-section .row-block ul li:last-child{margin-bottom:0;}
-  .row-section .row-block ul li:hover{cursor:grabbing;}
   .row-section .row-block .media{border:1px solid #d5dbdd; padding:5px 20px; border-radius: 5px; box-shadow:0px 2px 1px rgba(0,0,0,0.04); background:#fff;}
   .row-section .media .media-left img{width:75px;}
   .row-section .media .media-body p{padding: 0 15px; font-size:14px;}

@@ -29,10 +29,13 @@ class App extends Component {
     });
     if (data.status) {
       window.localStorage.setItem ('accessToken', data.token);
+      window.localStorage.setItem ('userid', data.userid);
+     
       window.localStorage.setItem ('isLoggedIn', true);
     } else {
-      this.auth.distroyedToken();
+    //  this.auth.distroyedToken();
       window.localStorage.removeItem ('accessToken');
+      window.localStorage.removeItem ('userid');
       window.localStorage.removeItem ('isLoggedIn');
     }
 
