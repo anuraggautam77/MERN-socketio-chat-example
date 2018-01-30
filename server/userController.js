@@ -19,7 +19,7 @@ module.exports = class UserController {
         email: val.email,
         lastName: val.lastName,
         firstName: val.firstName
-      }
+      };
       userList.push (tempobj);
     });
     return userList;

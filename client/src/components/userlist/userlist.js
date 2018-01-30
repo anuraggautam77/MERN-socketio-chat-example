@@ -29,19 +29,17 @@ class UserList extends Component {
 
   render() {
     var userList = this.state.userList;
-    // console.log (this.state);
-
     let listItems = userList.map ((obj) => {
       return(<li key={obj._id} id={obj._id}><div className="media">
           <div className="media-left align-self-center">
             <img className="rounded-circle" src="https://picsum.photos/100/100/?random"/>
           </div>
           <div className="media-body">
-            <h4>{obj.firstName}  {obj.lastName}</h4>
-            <p> quis nostrud exercitation</p>
+            <h4>{obj.firstName} {obj.lastName}</h4>
+            <p>Comming soon Text .....</p>
           </div>
           <div className="media-right align-self-center">
-            <a href='#' id={obj._id} key={obj._id} onClick={this.onchatnowClick} className="btn btn-default">Chat Now</a>
+            <a href='javascript:void(0)' id={obj._id} key={obj._id}  onClick={this.onchatnowClick} className="btn btn-default">Chat Now</a>
           </div>
         </div>
       </li>)

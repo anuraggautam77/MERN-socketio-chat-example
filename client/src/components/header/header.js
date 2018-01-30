@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-
+import "../../style/css/header.scss";
 class Header extends Component{
 
     render() {
         return (
-            <div>
+            <div className="header-container">
                 <div className="cardheader"></div>
                       <div className="avatar">
                           <img src="/img/avatars/1.jpg" alt="ImagePlace" title="image" />

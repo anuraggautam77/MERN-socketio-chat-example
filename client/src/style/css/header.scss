@@ -1,0 +1,49 @@
+
+.header-container {
+  position: relative;
+  padding-top: 0;
+  overflow: hidden;
+  text-align: center;
+  background-color: rgba(214, 224, 226, 0.2);
+  .cardheader {
+    background-image: url('/img/bg/bg.jpg');
+    background-size: cover;
+    height: 135px;
+  }
+
+  .avatar {
+    position: relative;
+    top: -50px;
+    margin-bottom: -50px;
+
+    img {
+      width: 100px;
+      height: 100px;
+      max-width: 100px;
+      max-height: 100px;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      border-radius: 50%;
+    }
+  }
+
+  .info {
+    padding: 4px 8px 10px;
+    .title {
+      margin-bottom: 4px;
+      font-size: 24px;
+      line-height: 1;
+      color: #262626;
+      vertical-align: middle;
+    }
+
+    .desc {
+      overflow: hidden;
+      font-size: 12px;
+      line-height: 20px;
+      color: #737373;
+      text-overflow: ellipsis;
+    }
+  }
+
+} 

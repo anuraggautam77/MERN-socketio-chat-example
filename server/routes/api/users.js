@@ -17,7 +17,8 @@ const SERVICE_CONST = {
   SIGN_IN: "singin",
   AUTH_VALIDATE: "authvalidate",
   NEW_TOKEN: "newtoken",
-  GET_USER_LIST: "getuserlist"
+  GET_USER_LIST: "getuserlist",
+  GET_USER_DETAIL:"getuserdetail"
 };
 
 let cryptr = new Cryptr (USER_ID_ENCRYPT_DECTYPT);
@@ -49,7 +50,7 @@ module.exports = (apiRoutes) => {
 
   function  generateNewToken() {
     var token = jwt.sign ({data: "password"}, SECRETKEY, {
-      expiresIn: 75 // 75 sec
+      expiresIn: 7500 // 75 sec
     });
     return token;
   }
@@ -164,15 +165,33 @@ module.exports = (apiRoutes) => {
         } else {
           res.json ({status: "success", message: "No record found!!!!"});
         }
-
       });
-
     } else {
       res.json ({status: "error", message: "Something goes wrong!!!!"});
     }
-
-
-
   });
+  
+  
+  apiRoutes.get (`/${SERVICE_CONST.GET_USER_DETAIL}/:id`, (req, res) => {
+    if (req.params.id !== 'null') {
+      let decryptedString = cryptr.decrypt (req.params.id);
+      Users.find ({'_id': decryptedString}, (error, users) => {
+        if (users.length > 0) {
+          var contr = new UserController ();
+          res.json ({status: "success", list: contr.getuserList (users)});
+
+        } else {
+          res.json ({status: "success", message: "No record found!!!!"});
+        }
+      });
+    } else {
+      res.json ({status: "error", message: "Something goes wrong!!!!"});
+    }
+  });
+  
+  
+  
+  
+
 
 };

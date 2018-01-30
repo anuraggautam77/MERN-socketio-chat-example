@@ -8,8 +8,8 @@ export default class List extends Component {
       <div>
         <main>
           <div className="main__container">
-            <div className="left-side"> <UserList/></div>
-            <div className="right-side popup-box"><Chatwindow/> </div>
+            <div className="left-side"><UserList/></div>
+            <div className="right-side chatwindow"><Chatwindow/> </div>
           </div>
         </main>
       </div>

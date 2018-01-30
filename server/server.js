@@ -2,6 +2,9 @@ const bodyParser = require ('body-parser');
 const express = require ('express');
 const morgan = require ('morgan');
 
+const app = express ();
+const apiRoutes = express.Router ();
+
 const fs = require ('fs');
 const historyApiFallback = require ('connect-history-api-fallback');
 const mongoose = require ('mongoose');
@@ -12,10 +15,14 @@ const webpackHotMiddleware = require ('webpack-hot-middleware');
 
 const config = require ('../config/config');
 const webpackConfig = require ('../webpack.config');
+const chatContoller =require('./chatController.js');
 
 const isDev = process.env.NODE_ENV !== 'production';
 const port = process.env.PORT || 3000;
 
+const server = app.listen(port, function(){
+    console.log('server is running on port 8080')
+});
 
 // Configuration
 // ================================================================================================
@@ -26,10 +33,9 @@ mongoose.connect (isDev ? config.db_dev : config.db, {
 });
 mongoose.Promise = global.Promise;
 
-const app = express ();
-const apiRoutes = express.Router ();
 
-
+// pass Http object to Chat controller 
+ chatContoller.socketio(server);
 
 app.use (bodyParser.urlencoded ({extended: true}));
 app.use (bodyParser.json ());
@@ -71,12 +77,5 @@ if (isDev) {
   });
 }
 
-app.listen (port, '127.0.0.1', (err) => {
-  if (err) {
-    console.log (err);
-  }
-
-  console.info ('>>> 🌎 Open http://127.0.0.1:%s/ in your browser.', port);
-});
 
 module.exports = app;
