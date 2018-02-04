@@ -6,6 +6,9 @@ This is a boilerplate project using the following technologies:
 - [Sass](http://sass-lang.com/) for styles (using the SCSS syntax)
 - [Webpack](https://webpack.github.io/) for compilation
 
+- [Socket io] (https://socket.io/) for One to One chat between multiple user
+- [JWT Token] (https://jwt.io/) for Token Signing/Verification 
+
 
 ## Requirements
 
