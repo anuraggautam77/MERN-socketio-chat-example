@@ -6,12 +6,31 @@ class UserProfile extends Component {
 
   constructor(props) {
     super (props);
-    this.state = { };
+    this.state = {
+     userDetail:''
+    };
+    
+    console.log(this);
+    this.showUserProfile=this.showUserProfile. bind(this);
+    PubSub.subscribe ('PROFILE_VIEW', this.showUserProfile);
+     
+  };
   
-  }
+   showUserProfile(event, data){
+      fetch (`/api/getuserdetail/${data.towhome}`, {method: 'get', headers: {'Content-Type': 'application/json'}}
+    ).then (res => res.json ()
+    ).then (json => {
+      if (json.hasOwnProperty ('list')) {
+        console.log(this.state);
+        this.setState({'userDetail':json.list[0]});
+      }
+    });
+     
+   };
+  
   componentWillMount() {
     
-  
+  //  console.log('aa')
     
   }
    
@@ -22,14 +41,11 @@ class UserProfile extends Component {
     	 <div className="well profile">
             <div className="col-sm-12">
                 <div className="col-xs-12 col-sm-8">
-                    <h2>Nicole Pearson</h2>
-                    <p><strong>About: </strong> Web Designer / UI. </p>
-                    <p><strong>Hobbies: </strong> Read, out with friends, listen to music, draw and learn new things. </p>
+                <h2>{this.state.userDetail.firstName}  {this.state.userDetail.lastName}</h2>
+                    <p><strong>Email: </strong> {this.state.userDetail.email} </p>
+                    <p><strong>Hobbies: </strong> </p>
                     <p><strong>Skills: </strong>
-                        <span className="tags">html5</span> 
-                        <span className="tags">css3</span>
-                        <span className="tags">jquery</span>
-                        <span className="tags">bootstrap3</span>
+                       <span className="tags">aaa</span> 
                     </p>
                 </div>             
                 <div className="col-xs-12 col-sm-4">
@@ -71,21 +87,7 @@ class UserProfile extends Component {
                 <div className="col-xs-12 col-sm-4 emphasis">
                     <h2><strong>43</strong></h2>                    
                     <p><small>Snippets</small></p>
-                    <div className="btn-group dropup btn-block">
-                      <button type="button" className="btn btn-primary"><span className="fa fa-gear"></span> Options </button>
-                      <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span className="caret"></span>
-                        <span className="sr-only">Toggle Dropdown</span>
-                      </button>
-                      <ul className="dropdown-menu text-left" role="menu">
-                        <li><a href="#"><span className="fa fa-envelope pull-right"></span> Send an email </a></li>
-                        <li><a href="#"><span className="fa fa-list pull-right"></span> Add or remove from a list  </a></li>
-                        <li className="divider"></li>
-                        <li><a href="#"><span className="fa fa-warning pull-right"></span>Report this user for spam</a></li>
-                        <li className="divider"></li>
-                        <li><a href="#" className="btn disabled" role="button"> Unfollow </a></li>
-                      </ul>
-                    </div>
+                     
                 </div>
             </div>
     	 </div> 

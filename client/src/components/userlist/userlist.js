@@ -12,21 +12,16 @@ class UserList extends Component {
     };
     this.onchatnowClick = this.onchatnowClick.bind (this);
     this.updateNoification = this.updateNoification.bind (this);
-    
      PubSub.subscribe('NOTIFICATION_TO_USERLIST',this.updateNoification);
   };
   
   
   updateNoification(evntid,data){
-    console.log("kon sa user",data);
     this.updateuserList(data.userId);
-    
   }
   
-  
-  
   updateuserList(data){
-    console.log(data);
+    
       this.state.userList.map((obj)=>{
         if(data.includes(obj._id)){
           obj.notification='true';
@@ -35,7 +30,7 @@ class UserList extends Component {
         }
       });
       this.setState({'notification':data,userList:this.state.userList});
-      console.log(this.state);
+     
   };
   
   
@@ -46,16 +41,20 @@ class UserList extends Component {
     ).then (res => res.json ()).then (json => {
       if (json.hasOwnProperty ('list')) {
         this.setState ({userList: json.list});
+        this.onViewProfileClick(json.list[0]._id);
       }
     });
   }
-  onchatnowClick(e) {
-    PubSub.publish ('TRIGGER_CHAT_ENABLE', {status: true, towhome: e.target.id});
+  onchatnowClick(id) {
+    PubSub.publish ('TRIGGER_CHAT_ENABLE', {status: true, towhome: id});
+  }
+  
+  onViewProfileClick(id){
+    
+    PubSub.publish ('PROFILE_VIEW', {towhome: id});
   }
 
   render() {
-     
-     console.log(this.state.userList);
     var userList = this.state.userList;
     let listItems = userList.map ((obj) => {
       return(
@@ -78,8 +77,9 @@ class UserList extends Component {
              }  
               </p>
               <p>
-                <a href='javascript:void(0)' id={obj._id} key={obj._id}  onClick={this.onchatnowClick} className="btn btn-xs btn-default"><span className="glyphicon glyphicon-comment"></span> Chat</a>
-                <a href='javascript:void(0)' className="btn btn-xs btn-default"><span className="glyphicon glyphicon-heart"></span> View Profile</a>
+                <a href='javascript:void(0)' onClick={ e => this.onchatnowClick(obj._id)}   className="btn btn-xs btn-default"><span className="glyphicon glyphicon-comment"></span> Chat</a>
+                <a href='javascript:void(0)' onClick={ e => this.onViewProfileClick(obj._id) } className="btn btn-xs btn-default"><span className="glyphicon glyphicon-heart"></span> View Profile</a>
+                  
               </p>
             </div>
           </div>

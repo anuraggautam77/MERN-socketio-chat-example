@@ -26,7 +26,7 @@ class NavMenu extends Component {
               </li> 
       
               <li><NavLink to='/profile'><span className="glyphicon glyphicon-user"></span> Profile </NavLink></li>
-              <li><NavLink to='/list'><span className="glyphicon glyphicon-th-list"></span> List </NavLink></li>
+              <li><NavLink to='/list'><span className="glyphicon glyphicon-th-list"></span> Friends </NavLink></li>
               <li>
                 <form className="navbar-form">
                   <div className="form-group">

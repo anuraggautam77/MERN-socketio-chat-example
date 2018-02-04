@@ -4,7 +4,7 @@ This is a boilerplate project using the following technologies:
 - [React](https://facebook.github.io/react/) and [React Router](https://reacttraining.com/react-router/) for the frontend
 - [Express](http://expressjs.com/) and [Mongoose](http://mongoosejs.com/) for the backend
 - [Sass](http://sass-lang.com/) for styles (using the SCSS syntax)
-- [Webpack](https://webpack.github.io/) for compilation
+- [Webpack](https://webpack.github.io/) for compilations
 - [Socket io](https://socket.io/) for One to One chat between multiple user
 - [JWT Token](https://jwt.io/) for Token Signing/Verification 
 

@@ -10,11 +10,11 @@ export default class List extends Component {
         <div className="row">
           <div className="col-md-4">
             <div className="panel panel-default"> 
-                    <UserList/>
+                 <UserList/>
             </div>
           </div> 
           <div className="col-md-8">
-                    <UserProfile/>
+                <UserProfile/>
           </div>	
         </div> 
               <Chatwindow/> 
