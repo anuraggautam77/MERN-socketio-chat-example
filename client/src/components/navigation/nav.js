@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 
 class NavMenu extends Component {
 
-  constructor() {
-    super ();
+  constructor(props) {
+    super (props);
   }
   ;
    logoutclick() {

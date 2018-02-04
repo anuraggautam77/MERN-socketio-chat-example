@@ -6,10 +6,18 @@
   text-align: center;
   background-color: rgba(214, 224, 226, 0.2);
   .cardheader {
-    background-image: url('/img/bg/bg.jpg');
+   background-image: url('/img/bg/bg.jpg');
     background-size: cover;
     height: 135px;
   }
+
+  .initials{
+    color: rgb(255, 255, 255); background-color: #c6c699;
+    cursor: pointer;
+    display: inline-block; font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
+    font-size: 36px; border-radius: 90px; width: 90px; height: 90px; line-height: 90px; text-align: center;
+    text-transform: uppercase;
+  } 
 
   .avatar {
     position: relative;
