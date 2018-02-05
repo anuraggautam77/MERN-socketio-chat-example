@@ -37,6 +37,15 @@ npm run start:dev
 
 
 Screenshot
-
+One To One Chat 
 ![chat](https://user-images.githubusercontent.com/1465967/35788070-cb037cae-0a58-11e8-8fb7-b71f804f3ba9.PNG)
+
+
+User 1
+![user1](https://user-images.githubusercontent.com/1465967/35788375-92bdbe70-0a5a-11e8-90c6-9642779d21d0.PNG)
+
+User 2
+![user2](https://user-images.githubusercontent.com/1465967/35788376-92e70816-0a5a-11e8-8276-1be612bf43e0.PNG)
+
+
 
