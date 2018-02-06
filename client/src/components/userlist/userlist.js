@@ -61,7 +61,17 @@ class UserList extends Component {
         <div className="well well-sm" key={obj._id}>
           <div className="media">
              <div className="media-left align-self-center">
-               <img className="rounded-circle" src="https://picsum.photos/100/100/?random"/>
+             {
+              (()=>{
+                if(obj.hasOwnProperty('userDetail')){
+                    return(<img className="rounded-circle" src={obj.userDetail.photodata}/>)  
+                }else{
+                 return(<img className="rounded-circle" src='https://picsum.photos/100/100/?random'/>)  
+                 }
+              })()
+              }
+             
+             
             </div>
             <div className="media-body">
               <h4 className="media-heading"> {obj.firstName} {obj.lastName} </h4>

@@ -3,47 +3,99 @@ import "../../style/css/header.scss";
 
 
 
-class Header extends Component{
+class Header extends Component {
 
-  constructor(props){
-    super(props);
-    this.state={
-      imagedata:null,
-      name:null
+  constructor(props) {
+    super (props);
+    this.state = {
+      name: null,
+      image: '',
+      imageshow:'hidden',
+      initialshow:'initials'
     };
+   
+    this.fileSelect = this.fileSelect.bind (this);
+  }
+  ;
+    fileSelect(e) {
+    e.preventDefault ();
+    var fileElem = document.getElementById ("fileElem");
+    fileElem.click ();
+  }
+
+
+  handleFiles(e) {
+    e.preventDefault ();
+    var reader = new FileReader ();
+    reader.onload = () => {
+     // console.log(reader.result);
+      this.setState ({
+        image: reader.result,
+        imageshow:'',
+        initialshow:'hidden'
+      });
+      this.updateImage(reader.result);
+    }
+    reader.readAsDataURL (e.target.files[0]);
+  }
+
+  
+  updateImage(data){
+     var id = window.localStorage.getItem ('userid');
+    fetch (`/api/updateuserdetail`, 
+    {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify ({"imagedata":data,'userId':id})
+    }
+    ).then (res => res.json ()
+    ).then (json => {
+      if (json.hasOwnProperty ('list')) {}
+    });
+    
     
   };
-  
-  componentWillMount() {
 
-    var id = window.localStorage.getItem ('userid');
+  componentWillMount() {
+ var id = window.localStorage.getItem ('userid');
     fetch (`/api/getuserdetail/${id}`, {method: 'get', headers: {'Content-Type': 'application/json'}}
     ).then (res => res.json ()
     ).then (json => {
       if (json.hasOwnProperty ('list')) {
-         this.setState({'name':json.list[0].firstName[0]+""+json.list[0].lastName[0]});
-      }
-    });
-
+       var obj ={'name': json.list[0].firstName[0] + "" + json.list[0].lastName[0]};
+        if(json.list[0].hasOwnProperty('userDetail')){
+                 obj.image= json.list[0].userDetail.photodata;
+                 obj.imageshow='';
+                 obj.initialshow='hidden';
+            }
+           this.setState(obj);
+        }
+      });
+    
   }
-  
-  
 
+  
   render() {
-        return (
-            <div className="header-container">
-                <div className="cardheader"></div>
-                      <div className="avatar">
-                         <div className="initials">{this.state.name}</div>
-                      </div>
-                    <div className="info">
-                        <div className="title">
-                            <a target="_blank" href="">dsadasd</a>
-                        </div>
-                    </div>
-            </div>
-        );
-    };
+    return (
+      <div className="header-container">
+        <div className="cardheader"></div>
+        <div className="avatar">
+          <div className={this.state.initialshow} onClick={this.fileSelect}>{this.state.name}</div>
+            <img src={this.state.image} className={this.state.imageshow} alt={this.state.name} onClick={this.fileSelect}  />
+        </div>
+        <div className="info">
+          <div className="title">
+            <a target="_blank" href="">dsadasd</a>
+          </div>
+        </div>
+      
+      
+        <input type="file" className="hidden" id="fileElem" multiple accept="image/*"
+          onChange={this.handleFiles.bind(this)}/>
+      </div>
+      );
+  }
+  ;
 }
 
 export default Header;

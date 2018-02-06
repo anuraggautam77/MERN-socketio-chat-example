@@ -1,9 +1,10 @@
 const Users = require ('../../models/User');
+const UsersDetails = require ('../../models/Userdetails');
 const UserController = require ('../../userController');
 const bcrypt = require ('bcrypt');
 const Cryptr = require ('cryptr');
 const jwt = require ('jsonwebtoken');
-
+const mongoose = require ('mongoose');
 
 const saltRounds = 10;
 const SECRETKEY = 'iamnewinthistechstack';
@@ -18,7 +19,8 @@ const SERVICE_CONST = {
   AUTH_VALIDATE: "authvalidate",
   NEW_TOKEN: "newtoken",
   GET_USER_LIST: "getuserlist",
-  GET_USER_DETAIL:"getuserdetail"
+  GET_USER_DETAIL: "getuserdetail",
+  USER_UPDATE_DETAIL: "updateuserdetail"
 };
 
 let cryptr = new Cryptr (USER_ID_ENCRYPT_DECTYPT);
@@ -66,12 +68,16 @@ module.exports = (apiRoutes) => {
         if (err !== null) {
           if (err.code === DUPLICATE_CODE) {
             res.json ({statuscode: DUPLICATE_CODE, status: 'error', message: 'Email is already exist'});
+
           }
         }
       }).then (() => {
-        res.json ({statuscode: '200', status: 'success', message: 'Register Sucucessfully ', data: users});
-      }).catch (() => {
-        console.log ("asdsad");
+        users.update ({_id: users._id}, {'userId': users._id});
+        res.json ({statuscode: '200', status: 'success', message: 'Register Sucucessfully '});
+
+
+      }).catch ((err) => {
+        console.log ("asdexcetion >>>>", err);
       });
 
     });
@@ -123,7 +129,6 @@ module.exports = (apiRoutes) => {
 
       });
     } else {
-      console.log ("Token Invalid");
       res.status (403).json ({
         message: 'No token provided',
         statuscode: 403
@@ -160,7 +165,26 @@ module.exports = (apiRoutes) => {
         if (users.length > 0) {
 
           var contr = new UserController ();
-          res.json ({status: "success", list: contr.getuserList (users)});
+          
+          UsersDetails.find ({'userId': {$ne: decryptedString}}, (error, details) => {
+            let list = contr.getuserList (users);
+            let detail = contr.getUserDetails (details);
+            list.forEach ((val, i) => {
+              let id = val._id;
+              detail.forEach ((dval, k) => {
+                if (id === dval.userId) {
+                  list[i]['userDetail'] = dval;
+                }
+                ;
+              });
+            });
+            res.json ({status: "success", list: list});
+          });
+          
+          
+          
+          
+        //  res.json ({status: "success", list: contr.getuserList (users)});
 
         } else {
           res.json ({status: "success", message: "No record found!!!!"});
@@ -170,17 +194,32 @@ module.exports = (apiRoutes) => {
       res.json ({status: "error", message: "Something goes wrong!!!!"});
     }
   });
-  
-  
+
+
   apiRoutes.get (`/${SERVICE_CONST.GET_USER_DETAIL}/:id`, (req, res) => {
     if (req.params.id !== 'null') {
       let decryptedString = cryptr.decrypt (req.params.id);
+
       Users.find ({'_id': decryptedString}, (error, users) => {
         if (users.length > 0) {
           var contr = new UserController ();
-          res.json ({status: "success", list: contr.getuserList (users)});
+          UsersDetails.find ({'userId': users[0]._id}, (error, details) => {
+            let list = contr.getuserList (users);
+            let detail = contr.getUserDetails (details);
+            list.forEach ((val, i) => {
+              let id = val._id;
+              detail.forEach ((dval, k) => {
+                if (id === dval.userId) {
+                  list[i]['userDetail'] = dval;
+                }
+                ;
+              });
+            });
+            res.json ({status: "success", list: list});
+          });
 
         } else {
+
           res.json ({status: "success", message: "No record found!!!!"});
         }
       });
@@ -188,10 +227,50 @@ module.exports = (apiRoutes) => {
       res.json ({status: "error", message: "Something goes wrong!!!!"});
     }
   });
-  
-  
-  
-  
+
+
+  apiRoutes.post (`/${SERVICE_CONST.USER_UPDATE_DETAIL}`, (req, res) => {
+    console.log (req.body.userId);
+    UsersDetails.find ({
+      'userId': cryptr.decrypt (req.body.userId)
+    }, (error, data) => {
+      if (data.length > 0) {
+        UsersDetails.update (
+          {'userId': cryptr.decrypt (req.body.userId)},
+          {'photodata': req.body.imagedata}, {}, (data) => {
+          res.json ({status: "success", message: "Image Update Successfully!! !!!!"});
+        });
+      } else {
+        new UsersDetails ({
+          userId: cryptr.decrypt (req.body.userId),
+          photodata: req.body.imagedata,
+          isphoto: 'true',
+          sociallink: {},
+          taglines: '',
+          hobbies: [],
+          skills: []
+        }).save ().then (() => {
+          res.json ({status: "success", message: "Image upload Successfully!! !!!!"});
+        });
+        ;
+
+      }
+    });
+
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 };

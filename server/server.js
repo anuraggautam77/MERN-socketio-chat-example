@@ -38,7 +38,8 @@ mongoose.Promise = global.Promise;
  chatContoller.socketio(server);
 
 app.use (bodyParser.urlencoded ({extended: true}));
-app.use (bodyParser.json ());
+app.use( bodyParser.json( { limit: '50MB' } ) );
+//app.use (bodyParser.json ());
 
 app.use (morgan ('dev'));
 

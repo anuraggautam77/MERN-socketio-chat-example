@@ -5,20 +5,12 @@
     min-height: 355px;
     display: inline-block;
   }
-  figcaption.ratings
-  {
-    margin-top:20px;
+   
+  figure {
+    margin: 0;
+    padding: 20px;
   }
-  figcaption.ratings a
-  {
-    color:#f1c40f;
-    font-size:11px;
-  }
-  figcaption.ratings a:hover
-    {
-    color:#f39c12;
-    text-decoration:none;
-  }
+  
   .divider 
   {
     border-top:1px solid rgba(0,0,0,0.1);

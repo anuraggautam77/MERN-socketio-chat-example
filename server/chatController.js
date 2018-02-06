@@ -13,30 +13,31 @@ const USER_ID_ENCRYPT_DECTYPT = 'user_id_incrption_decription';
 const cryptr = new Cryptr (USER_ID_ENCRYPT_DECTYPT);
 
 
-
 module.exports.socketio = (server) => {
 
   const io = socket_io (server);
-  io.on ('connection', (socket) => {
-    const user = socket;
-    socket.on ('INIT_CONNECTION', (data) => {
-      saveSessionId (data, user.id, function (str) {
+
+
+    io.on ('connection', (socket) => {
+      const user = socket;
+
+      socket.on ('INIT_CONNECTION', (data) => {
+         saveSessionId (data, user.id, function (str) {  });
+       });
+
+
+      socket.on ('CHAT_HISTORY', function (data) {
+         createChatGroup (data, (id) => { });
+
+        getChatHistory (data, (arrList) => {
+           user.emit ('RECEIVE_CHAT_HISTORY', {
+            chattitle: data.myDetail + "----" + data.toDetail[0]._id,
+             chatData: getEncryptedData (arrList)});
+        });
       });
-    });
 
 
-    socket.on ('CHAT_HISTORY', function (data) {
-      createChatGroup (data, (id) => { });
-      getChatHistory (data, (arrList) => {
-        user.emit ('RECEIVE_CHAT_HISTORY', {
-          chattitle: data.myDetail + "----" + data.toDetail[0]._id,
-          chatData: getEncryptedData (arrList)});
-
-      });
-    });
-
-
-    socket.on ('CHAT_TRIGGER_INDIVIDUAL', (data) => {
+     socket.on ('CHAT_TRIGGER_INDIVIDUAL', (data) => {
       saveChatData (data, (arrList) => {
         let sendto = {one: cryptr.decrypt (data.msgTo._id)};
         user.emit ('RECEIVE_CHAT',
@@ -167,13 +168,8 @@ module.exports.socketio = (server) => {
         }).save ().then ((data) => {
           callback (data._id);
         });
-
-
       }
-
     })
-
-
   };
 
 

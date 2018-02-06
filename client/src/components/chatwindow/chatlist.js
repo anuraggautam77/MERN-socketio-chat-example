@@ -18,6 +18,7 @@ class Chatlist extends Component {
   }
 
   meAndUrsTemplate(data) {
+  
     if (data.pingFrom === this.state.currentuser) {
       return(
         <li key={data._id}>
@@ -26,7 +27,9 @@ class Chatlist extends Component {
               <p>{data.messagetext}</p>
               <p><small>{new Date (data.createdOn).toLocaleString ('en-US', {hour: 'numeric', hour12: true, minute: 'numeric' } ) }</small></p>
             </div>
-            <div className="avatar"><img className="img-circle" src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg"/></div>
+          <div className="avatar">
+              <div className="img-circle"></div>
+         </div>
           </div>
         </li>
 
@@ -35,7 +38,9 @@ class Chatlist extends Component {
         return(
           <li key={data._id}>
             <div className="msj macro">
-              <div className="avatar"><img className="img-circle" src="https://a11.t26.net/taringa/avatares/9/1/2/F/7/8/Demon_King1/48x48_5C5.jpg"/></div>
+              <div className="avatar">
+                 <div className="img-circle"></div>
+            </div>
               <div className="text text-l">
                 <p>{data.messagetext}</p>
                 <p><small>{new Date (data.createdOn).toLocaleString ('en-US', {hour: 'numeric', hour12: true, minute: 'numeric' } ) }</small></p>
@@ -56,7 +61,7 @@ class Chatlist extends Component {
             }
             })} 
           </div>
-              )
+        )
 
         }
       }

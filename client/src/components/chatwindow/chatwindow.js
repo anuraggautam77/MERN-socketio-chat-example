@@ -40,19 +40,20 @@ class ChatWindow extends Component {
    
    
   addMessage(data,flag) {
+    
+    console.log(data);
    if(flag){
         this.setState({chatList:data.chatData});
    }else{
       var arrUser=  this.checkChatwithSameUser(data.chattitle);
     if(arrUser.length>0){
-         console.log("chat from new user >>>>>");
          PubSub.publish ('NOTIFICATION_TO_USERLIST', {userId:arrUser});
     }else{
+       
+       console.log(data);
        this.setState({chatList:data.chatData});
     }
    }
-   
-  
      
   };
   
@@ -86,11 +87,14 @@ class ChatWindow extends Component {
     ).then (res => res.json ()
     ).then (json => {
       if (json.hasOwnProperty ('list')) {
+         console.log( json.list);
          this.setState (
                     {
                      'userData': json.list,
                      'display':'db',
-                     'currentChatWindow':{'one':window.localStorage.getItem('userid'),'second':json.list[0]._id}
+                     'currentChatWindow':{'one':window.localStorage.getItem('userid'),
+                       'second':json.list[0]._id
+                     }
                      }
                 );
          this.showChatonfirstLoad(json.list);
@@ -123,9 +127,14 @@ class ChatWindow extends Component {
   
   chatheader(state){
       if(state.userData.length>0){
-        return (
+         return (
       <div className="popup-head-left pull-left">
-      <img src="https://picsum.photos/100/100/?random" alt="iamgurdeeposahan"/> {state.userData[0].firstName} {state.userData[0].lastName}
+    {(()=>{
+        if(state.userData[0].hasOwnProperty('userDetail')){
+             return(<img src={state.userData[0].userDetail.photodata} alt="img"/>)
+          }
+      })()}
+       {state.userData[0].firstName} {state.userData[0].lastName}
     </div>
       );
       } 

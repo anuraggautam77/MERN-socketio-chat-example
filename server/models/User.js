@@ -6,7 +6,8 @@ const UsersSchema = new mongoose.Schema ({
   registerTime: {type: Date, default: Date.now},
   email: {type: String, required: true, unique: true},
   password: {type: String, default: null},
-  token: {type: String, default: null}
+  token: {type: String, default: null},
+  userId:{type: String, default: null}
 });
-
+ 
 module.exports = mongoose.model ('Users', UsersSchema);

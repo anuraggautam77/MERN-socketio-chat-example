@@ -1,4 +1,5 @@
 import PubSub from 'pubsub-js';
+import fetch from 'isomorphic-fetch'
 
 export class Auth {
 

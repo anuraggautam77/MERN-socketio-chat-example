@@ -1,4 +1,5 @@
 const mongoose = require ('mongoose');
+
 const chatSchema = new mongoose.Schema ({
   pingFrom: {type: String, default: "", required: true},
   pingTO: {type: String, default: "", required: true},

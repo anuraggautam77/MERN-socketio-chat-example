@@ -25,6 +25,30 @@ module.exports = class UserController {
     return userList;
   }
 
+  getUserDetails(detail) {
+
+    let cryptr = new Cryptr (USER_ID_ENCRYPT_DECTYPT);
+    let userList = [];
+    if (detail !== null & detail !== 'undefined') {
+      detail.forEach ((val, i) => {
+        let  tempobj = {
+          userId: cryptr.encrypt (val.userId),
+          photodata: val.photodata,
+          isphoto: val.isphoto,
+          sociallink: val.sociallink,
+          taglines: val.taglines,
+          hobbies: val.hobbies,
+          skills: val.skills
+        };
+        userList.push (tempobj);
+      });
+    }
+
+    return userList;
+
+
+  }
+
 };
 
 
