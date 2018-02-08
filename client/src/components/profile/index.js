@@ -46,7 +46,7 @@ class UserProfile extends Component {
 
   render() {
     if(this.state.ishow=='dn'){
-      return (<div>No record found</div>)
+      return (<div></div>);
     };
      return(
        <div className="userprofile-container">
