@@ -5,20 +5,19 @@
  */
 const Cryptr = require ('cryptr');
 const USER_ID_ENCRYPT_DECTYPT = 'user_id_incrption_decription';
-
-
 module.exports = class UserController {
 
   getuserList(userdata) {
     let cryptr = new Cryptr (USER_ID_ENCRYPT_DECTYPT);
     let userList = [];
-
     userdata.forEach ((val, i) => {
       let  tempobj = {
         _id: cryptr.encrypt (val._id),
         email: val.email,
         lastName: val.lastName,
-        firstName: val.firstName
+        firstName: val.firstName,
+        city: val.city,
+        country: val.country
       };
       userList.push (tempobj);
     });
@@ -36,17 +35,13 @@ module.exports = class UserController {
           photodata: val.photodata,
           isphoto: val.isphoto,
           sociallink: val.sociallink,
-          taglines: val.taglines,
-          hobbies: val.hobbies,
-          skills: val.skills
+          professional: val.professional,
+          aboutme: val.aboutme
         };
         userList.push (tempobj);
       });
     }
-
     return userList;
-
-
   }
 
 };

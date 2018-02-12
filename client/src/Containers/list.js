@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 
-import UserList from '../components/userlist/userlist';
-import UserProfile from '../components/profile/index';
+import UserList from '../components/users/userlist';
+import UserProfile from '../components/users/userprofile';
 import Chatwindow from '../components/chatwindow/chatwindow';
 export default class List extends Component {
+    
+    
+    
+    
+    
+    
+    
   render() {
     return (
       <div>

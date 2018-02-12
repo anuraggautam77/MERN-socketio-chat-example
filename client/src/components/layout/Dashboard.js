@@ -10,7 +10,7 @@ class DashboardLayout extends Component {
       <div className="container">
         <div className="row">
           <div className="card hovercard">
-            <Header/>
+            <Header />
             <Routing/> 
           </div>
         </div>

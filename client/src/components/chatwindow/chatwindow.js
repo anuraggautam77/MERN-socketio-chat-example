@@ -40,8 +40,6 @@ class ChatWindow extends Component {
    
    
   addMessage(data,flag) {
-    
-    console.log(data);
    if(flag){
         this.setState({chatList:data.chatData});
    }else{
@@ -70,12 +68,7 @@ class ChatWindow extends Component {
     });
    return arrTemp;
   };
-  
-  
-  
-  chatOnchange(event){
-      this.typetext= event.target.value;
-  }
+ 
   
   componentDidMount() {
     PubSub.subscribe('TRIGGER_CHAT_ENABLE',this.chatEnableHandler);
@@ -112,6 +105,9 @@ class ChatWindow extends Component {
   };
   
   
+  chatOnchange(event){
+      this.typetext= event.target.value;
+  }
   sendchat(){
     this.socket.emit('CHAT_TRIGGER_INDIVIDUAL', 
       {
@@ -121,7 +117,7 @@ class ChatWindow extends Component {
       "time":Date.now()
     }
    );
-     
+  this.refs.textmessage.value='' 
   };
   
   
@@ -157,12 +153,12 @@ class ChatWindow extends Component {
 </div>
 
 <div className="popup-messages-footer">
-      <textarea id="status_message"  onChange={this.chatOnchange}  placeholder="Type a message..." rows="10" cols="40" name="message"> </textarea>
+      <textarea  ref="textmessage" onChange={this.chatOnchange}  placeholder="Type a message..." rows="10" cols="40" name="message"> </textarea>
      <div className="btn-footer">
-             <button className="bg_none"><i className="glyphicon glyphicon-paperclip"></i> </button>
-             <button className="bg_none"><i className="glyphicon glyphicon-thumbs-up"></i> </button>
+             <button className="bg_none dn"><i className="glyphicon glyphicon-paperclip"></i> </button>
+             <button className="bg_none dn"><i className="glyphicon glyphicon-thumbs-up"></i> </button>
              <button className="bg_none pull-right" onClick ={this.sendchat}><i className="glyphicon glyphicon-send"></i> 
-               </button>
+       </button>
      </div>
 </div>
 </div>

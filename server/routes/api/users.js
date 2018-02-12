@@ -20,7 +20,8 @@ const SERVICE_CONST = {
   NEW_TOKEN: "newtoken",
   GET_USER_LIST: "getuserlist",
   GET_USER_DETAIL: "getuserdetail",
-  USER_UPDATE_DETAIL: "updateuserdetail"
+  USER_UPDATE_DETAIL: "updateuserdetail",
+  UPDATE_USER_DATA: 'updateuserdata'
 };
 
 let cryptr = new Cryptr (USER_ID_ENCRYPT_DECTYPT);
@@ -165,7 +166,7 @@ module.exports = (apiRoutes) => {
         if (users.length > 0) {
 
           var contr = new UserController ();
-          
+
           UsersDetails.find ({'userId': {$ne: decryptedString}}, (error, details) => {
             let list = contr.getuserList (users);
             let detail = contr.getUserDetails (details);
@@ -180,11 +181,11 @@ module.exports = (apiRoutes) => {
             });
             res.json ({status: "success", list: list});
           });
-          
-          
-          
-          
-        //  res.json ({status: "success", list: contr.getuserList (users)});
+
+
+
+
+          //  res.json ({status: "success", list: contr.getuserList (users)});
 
         } else {
           res.json ({status: "success", message: "No record found!!!!"});
@@ -230,26 +231,41 @@ module.exports = (apiRoutes) => {
 
 
   apiRoutes.post (`/${SERVICE_CONST.USER_UPDATE_DETAIL}`, (req, res) => {
-    console.log (req.body.userId);
+
     UsersDetails.find ({
       'userId': cryptr.decrypt (req.body.userId)
     }, (error, data) => {
       if (data.length > 0) {
+        console.log (req.body);
+        var obj = {};
+        if (req.body.hasOwnProperty ('imagedata')) {
+          obj.photodata = req.body.imagedata;
+          obj.isphoto = 'true'
+        } else if (req.body.hasOwnProperty ('professional')) {
+          obj.professional = req.body.professional;
+        } else {
+          obj.aboutme = req.body.aboutme;
+        }
+
         UsersDetails.update (
           {'userId': cryptr.decrypt (req.body.userId)},
-          {'photodata': req.body.imagedata}, {}, (data) => {
+          obj, {}, (data) => {
           res.json ({status: "success", message: "Image Update Successfully!! !!!!"});
         });
       } else {
-        new UsersDetails ({
-          userId: cryptr.decrypt (req.body.userId),
-          photodata: req.body.imagedata,
-          isphoto: 'true',
-          sociallink: {},
-          taglines: '',
-          hobbies: [],
-          skills: []
-        }).save ().then (() => {
+
+        var obj = {};
+        if (req.body.hasOwnProperty ('imagedata')) {
+          obj.photodata = req.body.imagedata;
+          obj.isphoto = 'true'
+        } else if (req.body.hasOwnProperty ('professional')) {
+          obj.professional = req.body.professional;
+        } else {
+          obj.aboutme = req.body.aboutme;
+        }
+        obj.userId = cryptr.decrypt (req.body.userId);
+
+        new UsersDetails (obj).save ().then (() => {
           res.json ({status: "success", message: "Image upload Successfully!! !!!!"});
         });
         ;
@@ -259,7 +275,28 @@ module.exports = (apiRoutes) => {
 
   });
 
+  apiRoutes.post (`/${SERVICE_CONST.UPDATE_USER_DATA}`, (req, res) => {
+    Users.find ({
+      '_id': cryptr.decrypt (req.body.userId)
+    }, (error, data) => {
+      if (data.length > 0) {
 
+        Users.update (
+          {'_id': cryptr.decrypt (req.body.userId)},
+          {
+            firstName: req.body.formdata.firstName,
+            lastName: req.body.formdata.lastName,
+            city: req.body.formdata.city,
+            country: req.body.formdata.country
+          }, {}, (data) => {
+
+          res.json ({status: "success", message: "Image Update Successfully!! !!!!"});
+        });
+      }
+      ;
+    });
+
+  });
 
 
 

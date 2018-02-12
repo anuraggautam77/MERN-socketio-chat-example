@@ -12,7 +12,7 @@ export default class Login extends Component {
     
     render() {
     return (
-      <div className="login-component">
+      <div><div className="login-component">
         <div className="container">
           <div className="row">
             <div className="col-sm-5">
@@ -27,6 +27,8 @@ export default class Login extends Component {
           </div>
         </div>
       </div>
-                              )
-              }
-            }
+ </div>
+      
+             )
+     }
+ }

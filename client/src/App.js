@@ -22,7 +22,7 @@ class App extends Component {
     this.mySubscriber = this.mySubscriber.bind (this);
   }
 
-  ;
+   
     mySubscriber(msg, data) {
 
     if (data.status) {
