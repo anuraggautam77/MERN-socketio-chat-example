@@ -4,6 +4,9 @@ dist/
 # Config file
 config/config.js
 
+#netbean folders
+ nbproject
+
 # Node stuff
 node_modules
 .npm
