@@ -7,7 +7,7 @@ import PubSub from 'pubsub-js';
 class ChatWindow extends Component {
   constructor (props){
     super(props);
-    const endPoint='http://localhost:3000';
+    const endPoint=location.origin;
     this.state ={
       'userData':[],
       'display':'dn',
