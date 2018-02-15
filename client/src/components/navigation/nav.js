@@ -17,7 +17,7 @@ class NavMenu extends Component {
     return (
       <nav className="navbar navbar-default">
         <div className="container-fluid">
-          <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <div className=" navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
               <li>
               <NavLink to="/home"  exact={true}  activeClassName="active" > 
@@ -28,7 +28,7 @@ class NavMenu extends Component {
               <li><NavLink to='/profile'><span className="glyphicon glyphicon-user"></span> Profile </NavLink></li>
               <li><NavLink to='/list'><span className="glyphicon glyphicon-th-list"></span> Friends </NavLink></li>
               <li>
-                <form className="navbar-form">
+                <form className="collapse navbar-form">
                   <div className="form-group">
                     <input type="text" className="form-control" placeholder="Search"/>
                   </div>
@@ -43,6 +43,7 @@ class NavMenu extends Component {
       
           </div> 
         </div> 
+        
       </nav>
       )
   }
