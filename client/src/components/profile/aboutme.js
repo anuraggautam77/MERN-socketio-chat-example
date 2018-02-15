@@ -19,11 +19,16 @@ import React, { Component } from 'react'
   componentWillReceiveProps(newprops) {
 
     if (newprops.userdata.hasOwnProperty ('userDetail')) {
-      var obj = {'description': newprops.userdata.userDetail.aboutme.description,
+      if(newprops.userdata.userDetail.aboutme !==null){
+        var obj = {
+        'description': newprops.userdata.userDetail.aboutme.description,
         'tagline': newprops.userdata.userDetail.aboutme.tagline,
         'hobby': newprops.userdata.userDetail.aboutme.hobby
       }
-      this.setState ({formdata: obj});
+       this.setState ({formdata: obj});
+      }
+      
+     
     }
   }
 

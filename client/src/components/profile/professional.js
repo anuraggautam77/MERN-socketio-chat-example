@@ -20,11 +20,13 @@ export default class Professional extends Component {
   componentWillReceiveProps(newprops) {
      
     if (newprops.userdata.hasOwnProperty ('userDetail')) {
-      var obj = {'occupation': newprops.userdata.userDetail.professional.occupation,
+      if(newprops.userdata.userDetail.professional!==null){
+         var obj = {'occupation': newprops.userdata.userDetail.professional.occupation,
         'company': newprops.userdata.userDetail.professional.company,
         'skill': newprops.userdata.userDetail.professional.skill
       }
       this.setState ({formdata: obj});
+      }
     }
   }
   

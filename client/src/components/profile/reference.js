@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
  
-export default class Reference extends Component {
+export default class SocialLink extends Component {
     render() {
         return (
             <div>

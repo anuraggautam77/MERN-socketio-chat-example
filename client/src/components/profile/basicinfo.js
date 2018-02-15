@@ -94,8 +94,6 @@ import React, { Component } from 'react'
             </div>           
           </div>
         </div>
-      
-      
         <div className="panel-body">
           <div className="row">
             <label className="col-sm-2 col-form-label">City:</label>
