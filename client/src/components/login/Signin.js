@@ -8,8 +8,10 @@ class Signin extends Component {
       lastName: '',
       email: '',
       password: '',
-      username: 'anurag@gmail.com',
-      loginpass: '1234567890',
+    //  username: 'anurag@gmail.com',
+     // loginpass: '1234567890',
+      username: '',
+      loginpass: '',
       loginError: '',
       signupError: ''
     };
@@ -22,7 +24,7 @@ class Signin extends Component {
     if (this.state.username !== '' && this.state.loginpass !== '') {
       this.callSignInApi (this.state);
     } else {
-      alert ("Please Enter Login Information ")
+      alert ("Please Enter Login Information ");
 
     }
   }

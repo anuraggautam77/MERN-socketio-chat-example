@@ -28,7 +28,7 @@ class Signup extends Component {
   } ;
     serviceHandler(data) {
     if (data.status === 'success') {
-      alert ('store Data');
+      alert ('Thank you for Register with Us!!! ');
     }
 
   }
