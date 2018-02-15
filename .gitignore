@@ -1,8 +1,8 @@
 # Compiled files
-dist/
+#dist/
 
 # Config file
-config/config.js
+#config/config.js
 
 #netbean folders
  nbproject
