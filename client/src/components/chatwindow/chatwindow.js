@@ -10,7 +10,7 @@ class ChatWindow extends Component {
     const endPoint=location.origin;
     this.state ={
       'userData':[],
-      'display':'dn',
+      'display':'hidden',
       'status':'',
       'chatmessage':[],
       'chatList':[],
@@ -117,7 +117,7 @@ class ChatWindow extends Component {
       "time":Date.now()
     }
    );
-  this.refs.textmessage.value='' 
+  this.refs.textmessage.value='' ;
   };
   
   
