@@ -117,7 +117,7 @@ class ChatWindow extends Component {
       "time":Date.now()
     }
    );
-  this.refs.textmessage.value='' ;
+  this.refs.textmessage.value='' 
   };
   
   
