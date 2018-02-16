@@ -84,7 +84,7 @@ class ChatWindow extends Component {
          this.setState (
                     {
                      'userData': json.list,
-                     'display':'db',
+                     'display':'',
                      'currentChatWindow':{'one':window.localStorage.getItem('userid'),
                        'second':json.list[0]._id
                      }
@@ -141,7 +141,7 @@ class ChatWindow extends Component {
  <main className={this.state.display} >
   <div className='popup-box'> <div  className='chatwindow'>
   <div className="popup-head"> {this.chatheader(this.state)} <div className="popup-head-right pull-right">
-     <button data-widget="remove" id="removeClass" onClick ={()=> this.setState({'display':'dn'})} className="chat-header-button pull-right" type="button">
+     <button data-widget="remove" id="removeClass" onClick ={()=> this.setState({'display':'hidden'})} className="chat-header-button pull-right" type="button">
           <i className="glyphicon glyphicon-off"></i>
      </button>
   </div>
