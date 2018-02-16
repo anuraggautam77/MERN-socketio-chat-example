@@ -14,7 +14,7 @@ export default class Progressbar extends Component {
   componentWillReceiveProps(newprops) { 
     
     this.className='';
-    console.log(newprops.percentage);
+   // console.log(newprops.percentage);
     switch (newprops.percentage) {
        case 100:
         this.className='green';

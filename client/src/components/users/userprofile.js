@@ -23,9 +23,6 @@ class UserProfile extends Component {
     ).then (json => {
       if (json.hasOwnProperty ('list')) {
         
-        console.log(json.list[0]);
-        
-        
       var obj= {'userDetail':json.list[0], ishow:'db'}
          if(json.list[0].hasOwnProperty('userDetail')){
                  obj.imagedata= json.list[0].userDetail.photodata;

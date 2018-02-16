@@ -48,7 +48,7 @@ class ChatWindow extends Component {
          PubSub.publish ('NOTIFICATION_TO_USERLIST', {userId:arrUser});
     }else{
        
-       console.log(data);
+      // console.log(data);
        this.setState({chatList:data.chatData});
     }
    }
@@ -80,7 +80,7 @@ class ChatWindow extends Component {
     ).then (res => res.json ()
     ).then (json => {
       if (json.hasOwnProperty ('list')) {
-         console.log( json.list);
+      //   console.log( json.list);
          this.setState (
                     {
                      'userData': json.list,
