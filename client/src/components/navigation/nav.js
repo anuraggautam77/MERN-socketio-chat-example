@@ -6,6 +6,8 @@ class NavMenu extends Component {
 
   constructor(props) {
     super (props);
+
+   
   }
   ;
    logoutclick() {
@@ -14,6 +16,8 @@ class NavMenu extends Component {
   }
   ;
     render() {
+      
+       
     return (
       <nav className="navbar navbar-default">
         <div className="container-fluid">

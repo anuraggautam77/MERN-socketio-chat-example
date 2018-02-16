@@ -96,6 +96,9 @@ module.exports = (apiRoutes) => {
 
       if (userdata.length > 0) {
         bcrypt.compare (req.body.loginpass, userdata[0].password, function (err, flag) {
+          console.log(">>>>>>>>>>err");
+          console.log(err);
+          
           var token = generateNewToken ();
           var encryptedString = cryptr.encrypt (userdata[0]._id);
 
