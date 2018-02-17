@@ -55,7 +55,7 @@ app.get ('/', function (req, res) {
 app.get ('*', function (req, res) {
   //console.log(req.url);
   //console.log(req.param());
-    res.redirect ('/');
+   res.redirect ('/');
     
   });
 module.exports = app;

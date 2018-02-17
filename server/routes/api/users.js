@@ -89,8 +89,7 @@ module.exports = (apiRoutes) => {
 
   apiRoutes.post (`/${SERVICE_CONST.SIGN_IN}`, function (req, res) {
     
-    var dir = __dirname;
-  console.log(dir);
+    console.log(">>>>>>>>>>>>>>>>>>>>");
 
     Users.find ({email: req.body.username}, function (err, userdata) {
 

@@ -6,5 +6,5 @@
  //import registerServiceWorker from './registerServiceWorker';
 
  const appId='app-wrapper';
- ReactDOM.render(<BrowserRouter><App/></BrowserRouter>, document.getElementById(appId));
+ ReactDOM.render(<App/>, document.getElementById(appId));
 // registerServiceWorker();

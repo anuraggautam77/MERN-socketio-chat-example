@@ -8,27 +8,47 @@ export default class Login extends Component {
 
   constructor(props) {
     super (props);
-  };
+    this.state={
+      signup:'hidden',
+      signin:''
+    }
     
+    this.statechange= this.statechange.bind(this);
+  };
+ 
+ statechange(flag){
+   if(flag==='signin'){
+     this.setState({ 'signup':'', 'signin':'hidden' })
+   }else{
+      this.setState({ 'signup':'hidden', 'signin':'' })
+   }
+   
+ };
+ 
+ 
     render() {
+      console.log(this.state);
     return (
-      <div><div className="login-component">
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-5">
-                <Signin/>
-            </div>
-            <div className="col-sm-1 middle-border"></div>
-            <div className="col-sm-1"></div>
-            <div className="col-sm-5">
-                  <Signup/>
-            </div>
-      
-          </div>
+      <div>
+        <div className="login-component">
+          <section  className="contact-us section-bg">
+              <div className="block">
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="col-md-12">
+                     <img className="img-fluid" src="img/bg/login.jpg" alt="desk-image"/>
+                  </div>
+                </div>
+                <div className="col-md-6">    
+                <div className={this.state.signin}><Signin statechange={this.statechange} /></div>    
+                <div className={this.state.signup}><Signup statechange={this.statechange} /></div>
+                </div>
+              </div>  
+            </div> 
+          </section>
         </div>
       </div>
- </div>
-      
-             )
-     }
- }
+
+      )
+  }
+}

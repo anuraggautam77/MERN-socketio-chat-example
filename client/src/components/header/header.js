@@ -29,8 +29,7 @@ class Header extends Component {
   handleFiles(e) {
     e.preventDefault ();
     var reader = new FileReader ();
-    reader.onload = () => {
-     // console.log(reader.result);
+    reader.onload = (data) => {
       this.setState ({
         image: reader.result,
         imageshow:'',
@@ -38,6 +37,7 @@ class Header extends Component {
       });
       this.updateImage(reader.result);
     };
+      console.log(e);
     reader.readAsDataURL (e.target.files[0]);
   }
 
