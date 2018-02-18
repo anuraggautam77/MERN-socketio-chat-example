@@ -5,12 +5,15 @@ const bcrypt = require ('bcrypt');
 const Cryptr = require ('cryptr');
 const jwt = require ('jsonwebtoken');
 const mongoose = require ('mongoose');
+const path = require('path');
 
 const saltRounds = 10;
 const SECRETKEY = 'iamnewinthistechstack';
 const USER_ID_ENCRYPT_DECTYPT = 'user_id_incrption_decription';
 const SECRETKEY_WRONG = 'wrongtoken';
 const DUPLICATE_CODE = 11000;
+const folderpath=path.resolve ("server/imagesupload");
+
 
 const SERVICE_CONST = {
 
@@ -21,19 +24,18 @@ const SERVICE_CONST = {
   GET_USER_LIST: "getuserlist",
   GET_USER_DETAIL: "getuserdetail",
   USER_UPDATE_DETAIL: "updateuserdetail",
-  UPDATE_USER_DATA: 'updateuserdata'
+  UPDATE_USER_DATA: 'updateuserdata',
+  IMAGE_UPLOAD:'uploads'
+   
 };
 
 let cryptr = new Cryptr (USER_ID_ENCRYPT_DECTYPT);
 
-
 module.exports = (apiRoutes) => {
-
   function getTokenHeader(req) {
     var token = req.headers['x-access-token'];
     return token;
   }
-
 
   function tokenVerify(req, res) {
     var token = getTokenHeader (req);
@@ -57,8 +59,16 @@ module.exports = (apiRoutes) => {
     });
     return token;
   }
-  ;
-
+ 
+apiRoutes.post(`/${SERVICE_CONST.IMAGE_UPLOAD}`, (req, res, next) => {
+  let imageFile = req.files.file;
+  imageFile.mv(`${folderpath}\\${req.body.filename}`, function(err) {
+    if (err) {
+      return res.status(500).send(err);
+    };
+    res.json({file: "imagesupload/"+req.body.filename});
+  });
+})
 
   apiRoutes.post (`/${SERVICE_CONST.NEW_USER}`, function (req, res) {
 
@@ -187,9 +197,6 @@ module.exports = (apiRoutes) => {
             res.json ({status: "success", list: list});
           });
 
-
-
-
           //  res.json ({status: "success", list: contr.getuserList (users)});
 
         } else {
@@ -302,17 +309,6 @@ module.exports = (apiRoutes) => {
     });
 
   });
-
-
-
-
-
-
-
-
-
-
-
 
 
 };

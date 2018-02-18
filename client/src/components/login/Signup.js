@@ -38,7 +38,7 @@ class Signup extends Component {
     return (
       
         <div className="col-md-12">
-          <div className="form-box">
+        
          <div className="form-top-left">
           <h3>Sign up now</h3>
           <p>Fill in the form below to get instant access:</p>
@@ -80,8 +80,6 @@ class Signup extends Component {
            <div className="new-acount">
            <p>Already have an account? &nbsp; &nbsp; <a href="javascript:void(0)"  onClick={()=>this.props.statechange('singup')}> SIGN IN </a></p>
 						</div>
-        </div>
-      
       </div>);
           }
 

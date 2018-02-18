@@ -56,7 +56,7 @@ class Signin extends Component {
   render() {
     return (
       <div className="col-md-12">
-        <div className="form-box">
+        
           <div className="form-top-left">
             <h3>Login </h3>
             <p>Enter username and password to log on:</p>
@@ -82,7 +82,7 @@ class Signin extends Component {
           <div className="new-acount">
             <p>Don't Have an account? &nbsp; &nbsp; <a href="jascsript:void(0)" onClick={()=>this.props.statechange('signin')}> SIGN UP</a></p>
           </div>
-        </div>
+       
       </div>
 
               );
