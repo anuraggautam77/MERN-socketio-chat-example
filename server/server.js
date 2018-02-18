@@ -22,7 +22,8 @@ const fileUpload = require('express-fileupload');
  */
 
 const app = express ();
-      app.use(express.static('server/'));
+      app.use(express.static('server/upload/'));
+      
 const apiRoutes = express.Router ();
 
 

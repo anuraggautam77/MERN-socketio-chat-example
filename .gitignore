@@ -1,8 +1,6 @@
 # Compiled files
 #dist/
 
-# Config file
- config/config.js
 
 #netbean folders
  nbproject
@@ -27,6 +25,4 @@ $RECYCLE.BIN/
 .Trashes
 /nbproject/private/
 config/config.js
-config/config.js
-config/config.js
-config/config.js
+ 

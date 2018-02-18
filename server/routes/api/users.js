@@ -12,7 +12,7 @@ const SECRETKEY = 'iamnewinthistechstack';
 const USER_ID_ENCRYPT_DECTYPT = 'user_id_incrption_decription';
 const SECRETKEY_WRONG = 'wrongtoken';
 const DUPLICATE_CODE = 11000;
-const folderpath=path.resolve ("server/imagesupload");
+const folderpath=path.resolve ("server/upload/images");
 
 
 const SERVICE_CONST = {
@@ -66,7 +66,7 @@ apiRoutes.post(`/${SERVICE_CONST.IMAGE_UPLOAD}`, (req, res, next) => {
     if (err) {
       return res.status(500).send(err);
     };
-    res.json({file: "imagesupload/"+req.body.filename});
+    res.json({file: "images/"+req.body.filename});
   });
 })
 
