@@ -79,7 +79,6 @@ apiRoutes.post(`/${SERVICE_CONST.IMAGE_UPLOAD}`, (req, res, next) => {
         if (err !== null) {
           if (err.code === DUPLICATE_CODE) {
             res.json ({statuscode: DUPLICATE_CODE, status: 'error', message: 'Email is already exist'});
-
           }
         }
       }).then (() => {
@@ -98,15 +97,11 @@ apiRoutes.post(`/${SERVICE_CONST.IMAGE_UPLOAD}`, (req, res, next) => {
 
 
   apiRoutes.post (`/${SERVICE_CONST.SIGN_IN}`, function (req, res) {
-    
-    console.log(">>>>>>>>>>>>>>>>>>>>");
 
     Users.find ({email: req.body.username}, function (err, userdata) {
 
       if (userdata.length > 0) {
         bcrypt.compare (req.body.loginpass, userdata[0].password, function (err, flag) {
-          console.log(">>>>>>>>>>err");
-          console.log(err);
           
           var token = generateNewToken ();
           var encryptedString = cryptr.encrypt (userdata[0]._id);

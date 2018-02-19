@@ -27,9 +27,6 @@ class Chatlist extends Component {
               <p>{data.messagetext}</p>
               <p><small>{new Date (data.createdOn).toLocaleString ('en-US', {hour: 'numeric', hour12: true, minute: 'numeric' } ) }</small></p>
             </div>
-          <div className="avatar">
-              <div className="img-circle"></div>
-         </div>
           </div>
         </li>
 
@@ -38,9 +35,6 @@ class Chatlist extends Component {
         return(
           <li key={data._id}>
             <div className="msj macro">
-              <div className="avatar">
-                 <div className="img-circle"></div>
-            </div>
               <div className="text text-l">
                 <p>{data.messagetext}</p>
                 <p><small>{new Date (data.createdOn).toLocaleString ('en-US', {hour: 'numeric', hour12: true, minute: 'numeric' } ) }</small></p>

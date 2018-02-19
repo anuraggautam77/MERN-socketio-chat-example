@@ -2,6 +2,7 @@ import React, { Component }
 from "react";
 import PubSub from 'pubsub-js';
 import "../../style/css/userlist.scss";
+import   'whatwg-fetch';
 class UserList extends Component {
 
   constructor(props) {
@@ -40,8 +41,10 @@ class UserList extends Component {
     fetch (`/api/getuserlist/${id}`, {method: 'get', headers: {'Content-Type': 'application/json'}}
     ).then (res => res.json ()).then (json => {
       if (json.hasOwnProperty ('list')) {
-        this.setState ({userList: json.list});
-        this.onViewProfileClick(json.list[0]._id);
+        this.setState ({userList: json.list},function(){
+          this.onViewProfileClick(json.list[0]._id);
+        });
+       
       }
     });
   }
@@ -66,7 +69,7 @@ class UserList extends Component {
                 if(obj.hasOwnProperty('userDetail')){
                     return(<img className="rounded-circle" src={obj.userDetail.photodata}/>)  
                 }else{
-                 return(<img className="rounded-circle" src='https://picsum.photos/100/100/?random'/>)  
+                 return(<img className="rounded-circle" src='https://picsum.photos/100/100'/>)  
                  }
               })()
               }

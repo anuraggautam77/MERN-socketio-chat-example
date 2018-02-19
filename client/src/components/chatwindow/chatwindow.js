@@ -27,8 +27,7 @@ class ChatWindow extends Component {
   
    this.chatEnableHandler= this.chatEnableHandler.bind(this);
    this.sendchat= this.sendchat.bind(this);
-   this.chatOnchange=this.chatOnchange.bind(this);
-  
+   this._handleKeyPress=this._handleKeyPress.bind(this);
     this.socket.on('RECEIVE_CHAT_HISTORY', (data)=>{
      this.addMessage(data,true);
    });
@@ -105,9 +104,14 @@ class ChatWindow extends Component {
   };
   
   
-  chatOnchange(event){
-      this.typetext= event.target.value;
+   _handleKeyPress(e){
+       this.typetext= e.target.value;
+    if (e.key === 'Enter') {
+       this.refs.sendchat.click();
+    }
   }
+  
+   
   sendchat(){
     this.socket.emit('CHAT_TRIGGER_INDIVIDUAL', 
       {
@@ -153,11 +157,11 @@ class ChatWindow extends Component {
 </div>
 
 <div className="popup-messages-footer">
-      <textarea  ref="textmessage" onChange={this.chatOnchange}  placeholder="Type a message..." rows="10" cols="40" name="message"> </textarea>
+      <textarea  ref="textmessage"  onKeyPress={(e)=>{ this._handleKeyPress(e)}}   defaultValue="" placeholder="Type a message..." rows="10" cols="40" name="message"/>  
      <div className="btn-footer">
              <button className="bg_none dn"><i className="glyphicon glyphicon-paperclip"></i> </button>
              <button className="bg_none dn"><i className="glyphicon glyphicon-thumbs-up"></i> </button>
-             <button className="bg_none pull-right" onClick ={this.sendchat}><i className="glyphicon glyphicon-send"></i> 
+             <button className="bg_none pull-right" ref='sendchat' onClick ={this.sendchat}><i className="glyphicon glyphicon-send"></i> 
        </button>
      </div>
 </div>

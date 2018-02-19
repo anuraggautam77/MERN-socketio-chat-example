@@ -1,5 +1,5 @@
 import PubSub from 'pubsub-js';
-import fetch from 'isomorphic-fetch'
+import 'whatwg-fetch';
 
 export class Auth {
 
@@ -64,6 +64,5 @@ export class Auth {
     clearInterval( this.interval);
     
   }
-  
 
 }

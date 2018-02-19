@@ -9,6 +9,6 @@ class Home extends React.Component {
       <div>Home</div>
     );
   }
-}
+};
 
 export default Home;

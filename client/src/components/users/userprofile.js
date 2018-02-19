@@ -2,6 +2,7 @@ import React, { Component }
 from "react";
 import PubSub from 'pubsub-js';
 import "../../style/css/userprofile.scss";
+import  'whatwg-fetch';
 class UserProfile extends Component {
 
   constructor(props) {

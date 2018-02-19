@@ -6,11 +6,6 @@ import Chatwindow from '../components/chatwindow/chatwindow';
 export default class List extends Component {
     
     
-    
-    
-    
-    
-    
   render() {
     return (
       <div>

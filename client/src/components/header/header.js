@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../../style/css/header.scss";
+import 'whatwg-fetch';
 
 
 
@@ -11,6 +12,7 @@ class Header extends Component {
       name: null,
       file: null,
       image: '',
+      tagline:'',
       imageshow: 'hidden',
       initialshow: 'initials',
       taglineshow: this.props.hasOwnProperty ('tag') ? this.props.tag : ''
@@ -81,11 +83,13 @@ class Header extends Component {
       ).then (res => res.json ()
       ).then (json => {
         if (json.hasOwnProperty ('list')) {
+          console.log(json);
           var obj = {'name': json.list[0].firstName[0] + "" + json.list[0].lastName[0]};
           if (json.list[0].hasOwnProperty ('userDetail')) {
             obj.image = json.list[0].userDetail.photodata;
             obj.imageshow = '';
-            obj.initialshow = 'hidden';
+            obj.initialshow = 'hidden',
+            obj.tagline= json.list[0].userDetail.hasOwnProperty('aboutme')?json.list[0].userDetail.aboutme.tagline:''
           }
           this.setState (obj);
         }
@@ -94,7 +98,8 @@ class Header extends Component {
   }
 
   render() {
-    // onChange ={(e)=>{ e.preventDefault (); this.refs.submitbttn.click ();}}
+   //onClick={(e) => { e.preventDefault (); this.uploadInput.click (); }}
+   console.log(this.state);
     return (
       <div className="header-container">
       
@@ -102,13 +107,12 @@ class Header extends Component {
         <form onSubmit={this.handleUploadImage}>
           <div className="avatar">
             <div className={this.state.initialshow} 
-            onClick={(e) => { e.preventDefault (); this.uploadInput.click (); }}>{this.state.name}</div>
-            <img src={this.state.image} className={this.state.imageshow} alt={this.state.name} 
-            onClick={(e) => { e.preventDefault (); this.uploadInput.click (); }}  />
+            >{this.state.name}</div>
+            <img src={this.state.image} className={this.state.imageshow} alt={this.state.name}  />
           </div>
           <div className={`info ${this.state.taglineshow}` }>
             <div className="title">
-              <a target="_blank" href="">dsadasd</a>
+              <h5 title='Add your Tagline from About me section '>{this.state.tagline}</h5>
             </div>
           </div>
           <input type="file" multiple= {this.props.multiple} className="hidden" 

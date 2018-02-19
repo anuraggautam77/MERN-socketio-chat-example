@@ -206,7 +206,7 @@
 
 
 .chatwindow{
-  
+
   .img-circle{
    width:100%
     
@@ -215,19 +215,20 @@
     border:0;padding:10px;background:whitesmoke;
 }
 .text{
-    width:75%;display:flex;flex-direction:column;
+    width:94%;display:flex;flex-direction:column; position: relative;
 }
 .text > p:first-of-type{
-    width:100%;margin-top:0;margin-bottom:auto;line-height: 13px;font-size: 12px;
+    width:100%;margin-top:0;margin-bottom:auto;line-height: 13px;font-size: 12px;  position: relative;
+    word-wrap: break-word
 }
 .text > p:last-of-type{
     width:100%;text-align:right;color:silver;margin-bottom:-7px;margin-top:auto;
 }
 .text-l{
-    float:left;padding-right:10px;
+    float:left;padding-right:5px;
 }        
 .text-r{
-    float:right;padding-left:10px;
+    float:right;padding-left:5px;
 }
 .avatar{
     display:flex;
@@ -280,7 +281,7 @@ ul {
     height: 0;
     content:"";
     top:-5px;
-    left:14px;
+    left:13px;
     position:relative;
     border-style: solid;
     border-width: 13px 13px 0 0;

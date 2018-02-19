@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import   'whatwg-fetch';
 export default class Professional extends Component {
 
   constructor(props) {
