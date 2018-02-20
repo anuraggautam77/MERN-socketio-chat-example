@@ -65,7 +65,7 @@ class Signin extends Component {
           </div>
       
           <div className="form-group">
-            <input  type="text" name="form-username" value ={this.state.username} placeholder="Username..."  
+            <input  type="text" name="form-username" value ={this.state.username} placeholder="Email..."  
                     className="form-control" onChange={(event) => {
           this.setState ({username: event.target.value})}} />
           </div>
