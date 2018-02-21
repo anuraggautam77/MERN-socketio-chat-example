@@ -6,8 +6,6 @@ class NavMenu extends Component {
 
   constructor(props) {
     super (props);
-
-   
   }
   ;
    logoutclick() {
@@ -16,19 +14,17 @@ class NavMenu extends Component {
   }
   ;
     render() {
-      
-       
     return (
       <nav className="navbar navbar-default">
         <div className="container-fluid">
           <div className=" navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
               <li>
-              <NavLink to="/home"  exact={true}  activeClassName="active" > 
-                <span className="glyphicon glyphicon-home"></span> Home 
+              <NavLink to="/home"  exact={true}  activeClassName="active" >
+                <span className="glyphicon glyphicon-home"></span> Home
               </NavLink>
-              </li> 
-      
+              </li>
+
               <li> <NavLink to='/profile'><span className="glyphicon glyphicon-user"></span> Profile </NavLink></li>
               <li><NavLink to='/list'><span className="glyphicon glyphicon-th-list"></span> Friends </NavLink></li>
               <li>
@@ -39,15 +35,20 @@ class NavMenu extends Component {
                   <button type="button" className="btn btn-default"><span className="glyphicon glyphicon-search"></span> </button>
                 </form>
               </li>
-      
-      
-              <li className=" navbar-right" ><NavLink to='/' onClick={this.logoutclick} ><span className="glyphicon glyphicon-th-list"></span> Logout </NavLink></li>
-      
+
+             
+              <li>
+              <NavLink to="/home"  exact={true}  activeClassName="active" >
+                <span className="glyphicon glyphicon-bell"></span> Notification
+              </NavLink>
+              </li>
+              
+              
+               <li className=" navbar-right" ><NavLink to='/' onClick={this.logoutclick} ><span className="glyphicon glyphicon-log-out"></span> Logout </NavLink></li>
             </ul>
-      
-          </div> 
-        </div> 
-        
+
+          </div>
+        </div>
       </nav>
       )
   }

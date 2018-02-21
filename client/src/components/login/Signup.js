@@ -30,7 +30,8 @@ class Signup extends Component {
   ;
     serviceHandler(data) {
     if (data.status === 'success') {
-      alert ('Thank you for Register with Us!!! ');
+      alert ('Thank you for Registering with us!!! ');
+      this.props.statechange('singup');
     }
 
   }
