@@ -75,6 +75,8 @@ app.use ('/api', apiRoutes);
 
 // API routes
 require ('./routes') (apiRoutes);
+
+
 app.use (express.static (path.resolve (__dirname, '../dist')));
 app.get ('/', function (req, res) {
     res.sendFile (path.resolve (__dirname, '../dist/index.html'));

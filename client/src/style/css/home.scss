@@ -1,0 +1,22 @@
+.homePage{
+.image {
+    width: 100px;
+    height:100px;
+    float: left;
+}
+.panel-body{
+  padding: 0px;
+}
+.mb10{ margin-bottom:10px}
+
+
+
+/*TIP  Not to strech the card in smaller devices This is just optional class*/
+
+
+@media only screen and (min-width:300px) and (max-width:600px) {
+
+.content{max-width:300px; margin:0 auto;}
+
+}
+}

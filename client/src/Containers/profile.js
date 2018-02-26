@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-
 import MyProfile from '../components/profile/index';
+
 export default class Profile extends Component {
     
    constructor(props) {

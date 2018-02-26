@@ -83,7 +83,6 @@ class Header extends Component {
       ).then (res => res.json ()
       ).then (json => {
         if (json.hasOwnProperty ('list')) {
-          console.log(json);
           var obj = {'name': json.list[0].firstName[0] + "" + json.list[0].lastName[0]};
           if (json.list[0].hasOwnProperty ('userDetail')) {
             obj.image = json.list[0].userDetail.photodata;
@@ -99,7 +98,6 @@ class Header extends Component {
 
   render() {
    //onClick={(e) => { e.preventDefault (); this.uploadInput.click (); }}
-   console.log(this.state);
     return (
       <div className="header-container">
       

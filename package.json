@@ -53,6 +53,8 @@
     "webpack-node-externals": "^1.6.0"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.6.1"
+    "babel-preset-env": "^1.6.1",
+    "compression-webpack-plugin": "^1.1.7",
+    "webpack-bundle-analyzer": "^2.10.0"
   }
 }

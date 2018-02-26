@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 
 import UserList from '../components/users/userlist';
 import UserProfile from '../components/users/userprofile';
-import Chatwindow from '../components/chatwindow/chatwindow';
 export default class List extends Component {
     
     
@@ -19,7 +18,6 @@ export default class List extends Component {
                 <UserProfile/>
           </div>	
         </div> 
-              <Chatwindow/> 
       </div>
       )
   }

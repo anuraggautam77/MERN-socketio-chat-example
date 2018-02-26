@@ -35,7 +35,7 @@ class UserList extends Component {
   };
   
   
-  componentWillMount() {
+  componentDidMount() {
 
     var id = window.localStorage.getItem ('userid');
     fetch (`/api/getuserlist/${id}`, {method: 'get', headers: {'Content-Type': 'application/json'}}
@@ -44,7 +44,6 @@ class UserList extends Component {
         this.setState ({userList: json.list},function(){
           this.onViewProfileClick(json.list[0]._id);
         });
-       
       }
     });
   }
@@ -91,7 +90,7 @@ class UserList extends Component {
               </p>
               <p>
                 <a href='javascript:void(0)' onClick={ e => this.onchatnowClick(obj._id)}   className="btn btn-xs btn-default"><span className="glyphicon glyphicon-comment"></span> Chat</a>
-                <a href='javascript:void(0)' onClick={ e => this.onViewProfileClick(obj._id) } className="btn btn-xs btn-default"><span className="glyphicon glyphicon-heart"></span> View Profile</a>
+                <a href='#profile' onClick={ e => this.onViewProfileClick(obj._id) } className="btn btn-xs btn-default"><span className="glyphicon glyphicon-heart"></span> View Profile</a>
                   
               </p>
             </div>
