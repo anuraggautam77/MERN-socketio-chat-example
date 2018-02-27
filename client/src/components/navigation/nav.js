@@ -20,7 +20,7 @@ class NavMenu extends Component {
           <div className=" navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
               <li>
-              <NavLink to="/home"  exact={true}  activeClassName="active" >
+              <NavLink to="/home" activeClassName="active" >
                 <span className="glyphicon glyphicon-home"></span> Home
               </NavLink>
               </li>
@@ -35,11 +35,9 @@ class NavMenu extends Component {
                   <button type="button" className="btn btn-default"><span className="glyphicon glyphicon-search"></span> </button>
                 </form>
               </li>
-
-             
               <li>
-              <NavLink to="/home"  exact={true}  activeClassName="active" >
-                <span className="glyphicon glyphicon-bell"></span> Notification
+              <NavLink to="/posts" activeClassName="active" >
+                <span className="	glyphicon glyphicon-list-alt"></span> Posts
               </NavLink>
               </li>
               

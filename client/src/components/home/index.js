@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import "../../style/css/home.scss";
 class Index extends Component {
 
@@ -8,9 +9,10 @@ class Index extends Component {
       userList: [],
       userid: window.localStorage.getItem ('userid')
     };
+   
     this.addFriend = this.addFriend.bind (this);
-  }
-  ;
+  };
+  
     addFriend(e, id) {
     e.target.disabled = true;
     let obj = {requestedby: this.state.userid, requestedto: id};

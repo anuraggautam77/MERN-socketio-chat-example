@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
  
 import Home from '../Containers/home';
-import Demo from '../Containers/demo';
+import Posts from '../Containers/posts';
 import Profile from '../Containers/profile';
 import List from '../Containers/list';
 import Login from '../Containers/login';
@@ -23,12 +23,12 @@ export default class Routing extends Component {
             <Router>
                 <div>
                     <NavMenu/>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/home" component={Home} />
+                    <Route path="/" exact component={Home} />
+                    <Route path="/home" component={Home} />
                     <Route path="/profile" component={Profile} />
                     <Route path="/list" component={List} />
                     <Route path="/login" component={Login} />
-                    <Route path="/demo" component={Demo} />
+                    <Route path="/posts" component={Posts} />
                     </div>
             </Router>
         )
