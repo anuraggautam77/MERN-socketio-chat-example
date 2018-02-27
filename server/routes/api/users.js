@@ -5,14 +5,14 @@ const bcrypt = require ('bcrypt');
 const Cryptr = require ('cryptr');
 const jwt = require ('jsonwebtoken');
 const mongoose = require ('mongoose');
-const path = require('path');
+const path = require ('path');
 
 const saltRounds = 10;
 const SECRETKEY = 'iamnewinthistechstack';
 const USER_ID_ENCRYPT_DECTYPT = 'user_id_incrption_decription';
 const SECRETKEY_WRONG = 'wrongtoken';
 const DUPLICATE_CODE = 11000;
-const folderpath=path.resolve ("server/upload/images");
+const folderpath = path.resolve ("server/upload/images");
 
 
 const SERVICE_CONST = {
@@ -25,8 +25,9 @@ const SERVICE_CONST = {
   GET_USER_DETAIL: "getuserdetail",
   USER_UPDATE_DETAIL: "updateuserdetail",
   UPDATE_USER_DATA: 'updateuserdata',
-  IMAGE_UPLOAD:'uploads'
-   
+  IMAGE_UPLOAD: 'uploads',
+  SEND_REQUEST: 'sendrequest'
+
 };
 
 let cryptr = new Cryptr (USER_ID_ENCRYPT_DECTYPT);
@@ -59,16 +60,17 @@ module.exports = (apiRoutes) => {
     });
     return token;
   }
- 
-apiRoutes.post(`/${SERVICE_CONST.IMAGE_UPLOAD}`, (req, res, next) => {
-  let imageFile = req.files.file;
-  imageFile.mv(`${folderpath}\\${req.body.filename}`, function(err) {
-    if (err) {
-      return res.status(500).send(err);
-    };
-    res.json({file: "images/"+req.body.filename});
-  });
-})
+
+  apiRoutes.post (`/${SERVICE_CONST.IMAGE_UPLOAD}`, (req, res, next) => {
+    let imageFile = req.files.file;
+    imageFile.mv (`${folderpath}\\${req.body.filename}`, function (err) {
+      if (err) {
+        return res.status (500).send (err);
+      }
+      ;
+      res.json ({file: "images/" + req.body.filename});
+    });
+  })
 
   apiRoutes.post (`/${SERVICE_CONST.NEW_USER}`, function (req, res) {
 
@@ -102,7 +104,7 @@ apiRoutes.post(`/${SERVICE_CONST.IMAGE_UPLOAD}`, (req, res, next) => {
 
       if (userdata.length > 0) {
         bcrypt.compare (req.body.loginpass, userdata[0].password, function (err, flag) {
-          
+
           var token = generateNewToken ();
           var encryptedString = cryptr.encrypt (userdata[0]._id);
 
@@ -302,6 +304,56 @@ apiRoutes.post(`/${SERVICE_CONST.IMAGE_UPLOAD}`, (req, res, next) => {
       }
       ;
     });
+
+  });
+
+
+  apiRoutes.post (`/${SERVICE_CONST.SEND_REQUEST}`, (req, res) => {
+
+    var query = {'_id': cryptr.decrypt (req.body.requestedby)};
+    Users.findOneAndUpdate (query, {
+      $push: { friends: {
+                status:'pending',
+                ftype:'SR',
+                userid: cryptr.decrypt (req.body.requestedto)
+              } }
+     },  function (err, doc) {
+     /** Push to another frind **/  
+    var query = {'_id': cryptr.decrypt (req.body.requestedto)};
+    Users.findOneAndUpdate (query, {
+        $push: { friends: {
+                status:'pending',
+                ftype:'RR',
+                userid: cryptr.decrypt (req.body.requestedby)
+              } }
+     },  function (err, doc) {
+        res.json ({status: "pending"});
+    });
+    });
+ 
+
+
+    /*
+     
+     Users.find ({
+     '_id': cryptr.decrypt (req.body.userId)
+     }, (error, data) => {
+     if (data.length > 0) {
+     
+     Users.update (
+     {'_id': cryptr.decrypt (req.body.userId)},
+     {
+     firstName: req.body.formdata.firstName,
+     lastName: req.body.formdata.lastName,
+     city: req.body.formdata.city,
+     country: req.body.formdata.country
+     }, {}, (data) => {
+     
+     res.json ({status: "success", message: "Image Update Successfully!! !!!!"});
+     });
+     }
+     ;
+     });*/
 
   });
 

@@ -30,7 +30,6 @@ class UserProfile extends Component {
         } else {
           obj.imagedata = '';
         }
-
         this.setState (obj);
       }
     });
@@ -54,7 +53,7 @@ class UserProfile extends Component {
                              if (this.state.userDetail.userDetail.hasOwnProperty ('professional')) {
                               if(this.state.userDetail.userDetail.professional!==null) {
                            return(
-                         <div><p> 
+                          <div><p> 
                                     {(()=>{
                                        if (this.state.userDetail.userDetail.professional.hasOwnProperty ('occupation')) {
                                          return  this.state.userDetail.userDetail.professional.occupation;
@@ -98,26 +97,38 @@ class UserProfile extends Component {
                 })()}
                 <p><strong>Email: </strong>
                 { this.state.userDetail.email} </p>
-                <p><span className="glyphicon glyphicon-map-marker"></span> :{this.state.userDetail.city} {this.state.userDetail.country} </p>
+                <p><span className="glyphicon glyphicon-map-marker"></span>: 
+                    {this.state.userDetail.city}  &nbsp;{this.state.userDetail.country} </p>
               </div> 
               <span>Professional Information </span>
               <div className="alert alert-info">
-      
-                <p>
-                  <strong> Hobbies:</strong>
                   {(() => {
                                 if (this.state.userDetail.hasOwnProperty ('userDetail')) {
                                   if (this.state.userDetail.userDetail.hasOwnProperty ('aboutme')) {
-                                      return(
-                                                    <span>  {this.state.userDetail.userDetail.aboutme.hobby}</span>
-                                            );
+                                      return(<p>
+                                        <strong> Hobbies:</strong>
+                                         <span>  {this.state.userDetail.userDetail.aboutme.hobby}</span>
+                                        </p>    );
                                    } }
                   })()}
-                </p>
-                <p>
-                  <strong>Skills: </strong>
-                  <span className="tags">aaa</span> 
-                </p>
+                 {(() => {
+                       if (this.state.userDetail.hasOwnProperty ('userDetail')) {
+                             if (this.state.userDetail.userDetail.hasOwnProperty ('professional')) {
+                              if(this.state.userDetail.userDetail.professional!==null) {
+                           return(
+                            <p>
+                          <strong>Skills: </strong>
+                                    {(()=>{
+                                       if (this.state.userDetail.userDetail.professional.hasOwnProperty ('skill')) {
+                                         return  this.state.userDetail.userDetail.professional.skill;
+                                       }
+                                   })()}
+                             </p>  )
+                              }
+                               
+                }}
+                })()}
+               
               </div>
             </div>             
             <div className="col-xs-12 col-sm-4  col-md-4 ">

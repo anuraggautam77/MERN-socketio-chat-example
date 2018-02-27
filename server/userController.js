@@ -17,8 +17,17 @@ module.exports = class UserController {
         lastName: val.lastName,
         firstName: val.firstName,
         city: val.city,
-        country: val.country
+        country: val.country,
+        friends:(()=>{  val.friends.forEach((val1,k)=>{
+                   val1.userid= cryptr.encrypt(val1.userid)
+                 })
+                 return val.friends;
+              })()
+                 
       };
+       
+      
+      
       userList.push (tempobj);
     });
     return userList;
