@@ -11,7 +11,6 @@ class DashboardLayout extends Component {
       <div className="container">
         <div className="row">
           <div className="card hovercard">
-            <Header />
             <Routing/> 
             <Chatwindow/> 
           </div>

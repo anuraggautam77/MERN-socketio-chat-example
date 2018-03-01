@@ -38,7 +38,7 @@ class UserList extends Component {
   componentDidMount() {
 
     var id = window.localStorage.getItem ('userid');
-    fetch (`/api/getuserlist/${id}`, {method: 'get', headers: {'Content-Type': 'application/json'}}
+    fetch (`/api/acceptfriendlist/${id}`, {method: 'get', headers: {'Content-Type': 'application/json'}}
     ).then (res => res.json ()).then (json => {
       if (json.hasOwnProperty ('list')) {
         this.setState ({userList: json.list},function(){

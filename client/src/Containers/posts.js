@@ -25,16 +25,17 @@ export default class Posts extends Component {
                   <div className="side-menu-container">
                     <ul className="nav navbar-nav">
                       <ul>
-                        <li>
-                        <NavLink to="/posts/newpost"  exact={true}  activeClassName="active" >
-                          <span className="glyphicon glyphicon-home"></span> New Post
-                        </NavLink>
-                        </li>
+                        
                         <li>
                         <NavLink to="/posts/listing"  exact={true}  activeClassName="active" >
                           <span className="glyphicon glyphicon-home"></span> All Post
                         </NavLink>
                        </li>
+                       <li>
+                        <NavLink to="/posts/newpost"  exact={true}  activeClassName="active" >
+                          <span className="glyphicon glyphicon-home"></span> New Post
+                        </NavLink>
+                        </li>
                       </ul>
       
                     </ul>

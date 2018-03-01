@@ -62,7 +62,7 @@ class MyProfile extends Component {
             <div className="panel-heading clearfix">
               <h3 className="panel-title pull-left">Proile Image</h3>
             </div>
-            <Header tag="hidden" userdata={this.state.userdata} servicecall='false'/>
+            <Header tag="hidden" userdata={this.state.userdata}/>
           </div>
       
           <div className="panel panel-default">

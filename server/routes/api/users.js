@@ -1,6 +1,8 @@
 const Users = require ('../../models/User');
 const UsersDetails = require ('../../models/Userdetails');
 const UserController = require ('../../userController');
+
+const Posts = require ('../../models/Posts');
 const bcrypt = require ('bcrypt');
 const Cryptr = require ('cryptr');
 const jwt = require ('jsonwebtoken');
@@ -26,7 +28,12 @@ const SERVICE_CONST = {
   USER_UPDATE_DETAIL: "updateuserdetail",
   UPDATE_USER_DATA: 'updateuserdata',
   IMAGE_UPLOAD: 'uploads',
-  SEND_REQUEST: 'sendrequest'
+  SEND_REQUEST: 'sendrequest',
+  ACCEPT_REQUEST: 'acceptrequest',
+  ACCEPT_FRIEND_LIST: 'acceptfriendlist',
+
+  SAVE_POST: 'savepost',
+  GET_MY_POSTS:'getmyposts'
 
 };
 
@@ -310,52 +317,171 @@ module.exports = (apiRoutes) => {
 
   apiRoutes.post (`/${SERVICE_CONST.SEND_REQUEST}`, (req, res) => {
 
-    var query = {'_id': cryptr.decrypt (req.body.requestedby)};
-    Users.findOneAndUpdate (query, {
-      $push: { friends: {
-                status:'pending',
-                ftype:'SR',
-                userid: cryptr.decrypt (req.body.requestedto)
-              } }
-     },  function (err, doc) {
-     /** Push to another frind **/  
-    var query = {'_id': cryptr.decrypt (req.body.requestedto)};
-    Users.findOneAndUpdate (query, {
-        $push: { friends: {
-                status:'pending',
-                ftype:'RR',
-                userid: cryptr.decrypt (req.body.requestedby)
-              } }
-     },  function (err, doc) {
+    var queryOne = {'_id': cryptr.decrypt (req.body.requestedby)};
+    Users.findOneAndUpdate (queryOne, {
+      $push: {friends: {
+          status: 'pending',
+          ftype: 'SR',
+          userid: cryptr.decrypt (req.body.requestedto)
+        }}
+    }, function (err, doc) {
+      /** Push to another frind **/
+      var query = {'_id': cryptr.decrypt (req.body.requestedto)};
+      Users.findOneAndUpdate (query, {
+        $push: {friends: {
+            status: 'pending',
+            ftype: 'RR',
+            userid: cryptr.decrypt (req.body.requestedby)
+          }}
+      }, function (err, doc) {
         res.json ({status: "pending"});
+      });
     });
-    });
- 
 
-
-    /*
-     
-     Users.find ({
-     '_id': cryptr.decrypt (req.body.userId)
-     }, (error, data) => {
-     if (data.length > 0) {
-     
-     Users.update (
-     {'_id': cryptr.decrypt (req.body.userId)},
-     {
-     firstName: req.body.formdata.firstName,
-     lastName: req.body.formdata.lastName,
-     city: req.body.formdata.city,
-     country: req.body.formdata.country
-     }, {}, (data) => {
-     
-     res.json ({status: "success", message: "Image Update Successfully!! !!!!"});
-     });
-     }
-     ;
-     });*/
 
   });
+
+
+  apiRoutes.post (`/${SERVICE_CONST.ACCEPT_REQUEST}`, (req, res) => {
+
+    var queryOne = {
+      "_id": cryptr.decrypt (req.body.requestedby),
+      "friends.userid": cryptr.decrypt (req.body.requestedto)
+    };
+
+    Users.findOneAndUpdate (queryOne, {$set: {"friends.$.status": 'ACCEPT'}},
+      function (err, doc) {
+        console.log (doc);
+        /** Push to another frind **/
+        var query = {
+          "_id": cryptr.decrypt (req.body.requestedto),
+          "friends.userid": cryptr.decrypt (req.body.requestedby)
+        };
+
+        Users.findOneAndUpdate (query, {$set: {"friends.$.status": 'ACCEPT'}},
+          function (err, doc) {
+            res.json ({status: doc});
+          });
+      });
+
+  });
+
+
+  apiRoutes.get (`/${SERVICE_CONST.ACCEPT_FRIEND_LIST}/:id`, (req, res) => {
+    if (req.params.id !== 'null') {
+      let decryptedString = cryptr.decrypt (req.params.id);
+
+     
+      Users.aggregate(  [ 
+        { 
+          $unwind: "$friends"
+        },
+        {
+          $match:{ "$friends.status": "ACCEPT"}
+        },
+        {
+        $project:{ "FriendUserID":"$friends.userid"}
+        },
+        { 
+          $lookup:{  
+             from:"Users",
+             as: "FriendsUsers",
+             localField: "FriendUserID",
+             foreignField: "_id"
+          }
+        }
+        /*,
+        {
+          $project: { FriendsUsers.lastName:1,FriendsUsers.firstName:1 }
+        }*/
+       ], (err,data)=>{
+         console.log(err);
+       }
+    )
+        
+        
+        
+        
+        
+        
+        /*Users.find ({'_id':decryptedString,"friends.status":'ACCEPT'}, (error, users) => {
+       
+       })*/
+
+/*
+      Users.find ({'_id': decryptedString, friends: {$elemMatch: {status: 'ACCEPT'}}}, (error, users) => {
+        console.log (users);
+      });
+
+*/
+
+
+
+
+
+      Users.find ({'_id': {$ne: decryptedString}}, (error, users) => {
+        if (users.length > 0) {
+
+          var contr = new UserController ();
+          UsersDetails.find ({'userId': {$ne: decryptedString}}, (error, details) => {
+            let list = contr.getuserList (users);
+            let detail = contr.getUserDetails (details);
+            list.forEach ((val, i) => {
+              let id = val._id;
+              detail.forEach ((dval, k) => {
+                if (id === dval.userId) {
+                  list[i]['userDetail'] = dval;
+                }
+                ;
+              });
+            });
+            res.json ({status: "success", list: list});
+          });
+
+          //  res.json ({status: "success", list: contr.getuserList (users)});
+
+        } else {
+          res.json ({status: "success", message: "No record found!!!!"});
+        }
+      });
+    } else {
+      res.json ({status: "error", message: "Something goes wrong!!!!"});
+    }
+  });
+
+
+
+
+  apiRoutes.post (`/${SERVICE_CONST.SAVE_POST}`, function (req, res) {
+    let reqdata = req.body;
+    let post = new Posts ({
+      title: reqdata.title,
+      body: reqdata.content,
+      tags: reqdata.tags,
+      _author: cryptr.decrypt (reqdata.userid)
+    });
+    post.save ().then (() => {
+      console.log (">>>> Save Session SocketID");
+     // callback ("done");
+    });
+
+  });
+
+  apiRoutes.post (`/${SERVICE_CONST.GET_MY_POSTS}`, function (req, res) {
+       let reqdata = req.body;
+        let decryptedString = cryptr.decrypt (reqdata.userid);
+
+       Posts.find ({'_author':decryptedString}, (error, posts) => {
+         if (error){
+           
+         }
+         res.json ({status: "Mil gaya data", posts: posts});
+       }) 
+ 
+
+  });
+
+
 
 
 };
