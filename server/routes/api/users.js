@@ -371,7 +371,7 @@ module.exports = (apiRoutes) => {
     if (req.params.id !== 'null') {
       let decryptedString = cryptr.decrypt (req.params.id);
 
-     
+     /*
       Users.aggregate(  [ 
         { 
           $unwind: "$friends"
@@ -389,17 +389,17 @@ module.exports = (apiRoutes) => {
              localField: "FriendUserID",
              foreignField: "_id"
           }
-        }
-        /*,
+        },
+        
         {
           $project: { FriendsUsers.lastName:1,FriendsUsers.firstName:1 }
-        }*/
+        } 
        ], (err,data)=>{
          console.log(err);
        }
     )
         
-        
+        */
         
         
         
