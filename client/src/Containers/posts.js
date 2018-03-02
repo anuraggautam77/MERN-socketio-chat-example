@@ -21,26 +21,16 @@ export default class Posts extends Component {
                 <div className="panel-heading clearfix">
                   <h3 className="panel-title pull-left">Posts</h3>
                 </div>
-                <div className="panel-body">
-                  <div className="side-menu-container">
-                    <ul className="nav navbar-nav">
-                      <ul>
-                        
-                        <li>
-                        <NavLink to="/posts/listing"  exact={true}  activeClassName="active" >
-                          <span className="glyphicon glyphicon-home"></span> All Post
-                        </NavLink>
-                       </li>
-                       <li>
-                        <NavLink to="/posts/newpost"  exact={true}  activeClassName="active" >
-                          <span className="glyphicon glyphicon-home"></span> New Post
-                        </NavLink>
-                        </li>
-                      </ul>
-      
-                    </ul>
-                  </div>
-                </div>
+             <div className="list-group">
+                    <NavLink to="/posts/listing" className="list-group-item"  exact={true}  >
+                      <span className="glyphicon glyphicon-th-list"></span> All Post
+                   </NavLink>
+
+                  <NavLink to="/posts/newpost" className="list-group-item"  exact={true}  >
+                    <span className="glyphicon glyphicon-list-alt"></span> New Post
+                  </NavLink>
+            </div>
+
               </div>
             </div>
       

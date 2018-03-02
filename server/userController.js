@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+const mongoose = require ('mongoose');
 const Cryptr = require ('cryptr');
 const USER_ID_ENCRYPT_DECTYPT = 'user_id_incrption_decription';
 module.exports = class UserController {
@@ -11,6 +12,7 @@ module.exports = class UserController {
     let cryptr = new Cryptr (USER_ID_ENCRYPT_DECTYPT);
     let userList = [];
     userdata.forEach ((val, i) => {
+
       let  tempobj = {
         _id: cryptr.encrypt (val._id),
         email: val.email,
@@ -18,19 +20,21 @@ module.exports = class UserController {
         firstName: val.firstName,
         city: val.city,
         country: val.country,
-        friends:(()=>{  val.friends.forEach((val1,k)=>{
-                   val1.userid= cryptr.encrypt(val1.userid)
-                 })
-                 return val.friends;
-              })()
-                 
+        friends: this.returnfnrdData(val.friends, cryptr)
       };
-       
-      
-      
+
       userList.push (tempobj);
     });
     return userList;
+  }
+
+  returnfnrdData(data, cryptr) {
+    var temp = [];
+    data.forEach ((val1, k) => {
+      temp.push ({status: val1.status, userid: cryptr.encrypt ((val1.userid)), ftype: val1.ftype})
+    });
+    return  temp;
+
   }
 
   getUserDetails(detail) {
@@ -52,6 +56,7 @@ module.exports = class UserController {
     }
     return userList;
   }
+   
 
 };
 

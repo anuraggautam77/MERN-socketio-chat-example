@@ -33,7 +33,7 @@ const SERVICE_CONST = {
   ACCEPT_FRIEND_LIST: 'acceptfriendlist',
 
   SAVE_POST: 'savepost',
-  GET_MY_POSTS:'getmyposts'
+  GET_MY_POSTS: 'getmyposts'
 
 };
 
@@ -322,7 +322,7 @@ module.exports = (apiRoutes) => {
       $push: {friends: {
           status: 'pending',
           ftype: 'SR',
-          userid: cryptr.decrypt (req.body.requestedto)
+          userid: mongoose.Types.ObjectId (cryptr.decrypt (req.body.requestedto))
         }}
     }, function (err, doc) {
       /** Push to another frind **/
@@ -331,7 +331,7 @@ module.exports = (apiRoutes) => {
         $push: {friends: {
             status: 'pending',
             ftype: 'RR',
-            userid: cryptr.decrypt (req.body.requestedby)
+            userid: mongoose.Types.ObjectId (cryptr.decrypt (req.body.requestedby))
           }}
       }, function (err, doc) {
         res.json ({status: "pending"});
@@ -346,16 +346,16 @@ module.exports = (apiRoutes) => {
 
     var queryOne = {
       "_id": cryptr.decrypt (req.body.requestedby),
-      "friends.userid": cryptr.decrypt (req.body.requestedto)
+      "friends.userid": mongoose.Types.ObjectId (cryptr.decrypt (req.body.requestedto))
     };
 
     Users.findOneAndUpdate (queryOne, {$set: {"friends.$.status": 'ACCEPT'}},
       function (err, doc) {
-        console.log (doc);
+
         /** Push to another frind **/
         var query = {
           "_id": cryptr.decrypt (req.body.requestedto),
-          "friends.userid": cryptr.decrypt (req.body.requestedby)
+          "friends.userid": mongoose.Types.ObjectId (cryptr.decrypt (req.body.requestedby))
         };
 
         Users.findOneAndUpdate (query, {$set: {"friends.$.status": 'ACCEPT'}},
@@ -368,85 +368,53 @@ module.exports = (apiRoutes) => {
 
 
   apiRoutes.get (`/${SERVICE_CONST.ACCEPT_FRIEND_LIST}/:id`, (req, res) => {
+    var contr = new UserController ();
+
+
+
     if (req.params.id !== 'null') {
-      let decryptedString = cryptr.decrypt (req.params.id);
+      let decryptedString = mongoose.Types.ObjectId (cryptr.decrypt (req.params.id))
 
-     /*
-      Users.aggregate(  [ 
-        { 
-          $unwind: "$friends"
-        },
+      Users.aggregate ([
+        {"$match": {"friends.status": "ACCEPT", '_id': decryptedString}},
+        {"$project": {
+            "users": {
+              "$map": {
+                "input": {
+                  "$filter": {
+                    "input": "$friends",
+                    "as": "el",
+                    "cond": {"$eq": ["$$el.status", "ACCEPT"]}
+                  }
+                },
+                "as": "item",
+                "in": "$$item.userid"
+              }
+            }
+          }},
+
         {
-          $match:{ "$friends.status": "ACCEPT"}
-        },
-        {
-        $project:{ "FriendUserID":"$friends.userid"}
-        },
-        { 
-          $lookup:{  
-             from:"Users",
-             as: "FriendsUsers",
-             localField: "FriendUserID",
-             foreignField: "_id"
-          }
-        },
-        
-        {
-          $project: { FriendsUsers.lastName:1,FriendsUsers.firstName:1 }
-        } 
-       ], (err,data)=>{
-         console.log(err);
-       }
-    )
-        
-        */
-        
-        
-        
-        
-        /*Users.find ({'_id':decryptedString,"friends.status":'ACCEPT'}, (error, users) => {
-       
-       })*/
+          "$lookup": {
+            "from": "users",
+            "localField": "users",
+            "foreignField": "_id",
+            "as": "finaldata"
 
-/*
-      Users.find ({'_id': decryptedString, friends: {$elemMatch: {status: 'ACCEPT'}}}, (error, users) => {
-        console.log (users);
-      });
-
-*/
-
-
-
-
-
-      Users.find ({'_id': {$ne: decryptedString}}, (error, users) => {
-        if (users.length > 0) {
-
-          var contr = new UserController ();
-          UsersDetails.find ({'userId': {$ne: decryptedString}}, (error, details) => {
-            let list = contr.getuserList (users);
-            let detail = contr.getUserDetails (details);
-            list.forEach ((val, i) => {
-              let id = val._id;
-              detail.forEach ((dval, k) => {
-                if (id === dval.userId) {
-                  list[i]['userDetail'] = dval;
-                }
-                ;
-              });
-            });
-            res.json ({status: "success", list: list});
-          });
-
-          //  res.json ({status: "success", list: contr.getuserList (users)});
-
+          }},
+      ]).exec ((err, results) => {
+        if (err) {
+          res.json ({status: "error", message: "Something goes wrong!!!!"});
+        }
+        ;
+        if (results.length > 0) {
+          res.json ({status: "success", list: contr.getuserList (results[0].finaldata)});
         } else {
           res.json ({status: "success", message: "No record found!!!!"});
         }
       });
-    } else {
-      res.json ({status: "error", message: "Something goes wrong!!!!"});
+
     }
+
   });
 
 
@@ -461,23 +429,23 @@ module.exports = (apiRoutes) => {
       _author: cryptr.decrypt (reqdata.userid)
     });
     post.save ().then (() => {
-      console.log (">>>> Save Session SocketID");
-     // callback ("done");
+
+      res.json ({status: "success", message: "Post has been saved successfully"});
     });
 
   });
 
   apiRoutes.post (`/${SERVICE_CONST.GET_MY_POSTS}`, function (req, res) {
-       let reqdata = req.body;
-        let decryptedString = cryptr.decrypt (reqdata.userid);
+    let reqdata = req.body;
+    let decryptedString = cryptr.decrypt (reqdata.userid);
 
-       Posts.find ({'_author':decryptedString}, (error, posts) => {
-         if (error){
-           
-         }
-         res.json ({status: "Mil gaya data", posts: posts});
-       }) 
- 
+    Posts.find ({'_author': decryptedString}, (error, posts) => {
+      if (error) {
+
+      }
+      res.json ({status: "Mil gaya data", posts: posts});
+    })
+
 
   });
 
