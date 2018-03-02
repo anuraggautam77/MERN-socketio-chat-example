@@ -106,7 +106,7 @@ class Index extends Component {
               <div className="panel-body"> 
                 <img src="img/avatars/profile.png" className="image"/>
                 <h4 className="text-capitalize">{obj.firstName} {obj.lastName}</h4>
-                <p> {obj.email}</p>
+                 <p> {/* obj.email */ }</p>
                 <button  className="btn btn-primary btn-xs"   onClick={(e) => {
                   this.primarybtnAction(e, obj._id,objData.type);
                                                                         }}>
