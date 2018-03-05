@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Routing from '../../router/router';
+
 import Header from '../header/header';
 import Chatwindow from '../chatwindow/chatwindow';
 
@@ -7,16 +7,7 @@ import Chatwindow from '../chatwindow/chatwindow';
 class DashboardLayout extends Component {
 
   render() {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="card hovercard">
-            <Routing/> 
-            <Chatwindow/> 
-          </div>
-        </div>
-      </div>
-      );
+    return (<Chatwindow/>);
   }
 }
 

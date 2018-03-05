@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import 'whatwg-fetch';
 
 class Signin extends Component {
@@ -10,10 +11,10 @@ class Signin extends Component {
       lastName: '',
       email: '',
       password: '',
-      //  username: 'anurag@gmail.com',
-      // loginpass: '1234567890',
-      username: '',
-      loginpass: '',
+       username: 'anurag@gmail.com',
+      loginpass: '11111111',
+   /*   username: '',
+      loginpass: '', */
       loginError: '',
       signupError: ''
     };
@@ -24,7 +25,8 @@ class Signin extends Component {
   handleSignIn() {
 
     if (this.state.username !== '' && this.state.loginpass !== '') {
-      this.callSignInApi (this.state);
+       this.callSignInApi (this.state);
+       
     } else {
       alert ("Please Enter Login Information ");
 
@@ -40,6 +42,7 @@ class Signin extends Component {
     }
     ).then (res => res.json ()).then (json => {
       this.serviceSignInHandler (json)
+    
     });
 
 
@@ -48,7 +51,10 @@ class Signin extends Component {
   serviceSignInHandler(data) {
 
     if (data.status === 'success') {
-      PubSub.publish ('IS_LOGIN', {status: true, token: data.accesstoken, userid: data.userid});
+      PubSub.publish ('IS_LOGIN', {status: true, token: data.accesstoken, userid: data.userid,callback:()=>{
+           this.props.history.push ("/home");
+      }});
+     
     } else {
       alert (data.message);
     }
@@ -92,7 +98,7 @@ class Signin extends Component {
       ;
     }
 
-    export default Signin;
+    export default withRouter(Signin) ;
 
 
 

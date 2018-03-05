@@ -5,6 +5,11 @@
     float: left;
 }
 
+.rowdata {
+  display: flex;
+  flex-direction: row;
+}
+
 /*TIP  Not to strech the card in smaller devices This is just optional class*/
 
 

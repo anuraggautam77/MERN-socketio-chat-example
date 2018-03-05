@@ -23,7 +23,7 @@ export class Auth {
     ).then (res => res.json ()).then (json => {
       console.log (json);
       if (json.statuscode === 403) {
-        PubSub.publish ('IS_LOGIN', {status: false, token: window.localStorage.getItem ('accessToken')});
+       PubSub.publish ('IS_LOGIN', {status: false, token: window.localStorage.getItem ('accessToken')});
         pathtorediect ();
       }
     });

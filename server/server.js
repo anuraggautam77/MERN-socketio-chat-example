@@ -26,11 +26,8 @@ const app = express ();
       
 const apiRoutes = express.Router ();
 
-
-
-
 const isDev = process.env.NODE_ENV !== 'production';
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3300;
 
 
 const server = app.listen(port, function(){
@@ -78,11 +75,11 @@ require ('./routes') (apiRoutes);
 
 
 app.use (express.static (path.resolve (__dirname, '../dist')));
-app.get ('/', function (req, res) {
-    res.sendFile (path.resolve (__dirname, '../dist/index.html'));
-    res.end ();
-  });
+ app.get ('/', function (req, res) {
+  res.sendFile (path.resolve (__dirname, '../dist/index.html'));
+   res.end ();
+ });
 app.get ('*', function (req, res) {
-     res.redirect ('/');
+   res.sendFile (path.resolve (__dirname, '../dist/index.html'));
   });
 module.exports = app;

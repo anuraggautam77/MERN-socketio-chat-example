@@ -1,50 +1,81 @@
 import React, { Component } from "react";
 import PubSub from 'pubsub-js';
-import { NavLink } from 'react-router-dom';
+import { NavLink ,withRouter } from 'react-router-dom';
 
 class NavMenu extends Component {
 
   constructor(props) {
     super (props);
-  }
-  ;
-   logoutclick() {
-    PubSub.publish ('IS_LOGIN', {status: false, token: window.localStorage.getItem ('accessToken')});
-
+    this.logoutclick= this.logoutclick.bind(this);
+    
+  };
+    logoutclick() {
+      PubSub.publish ('IS_LOGIN', {status: false, token: window.localStorage.getItem ('accessToken'),callback:()=>{
+           console.log(this.props)
+           this.props.history.push ("/login");
+      }}); 
   }
   ;
     render() {
     return (
       <nav className="navbar navbar-default">
         <div className="container-fluid">
-          <div className=" navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul className="nav navbar-nav">
+          <div className="navbar-collapse">
+            {(()=>{
+               if( this.props.islogin){
+              return (
+                <ul className="nav navbar-nav">
               <li>
               <NavLink to="/home" activeClassName="active" >
                 <span className="glyphicon glyphicon-home"></span> Home
               </NavLink>
               </li>
-
-              <li> <NavLink to='/profile'><span className="glyphicon glyphicon-user"></span> Profile </NavLink></li>
-              <li><NavLink to='/list'><span className="glyphicon glyphicon-th-list"></span> Friends </NavLink></li>
-              <li>
-                <form className="collapse navbar-form">
-                  <div className="form-group">
-                    <input type="text" className="form-control" placeholder="Search"/>
-                  </div>
-                  <button type="button" className="btn btn-default"><span className="glyphicon glyphicon-search"></span> </button>
-                </form>
+               <li>
+                  <NavLink to='/profile' activeClassName="active" >
+                    <span className="glyphicon glyphicon-user"></span> Profile 
+                  </NavLink>
               </li>
               <li>
-              <NavLink to="/posts" activeClassName="active" >
+                <NavLink to='/list' activeClassName="active">
+                <span className="glyphicon glyphicon-th-list"></span> Friends
+                </NavLink>
+              </li>
+              <li>
+              <NavLink to="/posts" activeClassName="active">
                 <span className="	glyphicon glyphicon-list-alt"></span> Posts
               </NavLink>
               </li>
+              <li className="navbar-right" >
+              <NavLink to='' onClick={this.logoutclick} activeClassName="" >
+                <span className="glyphicon glyphicon-log-out"></span> Logout 
+              </NavLink>
+              </li>
+               </ul>
+              )
+               }else{
+               
+            return (
+               <ul className="nav navbar-nav">
+              <li>
+              <NavLink to="/home" activeClassName="active" >
+                <span className="glyphicon glyphicon-home"></span> Home
+              </NavLink>
+              </li>
+              <li className="navbar-right" >
+              <NavLink to='/login' activeClassName="active" >
+                <span className="glyphicon glyphicon-log-in"></span> Login 
+              </NavLink>
+              </li>
+               </ul>
+          
+            )
+        
+               }
+            })()} 
               
-              
-               <li className=" navbar-right" ><NavLink to='/' onClick={this.logoutclick} ><span className="glyphicon glyphicon-log-out"></span> Logout </NavLink></li>
-            </ul>
-
+             
+           
+      
           </div>
         </div>
       </nav>
@@ -53,4 +84,4 @@ class NavMenu extends Component {
   ;
 }
 
-export default NavMenu;
+export default withRouter(NavMenu) ;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import LoginForm from '../../Containers/login';
-class LandingLayout extends Component {
+ import LoginForm from '../../Containers/login';
+ class LandingLayout extends Component {
 
   constructor(props) {
     super (props);
@@ -8,16 +8,7 @@ class LandingLayout extends Component {
   }
 
   render() {
-    return (
-      <div className="container">
-        <div className="row">
-          <div className="card hovercard">
-            
-            <LoginForm/>
-          </div>
-        </div>
-      </div>
-      );
+    return ( <LoginForm/> );
   }
 }
 ;

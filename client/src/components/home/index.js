@@ -13,7 +13,7 @@ class Index extends Component {
     };
 
     this.primarybtnAction = this.primarybtnAction.bind (this);
-     this.secondarybtnAction = this.secondarybtnAction.bind (this);
+    this.secondarybtnAction = this.secondarybtnAction.bind (this);
      
   };
     
@@ -101,7 +101,7 @@ class Index extends Component {
     if (objData.list.length > 0) {
       listItems = objData.list.map ((obj) => {
         return (
-          <div className="col-md-4 col-sm-5 col-xs-12" key={obj._id}>
+          <div className="rowdata col-md-4 col-sm-5 col-xs-12" key={obj._id}>
             
               <div className="panel-body"> 
                 <img src="img/avatars/profile.png" className="image"/>

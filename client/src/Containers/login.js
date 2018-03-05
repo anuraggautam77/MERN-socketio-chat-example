@@ -27,13 +27,10 @@ export default class Login extends Component {
  
  
     render() {
-      console.log(this.state);
     return (
-      <div>
         <div className="login-component">
           <section  className="contact-us section-bg">
               <div className="block">
-              <div className="row">
                 <div className="col-md-6">
                   <div className="col-md-12">
                      <img className="img-fluid" src="img/bg/login.jpg" alt="desk-image"/>
@@ -43,12 +40,9 @@ export default class Login extends Component {
                 <div className={this.state.signin}><Signin statechange={this.statechange} /></div>    
                 <div className={this.state.signup}><Signup statechange={this.statechange} /></div>
                 </div>
-              </div>  
             </div> 
           </section>
         </div>
-      </div>
-
       )
   }
 }
