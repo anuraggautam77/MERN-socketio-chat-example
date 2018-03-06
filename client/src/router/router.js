@@ -12,7 +12,12 @@ export default class Routing extends Component {
     
     constructor(props) {
         super (props);
+       
     }
+    
+  
+    
+    
   
     render() {
      
@@ -24,13 +29,16 @@ export default class Routing extends Component {
                  </div>
                  <div className="container">
                     <Route path="/home" excat component={Home} />
-                    <Route path="/profile" component={Profile} />
-                    <Route path="/list" component={List} />
                     <Route path="/login" component={Login} />
-                    <Route path="/posts" component={Posts} />
+                    
+                    <Route path="/posts" auth="true" component={Posts} />
+                    <Route path="/list" auth="true" component={List} />
+                    <Route path="/profile" auth="true" component={Profile} />
+                    
+                     
                 </div>
              </div>      
             </Router>
         )
     }
-}
+};

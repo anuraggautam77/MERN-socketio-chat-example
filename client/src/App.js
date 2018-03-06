@@ -14,11 +14,11 @@ class App extends Component {
     this.state = {
       "isLoggedIn": window.localStorage.getItem ('isLoggedIn')
     };
-    this.auth = new Auth ();
+  /*  this.auth = new Auth ();
     this.auth.validateToken (() => {
     
     });
-
+*/
     this.mySubscriber = this.mySubscriber.bind (this);
     PubSub.subscribe ('IS_LOGIN', this.mySubscriber);
 

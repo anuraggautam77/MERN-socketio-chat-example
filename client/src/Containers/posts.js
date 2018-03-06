@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Authentication from './authenticate';
 import { NavLink } from 'react-router-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -10,10 +11,21 @@ import Preview from '../components/mypost/preview';
 export default class Posts extends Component {
   constructor(props) {
     super (props);
+    this.state = {
+      renderActual: false
+    };
+    this.mountedorNot = this.mountedorNot.bind (this);
+  }
+  mountedorNot() {
+    this.setState ({renderActual: true});
   }
   render() {
     return (
-      <Router>
+      <div>
+        <Authentication  onComponentDidMount={this.mountedorNot}/>
+         { this.state.renderActual && 
+        
+       <Router>
         <div>
           <div className="row">
             <div className="col-md-3 col-sm-3 col-xs-12">
@@ -43,7 +55,8 @@ export default class Posts extends Component {
       
           </div> 
         </div>
-      </Router>
+      </Router> }
+      </div>
       )
   }
 }

@@ -11,10 +11,10 @@ class Signin extends Component {
       lastName: '',
       email: '',
       password: '',
-    /*   username: 'anurag@gmail.com',
-      loginpass: '11111111',*/
-      username: '',
-      loginpass: '', 
+    username: 'anurag@gmail.com',
+      loginpass: '11111111',
+//      username: '',
+//      loginpass: '', 
       loginError: '',
       signupError: ''
     };
