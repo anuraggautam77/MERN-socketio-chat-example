@@ -23,18 +23,19 @@ p{
     background-size: cover;
     height: 135px;
   }
-/*button {
+ .button {
   border: none;
   outline: 0;
+  text-decoration: none;
   display: inline-block;
   padding: 8px;
   color: white;
-  background-color: #000;
+  background-color: #c59292;
   text-align: center;
   cursor: pointer;
-  width: 100%;
-  font-size: 18px;
-}*/
+  width: 70%;
+  font-size: 16px;
+} 
   
 }
 
@@ -49,4 +50,11 @@ p{
   
 }
 
+}
+
+hr{
+    margin-top: 8px;
+    margin-bottom: 10px;
+    border: 0;
+    border-top: 1px solid rgb(173, 141, 141);
 }

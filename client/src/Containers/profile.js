@@ -35,7 +35,6 @@ export default class Profile extends Component {
   }
 
   render() {
-    console.log (this.state)
     return (
       <div>
         <Authentication  onComponentDidMount={this.mountedorNot}/>

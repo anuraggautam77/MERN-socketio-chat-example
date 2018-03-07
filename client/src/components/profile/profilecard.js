@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-
+import { NavLink ,withRouter } from 'react-router-dom';
 class Profilecard extends Component {
 
   constructor(props) {
@@ -49,7 +49,7 @@ console.log(this.state);
           <div className="cardheader"></div>
           <h4 className="text-capitalize">{this.state.name}</h4>
            {(()=>{
-               if (this.state.hasOwnProperty('city') && this.state.city !=='') {
+               if (this.state.hasOwnProperty('city') && this.state.city !==''  && this.state.city !==null) {
                    return ( <p> <span className="glyphicon glyphicon-map-marker"></span>:{this.state.city} {this.state.country}</p>);
                   }
             })()} 
@@ -67,16 +67,33 @@ console.log(this.state);
                     };
                       return (
                       <span>
-               <p className="title"> {str}</p>
-               <hr />
-              </span>
-              
-          )
+                       <p className="title"> {str}</p>
+                           <hr />
+                       </span>
+                      )
+                  }else{
+                     return (
+                       
+                    
+                      <NavLink to='/profile' className="button" >
+                         Update your Profile 
+                     </NavLink>
+                      )
                   }
              })()} 
           
           
-            <p><span className="glyphicon glyphicon-tags"></span>&nbsp;<i>{this.state.tagline}</i></p>
+          
+           {(()=>{
+               if (this.state.tagline !=='' && this.state.tagline!==null) {
+                   return (<p><span className="glyphicon glyphicon-tags"></span>&nbsp;<i>{this.state.tagline}</i></p>);
+                  }
+            })()} 
+          
+          
+          
+          
+            
           <hr />
            
         </div>

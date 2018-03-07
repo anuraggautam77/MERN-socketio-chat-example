@@ -18,9 +18,13 @@ class MyProfile extends Component {
     var arrTemp = 0;
     if (newprops.userdata.hasOwnProperty ('userDetail')) {
       if (newprops.userdata.userDetail.hasOwnProperty ('aboutme')) {
-        if (newprops.userdata.userDetail.aboutme.tagline !== '' && newprops.userdata.userDetail.aboutme !== '') {
+       
+        if(newprops.userdata.userDetail.aboutme!==null){
+          if (newprops.userdata.userDetail.aboutme.tagline !== '' && newprops.userdata.userDetail.aboutme !== '') {
           arrTemp += 25;
         }
+        }
+        
       }
       if (newprops.userdata.userDetail.hasOwnProperty ('sociallink')) {
         if (newprops.userdata.userDetail.sociallink.length > 0) {
