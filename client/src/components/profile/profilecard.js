@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../../style/css/profilecard.scss";
+
 
 class Profilecard extends Component {
 
@@ -48,7 +48,13 @@ console.log(this.state);
         <div className="card">
           <div className="cardheader"></div>
           <h4 className="text-capitalize">{this.state.name}</h4>
-         
+           {(()=>{
+               if (this.state.hasOwnProperty('city') && this.state.city !=='') {
+                   return ( <p> <span className="glyphicon glyphicon-map-marker"></span>:{this.state.city} {this.state.country}</p>);
+                  }
+            })()} 
+          
+          <hr />
            {(()=>{
                if (this.state.hasOwnProperty('professional')) {
                   var str='';
@@ -57,22 +63,22 @@ console.log(this.state);
                     };
                     
                      if(this.state.professional.hasOwnProperty ('company')){
-                      str+=", " +this.state.professional.company;
+                      str+=" at " +this.state.professional.company;
                     };
-                      return (<p className="title">{str}</p>)
+                      return (
+                      <span>
+               <p className="title"> {str}</p>
+               <hr />
+              </span>
+              
+          )
                   }
              })()} 
-                
-           {(()=>{
-               if (this.state.hasOwnProperty('city') && this.state.city !=='') {
-                   return ( <p><span className="glyphicon glyphicon-map-marker"></span>:{this.state.city} {this.state.country}</p>);
-                  }
-            })()} 
           
           
-         
-              <p><span class="glyphicon glyphicon-tags"></span>&nbsp;<i>{this.state.tagline}</i></p>
-        
+            <p><span className="glyphicon glyphicon-tags"></span>&nbsp;<i>{this.state.tagline}</i></p>
+          <hr />
+           
         </div>
           );
   }

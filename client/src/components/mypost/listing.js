@@ -32,8 +32,11 @@ class Listing extends Component {
       return (
         <div className="well" key={obj._id}>
           <h4 className="media-heading">{obj.title}</h4>
-          <p className="text-right">By :</p>
+            <hr />
+           <p className="text-right">By :</p>
           <p dangerouslySetInnerHTML={{ __html: obj.body }} />
+            
+          <hr />
           <ul className="list-inline list-unstyled">
             <li>
               <span>

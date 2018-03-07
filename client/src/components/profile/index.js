@@ -58,13 +58,13 @@ class MyProfile extends Component {
     return (
       <div className="row">
         <div className="col-md-4 col-sm-4 col-xs-12">
-          <div className="panel panel-default">
+      {  /*      <div className="panel panel-default">
             <div className="panel-heading clearfix">
               <h3 className="panel-title pull-left">Proile Image</h3>
             </div>
             <Header tag="hidden" userdata={this.state.userdata}/>
           </div>
-      
+            */  }
           <div className="panel panel-default">
             <div className="panel-heading clearfix">
               <h3 className="panel-title pull-left">Profile Completed</h3>

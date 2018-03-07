@@ -1,10 +1,11 @@
 .userlist-container{
   .media{
-    border:1px solid #d5dbdd;
-    padding:5px 20px;
+    padding:5px 5px;
     border-radius: 5px;
-    box-shadow:0px 2px 1px rgba(0,0,0,0.04); 
     background:#fff;
+    p{
+      padding: 0;
+    }
   }
   .well{
     border-bottom:  1px solid rgb(227, 227, 227);

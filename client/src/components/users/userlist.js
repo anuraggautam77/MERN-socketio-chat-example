@@ -60,10 +60,10 @@ class UserList extends Component {
     var userList = this.state.userList;
     let listItems = userList.map ((obj) => {
       return(
-        <div className="well well-sm" key={obj._id}>
+        <div className="well-sm" key={obj._id}>
           <div className="media">
              <div className="media-left align-self-center">
-             {
+             {/*
               (()=>{
                 if(obj.hasOwnProperty('userDetail')){
                     return(<img className="rounded-circle" src={obj.userDetail.photodata}/>)  
@@ -71,7 +71,7 @@ class UserList extends Component {
                  return(<img className="rounded-circle" src='https://picsum.photos/100/100'/>)  
                  }
               })()
-              }
+             */}
              
              
             </div>

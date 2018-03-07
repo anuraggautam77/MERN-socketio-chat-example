@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-
+import "../style/css/mainpage.scss";
 import Profilecard from '../components/profile/profilecard';
+import Newfriend from '../components/main/suggestlist';
+import UserList from '../components/users/userlist';
 import Listing from '../components/mypost/listing';
 class Landing extends Component {
 
@@ -22,12 +24,21 @@ return (
   <div className="landing-page">
     <div className="col-md-3 col-sm-6 proilecard"> 
        <Profilecard/>
+       
+       
+       <div className="panel panel-default">
+          <div className="panel-heading">
+          <h5><b>Friend</b> </h5>
+          </div>
+                <UserList/>
+        </div>
+        
     </div>
-    <div className="col-md-7 col-sm-6">
+    <div className="col-md-6 col-sm-6">
         <Listing forall="true"/>
     </div>
-    <div className="col-md-2 col-sm-6 proilecard">
-        <Profilecard/>
+    <div className="col-md-3 col-sm-6 proilecard">
+      <Newfriend/>      
     </div>
   </div>
   );

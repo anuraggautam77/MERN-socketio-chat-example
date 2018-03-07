@@ -25,19 +25,19 @@ class NavMenu extends Component {
                if( this.props.islogin){
               return (
                 <ul className="nav navbar-nav">
-              <li>
+              {
+              /*<li>
               <NavLink to="/home" activeClassName="active" >
                 <span className="glyphicon glyphicon-home"></span> Home
               </NavLink>
               </li>
-              
+              */}
               <li>
               <NavLink to="/main" activeClassName="active" >
-                <span className="glyphicon glyphicon-home"></span> Main
+                <span className="glyphicon glyphicon-home"></span> Home
               </NavLink>
               </li>
 
-               
                <li>
                   <NavLink to='/profile' activeClassName="active" >
                     <span className="glyphicon glyphicon-user"></span> Profile 

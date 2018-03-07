@@ -22,6 +22,7 @@ import { withRouter } from "react-router-dom";
      
       if (json.statuscode === 403) {
          console.info ("Invalid Token!!");
+         PubSub.publish ('IS_LOGIN', {status: false, token: window.localStorage.getItem ('accessToken')}); 
         this.props.history.push ("/login");
       }else{
            console.info ("valid Token!!");
