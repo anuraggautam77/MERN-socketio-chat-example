@@ -41,6 +41,7 @@ return (
     <div className="col-md-3 col-sm-6 proilecard">
       <Newfriend/>      
     </div>
+      <Chatwindow/>
   </div>
   );
   }else{
@@ -59,7 +60,7 @@ return (
 
   })()
   }
-    <Chatwindow/> 
+   
 </div>
 
 

@@ -73,8 +73,6 @@ console.log(this.state);
                       )
                   }else{
                      return (
-                       
-                    
                       <NavLink to='/profile' className="button" >
                          Update your Profile 
                      </NavLink>
