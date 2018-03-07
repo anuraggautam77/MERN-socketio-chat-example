@@ -4,6 +4,7 @@ import Profilecard from '../components/profile/profilecard';
 import Newfriend from '../components/main/suggestlist';
 import UserList from '../components/users/userlist';
 import Listing from '../components/mypost/listing';
+import Chatwindow from '../components/chatwindow/chatwindow';
 class Landing extends Component {
 
 constructor(props) {
@@ -52,11 +53,13 @@ return (
       
     </div>
   </div>
+  
       );
   }
 
   })()
   }
+    <Chatwindow/> 
 </div>
 
 

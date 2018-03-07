@@ -31,12 +31,13 @@ export default class Routing extends Component {
                  <div className="container">
                     <Route path="/home" excat component={Home} />
                     <Route path="/login" component={Login} />
-                    
                     <Route path="/posts" component={Posts} />
                     <Route path="/list" component={List} />
                     <Route path="/profile" component={Profile} />
                     <Route path="/main" component={Landing} />
-                    
+                     
+                     
+                     
                      
                 </div>
              </div>      

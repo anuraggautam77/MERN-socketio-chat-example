@@ -58,6 +58,13 @@ class UserList extends Component {
 
   render() {
     var userList = this.state.userList;
+    
+    if(userList.length>0){
+      
+      
+  }
+    
+    
     let listItems = userList.map ((obj) => {
       return(
         <div className="well-sm" key={obj._id}>

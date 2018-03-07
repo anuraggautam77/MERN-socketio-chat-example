@@ -52,7 +52,7 @@ class Signin extends Component {
 
     if (data.status === 'success') {
       PubSub.publish ('IS_LOGIN', {status: true, token: data.accesstoken, userid: data.userid,callback:()=>{
-           this.props.history.push ("/home");
+           this.props.history.push ("/main");
       }});
      
     } else {
