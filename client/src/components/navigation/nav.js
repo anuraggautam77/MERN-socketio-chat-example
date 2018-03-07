@@ -43,14 +43,14 @@ class NavMenu extends Component {
                     <span className="glyphicon glyphicon-user"></span> Profile 
                   </NavLink>
               </li>
-              <li>
+              { /*<li>
                 <NavLink to='/list' activeClassName="active">
                 <span className="glyphicon glyphicon-th-list"></span> Friends
                 </NavLink>
-              </li>
+              </li> */}
               <li>
               <NavLink to="/posts" activeClassName="active">
-                <span className="	glyphicon glyphicon-list-alt"></span> Posts
+                <span className="	glyphicon glyphicon-list-alt"></span> My Blog
               </NavLink>
               </li>
               <li className="navbar-right" >
