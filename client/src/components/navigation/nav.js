@@ -30,6 +30,14 @@ class NavMenu extends Component {
                 <span className="glyphicon glyphicon-home"></span> Home
               </NavLink>
               </li>
+              
+              <li>
+              <NavLink to="/main" activeClassName="active" >
+                <span className="glyphicon glyphicon-home"></span> Main
+              </NavLink>
+              </li>
+
+               
                <li>
                   <NavLink to='/profile' activeClassName="active" >
                     <span className="glyphicon glyphicon-user"></span> Profile 
@@ -50,6 +58,8 @@ class NavMenu extends Component {
                 <span className="glyphicon glyphicon-log-out"></span> Logout 
               </NavLink>
               </li>
+              
+              
                </ul>
               )
                }else{
@@ -57,10 +67,11 @@ class NavMenu extends Component {
             return (
                <ul className="nav navbar-nav">
               <li>
-              <NavLink to="/home" activeClassName="active" >
+              <NavLink to="/main" activeClassName="active" >
                 <span className="glyphicon glyphicon-home"></span> Home
               </NavLink>
               </li>
+               
               <li className="navbar-right" >
               <NavLink to='/login' activeClassName="active" >
                 <span className="glyphicon glyphicon-log-in"></span> Login 

@@ -28,6 +28,7 @@ const SERVICE_CONST = {
   USER_UPDATE_DETAIL: "updateuserdetail",
   UPDATE_USER_DATA: 'updateuserdata',
   IMAGE_UPLOAD: 'uploads',
+ 
   SEND_REQUEST: 'sendrequest',
   ACCEPT_REQUEST: 'acceptrequest',
   ACCEPT_FRIEND_LIST: 'acceptfriendlist',
@@ -437,9 +438,13 @@ module.exports = (apiRoutes) => {
 
   apiRoutes.post (`/${SERVICE_CONST.GET_MY_POSTS}`, function (req, res) {
     let reqdata = req.body;
-    let decryptedString = cryptr.decrypt (reqdata.userid);
-
-    Posts.find ({'_author': decryptedString}, (error, posts) => {
+    if(reqdata.userid!=''){
+     obj= {'_author': cryptr.decrypt (reqdata.userid)}
+    }else{
+       obj= {};
+    }
+    
+    Posts.find (obj, (error, posts) => {
       if (error) {
 
       }

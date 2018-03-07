@@ -41,6 +41,10 @@ export default class Posts extends Component {
                   <NavLink to="/posts/newpost" className="list-group-item"  exact={true}  >
                     <span className="glyphicon glyphicon-list-alt"></span> New Post
                   </NavLink>
+                  
+                   <NavLink to="#" className="list-group-item"  exact={true}  >
+                    <span className="glyphicon glyphicon-list-alt"></span> List
+                  </NavLink>
             </div>
 
               </div>

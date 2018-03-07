@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Authentication from './authenticate';
-
+import Chatwindow from '../components/chatwindow/chatwindow';
 import UserList from '../components/users/userlist';
 import UserProfile from '../components/users/userprofile';
 export default class List extends Component {
@@ -32,7 +32,9 @@ export default class List extends Component {
            </div> 
           <div className="col-md-8">
                 <UserProfile/>
+                
           </div>	
+          <Chatwindow/> 
         </div> 
         }
         

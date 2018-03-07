@@ -2,9 +2,15 @@ import React, { Component } from "react";
 class Listing extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
+    let userId='';
+    if(!props.hasOwnProperty('forall')){
+      userId=window.localStorage.getItem("userid");
+    } 
     this.state = {
-      userid: window.localStorage.getItem("userid"),
+      userid: userId,
       posts: []
+      
     };
   }
   componentDidMount() {
@@ -26,7 +32,7 @@ class Listing extends Component {
       return (
         <div className="well" key={obj._id}>
           <h4 className="media-heading">{obj.title}</h4>
-          <p className="text-right">By you.</p>
+          <p className="text-right">By :</p>
           <p dangerouslySetInnerHTML={{ __html: obj.body }} />
           <ul className="list-inline list-unstyled">
             <li>

@@ -6,6 +6,7 @@ import Posts from '../Containers/posts';
 import Profile from '../Containers/profile';
 import List from '../Containers/list';
 import Login from '../Containers/login';
+import Landing from '../Containers/landing';
 import NavMenu from '../components/navigation/nav';
 
 export default class Routing extends Component {
@@ -31,9 +32,10 @@ export default class Routing extends Component {
                     <Route path="/home" excat component={Home} />
                     <Route path="/login" component={Login} />
                     
-                    <Route path="/posts" auth="true" component={Posts} />
-                    <Route path="/list" auth="true" component={List} />
-                    <Route path="/profile" auth="true" component={Profile} />
+                    <Route path="/posts" component={Posts} />
+                    <Route path="/list" component={List} />
+                    <Route path="/profile" component={Profile} />
+                    <Route path="/main" component={Landing} />
                     
                      
                 </div>

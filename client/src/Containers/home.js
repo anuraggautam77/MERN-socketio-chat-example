@@ -21,7 +21,8 @@ class Home extends React.Component {
       <div className="homePage">
       
         <Authentication  onComponentDidMount={this.mountedorNot}/>
-         { this.state.renderActual && <Index/>  }
+         { this.state.renderActual && <Index/> }
+           
       </div>
 
       );
