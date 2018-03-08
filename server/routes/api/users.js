@@ -446,7 +446,8 @@ module.exports = (apiRoutes) => {
     
     Posts.find (obj, (error, posts) => {
       if (error) {
-
+       
+         res.json ({status: error});
       }
       res.json ({status: "Mil gaya data", posts: posts});
     })

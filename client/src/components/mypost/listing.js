@@ -14,14 +14,16 @@ class Listing extends Component {
     };
   }
   componentDidMount() {
+    
+ console.log(this.state);
     fetch("/api/getmyposts", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(this.state)
-    })
-      .then(res => res.json())
-      .then(json => {
-        this.setState({ posts: json.posts });
+    }) .then(res => res.json()) .then(json => {
+      
+    console.log(json);
+      this.setState({ posts: json.posts });
       });
   }
 
