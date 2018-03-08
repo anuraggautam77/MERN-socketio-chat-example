@@ -22,7 +22,7 @@ export default class List extends Component {
     return (
       <div>
        
-        <Authentication  onComponentDidMount={this.mountedorNot}/>
+        <Authentication  check={this.mountedorNot}/>
          { this.state.renderActual && 
            <div className="row">
            <div className="col-md-4">

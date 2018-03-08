@@ -20,7 +20,7 @@ class Home extends React.Component {
     return (
       <div className="homePage">
       
-        <Authentication  onComponentDidMount={this.mountedorNot}/>
+        <Authentication  check={this.mountedorNot}/>
          { this.state.renderActual && <Index/> }
            
       </div>

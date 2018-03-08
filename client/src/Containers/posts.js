@@ -22,7 +22,7 @@ export default class Posts extends Component {
   render() {
     return (
       <div>
-        <Authentication  onComponentDidMount={this.mountedorNot}/>
+        <Authentication  check={this.mountedorNot}/>
          { this.state.renderActual && 
         
        <Router>
