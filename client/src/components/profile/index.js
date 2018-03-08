@@ -32,7 +32,6 @@ class MyProfile extends Component {
         }
       }
       if (newprops.userdata.userDetail.hasOwnProperty ('professional')) {
-        console.log(newprops);
         if (newprops.userdata.userDetail.professional !== null 
           && newprops.userdata.userDetail.professional !== "") {
           if(newprops.userdata.userDetail.professional.occupation!== ""){

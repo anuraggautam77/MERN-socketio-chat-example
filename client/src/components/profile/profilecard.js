@@ -21,7 +21,6 @@ class Profilecard extends Component {
       fetch (`/api/getuserdetail/${id}`, {method: 'get', headers: {'Content-Type': 'application/json'}}
       ).then (res => res.json ()
       ).then (json => {
-        console.log(json)
         if (json.hasOwnProperty ('list')) {
           var obj = {
                    'name': json.list[0].firstName + " " + json.list[0].lastName,
@@ -43,7 +42,6 @@ class Profilecard extends Component {
   }
 
   render() {
-console.log(this.state);
   return (
         <div className="card">
           <div className="cardheader"></div>
