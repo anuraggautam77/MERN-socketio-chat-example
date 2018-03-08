@@ -38,8 +38,12 @@ export default class Profile extends Component {
     return (
       <div>
         <Authentication  onComponentDidMount={this.mountedorNot}/>
-        { this.state.renderActual && <MyProfile userdata={this.state} />  }
-      
+        { (()=>{
+           if(this.state.renderActual==true){
+             return( <MyProfile userdata={this.state} />)
+           }
+        })()}
+        
       </div>
       )
   }
