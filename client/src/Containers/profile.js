@@ -39,6 +39,7 @@ export default class Profile extends Component {
       <div>
         <Authentication  onComponentDidMount={this.mountedorNot}/>
         { (()=>{
+           alert(this.state.renderActual);
            if(this.state.renderActual==true){
              return( <MyProfile userdata={this.state} />)
            }
