@@ -25,7 +25,7 @@ import  'whatwg-fetch';
         'tagline': newprops.userdata.userDetail.aboutme.tagline,
         'hobby': newprops.userdata.userDetail.aboutme.hobby
       }
-       this.setState ({formdata: obj});
+       this.setState ({formdata: obj,edit:newprops.edit});
       }
       
      
@@ -74,8 +74,17 @@ import  'whatwg-fetch';
       <div className="panel panel-default">
         <div className="panel-heading clearfix">
           <h3 className="panel-title pull-left">About Me</h3>
-          <a href="javascript:void(0)" className={this.state.simpletext}><i onClick={() => this.changeState ('aboutme')} className="glyphicon glyphicon-pencil pull-right"></i></a>
-          <button type="button" onClick={() => this.cancelClickState ('aboutme')}  className={`pull-right btn btn-secondary  ${this.state.editable}`}>Cancel</button>
+          {
+         (()=>{ 
+          if(this.state.edit){
+            return(<btn><a href="javascript:void(0)" className={this.state.simpletext}><i onClick={() => this.changeState ('aboutme')} className="glyphicon glyphicon-pencil pull-right"></i></a>
+          <button type="button" onClick={() => this.cancelClickState ('aboutme')}  className={`pull-right btn btn-secondary  ${this.state.editable}`}>Cancel</button></btn>)
+      
+          
+           }
+         })()
+        }
+          
         </div>
       
         <div className="panel-body">

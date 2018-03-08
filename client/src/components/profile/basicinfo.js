@@ -14,6 +14,7 @@ import 'whatwg-fetch';
   }
 
   componentWillReceiveProps(newprops) {
+    
     if (newprops.userdata.hasOwnProperty ('user')) {
 
       var obj = {'firstName': newprops.userdata.user.firstName,
@@ -21,7 +22,7 @@ import 'whatwg-fetch';
         'city': newprops.userdata.user.city,
         'country': newprops.userdata.user.country
       }
-      this.setState ({formdata: obj});
+      this.setState ({formdata: obj,edit:newprops.edit});
     }
 
   }
@@ -70,8 +71,18 @@ import 'whatwg-fetch';
       <div className="panel panel-default">
         <div className="panel-heading clearfix">
           <h3 className="panel-title pull-left">Basic Information</h3>
-          <a href="javascript:void(0)" className={this.state.simpletext}><i onClick={() => this.changeState ('basicinfo')} className="glyphicon glyphicon-pencil pull-right"></i></a>
-          <button type="button" onClick={() => this.cancelClickState ('basicinfo')}  className={`pull-right btn btn-secondary  ${this.state.editable}`}>Cancel</button>
+       
+      
+         {
+         (()=>{ 
+          if(this.state.edit){
+             return(<btn> <a href="javascript:void(0)" className={this.state.simpletext}><i onClick={() => this.changeState ('basicinfo')} className="glyphicon glyphicon-pencil pull-right"></i></a>
+             <button type="button" onClick={() => this.cancelClickState ('basicinfo')}  className={`pull-right btn btn-secondary  ${this.state.editable}`}>Cancel</button></btn>)
+          }
+         })()
+        }
+      
+     
       
         </div>
       

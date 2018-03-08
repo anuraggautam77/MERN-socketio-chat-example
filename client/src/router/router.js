@@ -15,10 +15,6 @@ export default class Routing extends Component {
         super (props);
        
     }
-    
-  
-    
-    
   
     render() {
      
@@ -29,15 +25,13 @@ export default class Routing extends Component {
                       <NavMenu islogin={this.props.islogin}/>
                  </div>
                  <div className="container">
-                    <Route path="/home" excat component={Home} />
+                    <Route path="/home" exact component={Home} />
                     <Route path="/login" component={Login} />
                     <Route path="/posts" component={Posts} />
                     <Route path="/list" component={List} />
-                    <Route path="/profile" component={Profile} />
+                    <Route path="/profile" exact component={Profile} />
+                    <Route path="/profile/:id"  component={Profile} />
                     <Route path="/main" component={Landing} />
-                     
-                     
-                     
                      
                 </div>
              </div>      

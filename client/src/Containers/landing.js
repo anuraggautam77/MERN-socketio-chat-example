@@ -29,7 +29,7 @@ return (
        
        <div className="panel panel-default">
           <div className="panel-heading">
-          <h5><b>Friend</b> </h5>
+          <h5><b>Conversation </b> </h5>
           </div>
                 <UserList/>
         </div>

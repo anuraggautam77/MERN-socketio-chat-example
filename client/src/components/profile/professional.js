@@ -25,7 +25,7 @@ export default class Professional extends Component {
         'company': newprops.userdata.userDetail.professional.company,
         'skill': newprops.userdata.userDetail.professional.skill
       }
-      this.setState ({formdata: obj});
+      this.setState ({formdata: obj,edit:newprops.edit});
       }
     }
   }
@@ -81,8 +81,19 @@ export default class Professional extends Component {
 <div className="panel panel-default">
   <div className="panel-heading clearfix">
     <h3 className="panel-title pull-left">Professional Information</h3>
-    <a href="javascript:void(0)" className={this.state.simpletext}><i onClick={() => this.changeState('basicinfo')} className="glyphicon glyphicon-pencil pull-right"></i></a>
-   <button type="button" onClick={() => this.cancelClickState ('basicinfo')}  className={`pull-right btn btn-secondary  ${this.state.editable}`}>Cancel</button>
+   
+       {
+         (()=>{ 
+          if(this.state.edit){
+            return(<btn><a href="javascript:void(0)" className={this.state.simpletext}><i onClick={() => this.changeState('basicinfo')} className="glyphicon glyphicon-pencil pull-right"></i></a>
+   <button type="button" onClick={() => this.cancelClickState ('basicinfo')}  className={`pull-right btn btn-secondary  ${this.state.editable}`}>Cancel</button></btn>)
+      
+          
+           }
+         })()
+        }
+      
+       
     
   </div>
 

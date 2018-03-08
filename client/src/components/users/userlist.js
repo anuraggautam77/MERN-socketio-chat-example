@@ -1,6 +1,6 @@
-import React, { Component }
-from "react";
+import React, { Component } from "react";
 import PubSub from 'pubsub-js';
+import { withRouter } from "react-router-dom";
 import "../../style/css/userlist.scss";
 import   'whatwg-fetch';
 class UserList extends Component {
@@ -42,7 +42,7 @@ class UserList extends Component {
     ).then (res => res.json ()).then (json => {
       if (json.hasOwnProperty ('list')) {
         this.setState ({userList: json.list},function(){
-          this.onViewProfileClick(json.list[0]._id);
+        //  this.onViewProfileClick(json.list[0]._id);
         });
       }
     });
@@ -53,7 +53,8 @@ class UserList extends Component {
   
   onViewProfileClick(id){
     
-    PubSub.publish ('PROFILE_VIEW', {towhome: id});
+    this.props.history.push ("/profile/"+id);
+   // PubSub.publish ('PROFILE_VIEW', {towhome: id});
   }
 
   render() {
@@ -62,7 +63,7 @@ class UserList extends Component {
     if(userList.length>0){
       
       
-  }
+      }
     
     
     let listItems = userList.map ((obj) => {
@@ -114,7 +115,7 @@ class UserList extends Component {
   ;
 }
 ;
-export default UserList;
+export default withRouter(UserList);
 
 
 

@@ -107,7 +107,8 @@ class Index extends Component {
                 <img src="img/avatars/profile.png" className="image"/>
                 <h4 className="text-capitalize">{obj.firstName} {obj.lastName}</h4>
                  <p> {/* obj.email */ }</p>
-                <button  className="btn btn-primary btn-xs"   onClick={(e) => {
+                <button  className="btn btn-primary btn-xs"  
+                onClick={(e) => {
                   this.primarybtnAction(e, obj._id,objData.type);
                                                                         }}>
                   <i className="glyphicon glyphicon-plus"></i>

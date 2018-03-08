@@ -54,21 +54,37 @@ class Profilecard extends Component {
           
           <hr />
            {(()=>{
+              
+              
                if (this.state.hasOwnProperty('professional')) {
-                  var str='';
+                  var str='', flag=false;
                   if(this.state.professional.hasOwnProperty ('occupation')){
                       str+=this.state.professional.occupation;
-                    };
-                    
-                     if(this.state.professional.hasOwnProperty ('company')){
+                    }else{
+                      flag=true;
+                  };
+                 if(this.state.professional.hasOwnProperty ('company')&&   this.state.professional.company!=='' && 
+                      this.state.professional.company!==null){
                       str+=" at " +this.state.professional.company;
-                    };
-                      return (
+                    }else{
+                       flag=true;
+                   };
+                   
+                    if(flag){
+                     return (
+                      <NavLink to='/profile' className="button" >
+                         Update your Profile 
+                     </NavLink>
+                      )
+              }else{
+                  return (
                       <span>
                        <p className="title"> {str}</p>
                            <hr />
                        </span>
-                      )
+                      )   
+              }
+                     
                   }else{
                      return (
                       <NavLink to='/profile' className="button" >
@@ -79,16 +95,12 @@ class Profilecard extends Component {
              })()} 
           
           
-          
            {(()=>{
+             
                if (this.state.tagline !=='' && this.state.tagline!==null) {
                    return (<p><span className="glyphicon glyphicon-tags"></span>&nbsp;<i>{this.state.tagline}</i></p>);
                   }
             })()} 
-          
-          
-          
-          
             
           <hr />
            

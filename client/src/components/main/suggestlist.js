@@ -1,5 +1,5 @@
 import React, { Component } from "react";
- 
+ import { withRouter } from "react-router-dom";
 class Newfriend extends Component {
 
   constructor(props) {
@@ -16,7 +16,13 @@ class Newfriend extends Component {
      
   };
     
-  secondarybtnAction(){
+  secondarybtnAction(e, id,type){
+    if(type==='Suggest'){
+        this.props.history.push ("/profile/"+id);
+      
+    }else{
+      alert("cancel");
+    }
     
   }
   
@@ -25,18 +31,27 @@ class Newfriend extends Component {
     let obj = {requestedby: this.state.userid, requestedto: id},
     posturl=null;
     
-    if(type=="Suggest"){
+    if(type==="Suggest"){
        e.target.disabled = true;
        posturl=`/api/sendrequest`;
-      this.sereviceCall(posturl,obj);
-    }else if(type=="New"){
+      this.sereviceCall(posturl,obj,()=>{
+        var updatefrndlist=  this.state.newfriendList.filter(e=>e._id!==id);
+        this.setState({newfriendList: updatefrndlist});
+         
+      });
+    }else if(type==="New"){
+       e.target.disabled = true;
        posturl=`/api/acceptrequest`;
-       this.sereviceCall(posturl,obj);
+       this.sereviceCall(posturl,obj,()=>{
+         var updatefrndlist=  this.state.recevingRequest.filter(e=>e._id!==id);
+        this.setState({recevingRequest: updatefrndlist});
+      });
     }else{
+      
     }
   }
   
-  sereviceCall(posturl,obj){
+  sereviceCall(posturl,obj,callback){
     fetch (posturl,
       {
         method: 'post',
@@ -44,7 +59,8 @@ class Newfriend extends Component {
         body: JSON.stringify (obj)
       }
     ).then (res => res.json ()).then (json => {
-
+        callback();
+        
     });
   };
   
@@ -136,7 +152,7 @@ class Newfriend extends Component {
            <div>
         <div className="panel panel-default">
           <div className="panel-heading">
-          <h5><b>Friend Request(s)</b> </h5>
+          <h5><b>New Friend Request(s)</b> </h5>
           </div>
           <div className="well-sm friendlist">
                 {this.friendlist ({
@@ -158,7 +174,7 @@ class Newfriend extends Component {
                                   list: this.state.newfriendList,
                                    type:'Suggest',
                                    primarybtntext: "Add Friend",
-                                   secondarybtntext: "View Profile"
+                                   secondarybtntext: "Profile"
                  })}
            </div>
            
@@ -170,4 +186,4 @@ class Newfriend extends Component {
               ;
   }
 
-            export default Newfriend;
+ export default withRouter(Newfriend);
