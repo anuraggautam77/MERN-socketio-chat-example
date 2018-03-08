@@ -13,8 +13,8 @@ export default class Profile extends Component {
     };
     this.mountedorNot = this.mountedorNot.bind (this);
   }
-  mountedorNot() {
-    this.setState ({renderActual: true});
+  mountedorNot(set) {
+    this.setState ({renderActual: set});
   }
   ;
     componentWillMount() {
@@ -37,7 +37,7 @@ export default class Profile extends Component {
   render() {
     return (
       <div>
-        <Authentication  onComponentDidMount={this.mountedorNot}/>
+        <Authentication check={this.mountedorNot}/>
         { (()=>{
            if(this.state.renderActual){
              return( <MyProfile userdata={this.state} />)

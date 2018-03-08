@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 
   constructor(props) {
     super (props);
-    this.state = {}
+    this.state = {};
   }
   ;
   componentWillMount() {
@@ -22,16 +22,16 @@ import { withRouter } from "react-router-dom";
      
       if (json.statuscode === 403) {
          console.info ("Invalid Token!!");
+       
+         this.props.check(false);
          PubSub.publish ('IS_LOGIN', {status: false, token: window.localStorage.getItem ('accessToken')}); 
         this.props.history.push ("/login");
+        
       }else{
+           this.props.check(true)
            console.info ("valid Token!!");
       }
     });
-  }
-  
-  componentDidMount() {
-    this.props.onComponentDidMount && this.props.onComponentDidMount()
   }
   
 
