@@ -11,8 +11,8 @@ class Home extends React.Component {
     };
     this.mountedorNot = this.mountedorNot.bind (this);
   }
-  mountedorNot() {
-    this.setState ({renderActual: true});
+  mountedorNot(set) {
+    this.setState ({renderActual: set});
   }
   ;
     render() {

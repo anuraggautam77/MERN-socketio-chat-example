@@ -38,12 +38,7 @@ export default class Profile extends Component {
     return (
       <div>
         <Authentication check={this.mountedorNot}/>
-        { (()=>{
-           if(this.state.renderActual){
-             return( <MyProfile userdata={this.state} />)
-           }
-        })()}
-        
+       { this.state.renderActual && <MyProfile userdata={this.state} />  }
       </div>
       )
   }

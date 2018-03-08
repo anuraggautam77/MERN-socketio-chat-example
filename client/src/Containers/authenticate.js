@@ -28,7 +28,7 @@ import { withRouter } from "react-router-dom";
         this.props.history.push ("/login");
         
       }else{
-           this.props.check(true)
+           this.props.check(true);
            console.info ("valid Token!!");
       }
     });
