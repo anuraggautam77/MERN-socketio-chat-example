@@ -21,7 +21,7 @@ class Newfriend extends Component {
         this.props.history.push ("/profile/"+id);
       
     }else{
-      alert("cancel");
+      alert("opertaion not active!");
     }
     
   }

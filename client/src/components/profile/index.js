@@ -57,7 +57,6 @@ class MyProfile extends Component {
   }
 
   render() {
-
     return (
       <div className="row">
         <div className="col-md-4 col-sm-4 col-xs-12">
@@ -79,9 +78,9 @@ class MyProfile extends Component {
           <SocialLink/>
         </div>
         <div className="col-md-8 col-sm-8 col-xs-12">
-          <BasicInfo edit={this.state.edit}  userdata={this.state.userdata}/>
-          <Professional edit={this.state.edit} userdata={this.state.userdata}/>
-          <Aboutme edit={this.state.edit} userdata={this.state.userdata}/>
+          <BasicInfo userdata={this.state.userdata}/>
+          <Professional userdata={this.state.userdata}/>
+          <Aboutme userdata={this.state.userdata}/>
         </div>
       </div>
 

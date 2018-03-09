@@ -25,7 +25,7 @@ export default class Professional extends Component {
         'company': newprops.userdata.userDetail.professional.company,
         'skill': newprops.userdata.userDetail.professional.skill
       }
-      this.setState ({formdata: obj,edit:newprops.edit});
+      this.setState ({formdata: obj,edit:newprops.userdata.edit});
       }
     }
   }

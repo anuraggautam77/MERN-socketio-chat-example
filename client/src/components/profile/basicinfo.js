@@ -14,7 +14,8 @@ import 'whatwg-fetch';
   }
 
   componentWillReceiveProps(newprops) {
-    
+    console.log(">>>")
+    console.log(newprops)
     if (newprops.userdata.hasOwnProperty ('user')) {
 
       var obj = {'firstName': newprops.userdata.user.firstName,
@@ -22,7 +23,7 @@ import 'whatwg-fetch';
         'city': newprops.userdata.user.city,
         'country': newprops.userdata.user.country
       }
-      this.setState ({formdata: obj,edit:newprops.edit});
+      this.setState ({formdata: obj,edit:newprops.userdata.edit});
     }
 
   }
@@ -67,6 +68,7 @@ import 'whatwg-fetch';
   }
 
   render() {
+     console.log(this.state)
     return (
       <div className="panel panel-default">
         <div className="panel-heading clearfix">

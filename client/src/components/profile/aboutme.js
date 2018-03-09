@@ -25,7 +25,7 @@ import  'whatwg-fetch';
         'tagline': newprops.userdata.userDetail.aboutme.tagline,
         'hobby': newprops.userdata.userDetail.aboutme.hobby
       }
-       this.setState ({formdata: obj,edit:newprops.edit});
+       this.setState ({formdata: obj,edit:newprops.userdata.edit});
       }
       
      
