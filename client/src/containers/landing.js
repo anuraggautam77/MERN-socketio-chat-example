@@ -48,7 +48,7 @@ return (
     return (
   <div>
     <div className="col-md-8 col-sm-8">
-         <Listing forall="true"/>
+         <MyPosts forall="true"/>
     </div>
     <div className="col-md-4 col-sm-4"> 
       
