@@ -128,10 +128,10 @@ class ChatWindow extends Component {
   chatheader(state){
       if(state.userData.length>0){
          return (
-      <div className="popup-head-left pull-left">
+      <div className="popup-head-left pull-left text-capitalize">
     {(()=>{
         if(state.userData[0].hasOwnProperty('userDetail')){
-             return(<img src={state.userData[0].userDetail.photodata} alt="img"/>)
+           // return(<img src={state.userData[0].userDetail.photodata} alt="img"/>)
           }
       })()}
        {state.userData[0].firstName} {state.userData[0].lastName}
@@ -143,9 +143,13 @@ class ChatWindow extends Component {
   render() {
    return (
  <main className={this.state.display} >
-  <div className='popup-box'> <div  className='chatwindow'>
-  <div className="popup-head"> {this.chatheader(this.state)} <div className="popup-head-right pull-right">
-     <button data-widget="remove" id="removeClass" onClick ={()=> this.setState({'display':'hidden'})} className="chat-header-button pull-right" type="button">
+  <div className='popup-box'> 
+  <div  className='chatwindow'>
+  <div className="popup-head">
+  {this.chatheader(this.state)}
+  <div className="popup-head-right pull-right">
+     <button data-widget="remove" id="removeClass" onClick ={()=> this.setState({'display':'hidden'})} 
+       className="chat-header-button pull-right" type="button">
           <i className="glyphicon glyphicon-off"></i>
      </button>
   </div>

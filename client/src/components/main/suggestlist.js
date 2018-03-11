@@ -1,5 +1,6 @@
 import React, { Component } from "react";
- import { withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import PubSub from 'pubsub-js';
 class Newfriend extends Component {
 
   constructor(props) {
@@ -13,45 +14,55 @@ class Newfriend extends Component {
 
     this.primarybtnAction = this.primarybtnAction.bind (this);
     this.secondarybtnAction = this.secondarybtnAction.bind (this);
-     
-  };
-    
-  secondarybtnAction(e, id,type){
-    if(type==='Suggest'){
-        this.props.history.push ("/profile/"+id);
-      
-    }else{
-      alert("opertaion not active!");
-    }
-    
+
   }
-  
-  
-  primarybtnAction(e, id,type) {
+  ;
+    secondarybtnAction(e, id, type) {
+    if (type === 'Suggest') {
+      this.props.history.push ("/profile/" + id);
+
+    } else {
+      alert ("opertaion not active!");
+    }
+
+  }
+
+  primarybtnAction(e, id, type) {
     let obj = {requestedby: this.state.userid, requestedto: id},
-    posturl=null;
-    
-    if(type==="Suggest"){
-       e.target.disabled = true;
-       posturl=`/api/sendrequest`;
-      this.sereviceCall(posturl,obj,()=>{
-        var updatefrndlist=  this.state.newfriendList.filter(e=>e._id!==id);
-        this.setState({newfriendList: updatefrndlist});
+      posturl = null;
+
+    if (type === "Suggest") {
+      e.target.disabled = true;
+      posturl = `/api/sendrequest`;
+      this.sereviceCall (posturl, obj, () => {
+
+        var updatefrndlist = this.state.newfriendList.filter (e => e._id !== id);
+        this.setState ({newfriendList: updatefrndlist});
+
+      });
+    } else if (type === "New") {
+      e.target.disabled = true;
+      posturl = `/api/acceptrequest`;
+      this.sereviceCall (posturl, obj, () => {
+        console.log (this.state.recevingRequest);
          
+         var updatefrndlist=   this.state.recevingRequest.filter((e)=>{
+            if(e._id!==id){
+             
+            }else{
+               console.log(e);
+               PubSub.publish ('UPDATE_USERLIST', e);
+            };
+        }); 
+         
+        this.setState ({recevingRequest: updatefrndlist});
       });
-    }else if(type==="New"){
-       e.target.disabled = true;
-       posturl=`/api/acceptrequest`;
-       this.sereviceCall(posturl,obj,()=>{
-         var updatefrndlist=  this.state.recevingRequest.filter(e=>e._id!==id);
-        this.setState({recevingRequest: updatefrndlist});
-      });
-    }else{
-      
+    } else {
+
     }
   }
-  
-  sereviceCall(posturl,obj,callback){
+
+  sereviceCall(posturl, obj, callback) {
     fetch (posturl,
       {
         method: 'post',
@@ -59,14 +70,12 @@ class Newfriend extends Component {
         body: JSON.stringify (obj)
       }
     ).then (res => res.json ()).then (json => {
-        callback();
-        
-    });
-  };
-  
-  
+      callback ();
 
-  categorised(json) {
+    });
+  }
+  ;
+    categorised(json) {
     if (json.hasOwnProperty ('list')) {
       let newFrndList = [], pendingRequest = [], recevingRequest = [];
       json.list.forEach ((val1, k) => {
@@ -75,10 +84,10 @@ class Newfriend extends Component {
           val1.friends.forEach ((frnd, k) => {
             if (frnd.userid === this.state.userid) {
               isExist = true;
-              if (frnd.ftype === 'RR' && frnd.status==='pending') {
+              if (frnd.ftype === 'RR' && frnd.status === 'pending') {
                 pendingRequest.push (val1);
               }
-              if (frnd.ftype === 'SR' && frnd.status==='pending') {
+              if (frnd.ftype === 'SR' && frnd.status === 'pending') {
                 recevingRequest.push (val1);
               }
             }
@@ -98,8 +107,8 @@ class Newfriend extends Component {
       });
     }
   }
-   
-    componentDidMount() {
+
+  componentDidMount() {
     fetch (`/api/getuserlist/${this.state.userid}`, {method: 'get', headers: {'Content-Type': 'application/json'}}
     ).then (res => res.json ()).then (json => {
       this.categorised (json);
@@ -112,31 +121,31 @@ class Newfriend extends Component {
       listItems = objData.list.map ((obj) => {
         return (
           <div  key={obj._id}>
-           <div className="media">
-                    <div className="media-body">
-                        <h4 className="media-heading text-capitalize">{obj.firstName} {obj.lastName}</h4>
-                         <p> { obj.email } </p>
-                        <p>
+            <div className="media">
+              <div className="media-body">
+                <h4 className="media-heading text-capitalize">{obj.firstName} {obj.lastName}</h4>
+                <p> { obj.email } </p>
+                <p>
           
-                <button  className="btn btn-primary btn-xs"   onClick={(e) => {
-                  this.primarybtnAction(e, obj._id,objData.type);
-                                                                        }}>
-                  <i className="glyphicon glyphicon-plus"></i>
-                  &nbsp; {objData.primarybtntext} </button>
-                 &nbsp;
-                <button className="btn btn-success btn-xs" 
-                        onClick={(e) => {
-                          this.secondarybtnAction (e, obj._id,objData.type)
-                              }}
-                        >
-                  <i className="glyphicon glyphicon-envelope"></i>
-                  &nbsp;{objData.secondarybtntext}</button>
-                        </p>
-                    </div>
-           </div>
-           <hr/>
-           </div>
-         
+                  <button  className="btn btn-primary btn-xs"   onClick={(e) => {
+              this.primarybtnAction (e, obj._id, objData.type);
+                                                                                  }}>
+                    <i className="glyphicon glyphicon-plus"></i>
+                    &nbsp; {objData.primarybtntext} </button>
+                  &nbsp;
+                  <button className="btn btn-success btn-xs" 
+                          onClick={(e) => {
+                this.secondarybtnAction (e, obj._id, objData.type)
+                                        }}
+                          >
+                    <i className="glyphicon glyphicon-envelope"></i>
+                    &nbsp;{objData.secondarybtntext}</button>
+                </p>
+              </div>
+            </div>
+            <hr/>
+          </div>
+
               );
       });
 
@@ -148,42 +157,42 @@ class Newfriend extends Component {
   }
   ;
     render() {
-        return (
-           <div>
+    return (
+      <div>
         <div className="panel panel-default">
           <div className="panel-heading">
-          <h5><b>New Friend Request(s)</b> </h5>
+            <h5><b>New Friend Request(s)</b> </h5>
           </div>
           <div className="well-sm friendlist">
-                {this.friendlist ({
-                            type:'New',
-                            list: this.state.recevingRequest,
-                            primarybtntext: "Accept",
-                            secondarybtntext: "Cancel"
-                })}
-           </div>
-           
+            {this.friendlist ({
+            type: 'New',
+            list: this.state.recevingRequest,
+            primarybtntext: "Accept",
+                  secondarybtntext: "Cancel"
+            })}
           </div>
-           
-          <div className="panel panel-default">
+      
+        </div>
+      
+        <div className="panel panel-default">
           <div className="panel-heading">
-          <h5> <b>Suggest Friend(s)</b></h5>
+            <h5> <b>Suggest Friend(s)</b></h5>
           </div>
-           <div className="well-sm friendlist">
-                {this.friendlist ({
-                                  list: this.state.newfriendList,
-                                   type:'Suggest',
-                                   primarybtntext: "Add Friend",
-                                   secondarybtntext: "Profile"
-                 })}
-           </div>
-           
-           </div> 
-            
-           </div>
-          )
+          <div className="well-sm friendlist">
+            {this.friendlist ({
+              list: this.state.newfriendList,
+              type: 'Suggest',
+              primarybtntext: "Add Friend",
+                    secondarybtntext: "Profile"
+            })}
+          </div>
+      
+        </div> 
+      
+      </div>
+            )
+        }
+        ;
       }
-              ;
-  }
 
- export default withRouter(Newfriend);
+      export default withRouter (Newfriend);

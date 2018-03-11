@@ -13,12 +13,22 @@ class UserList extends Component {
     };
     this.onchatnowClick = this.onchatnowClick.bind (this);
     this.updateNoification = this.updateNoification.bind (this);
+    this.addUserInlist=this.addUserInlist.bind(this);
+    
      PubSub.subscribe('NOTIFICATION_TO_USERLIST',this.updateNoification);
+     PubSub.subscribe ('UPDATE_USERLIST', this.addUserInlist);
   };
   
   
   updateNoification(evntid,data){
     this.updateuserList(data.userId);
+  }
+  
+   addUserInlist(evntid,data){
+      this.setState({
+             userList: [...this.state.userList, data]
+     })
+    
   }
   
   updateuserList(data){
@@ -65,7 +75,6 @@ class UserList extends Component {
       
       }
     
-    
     let listItems = userList.map ((obj) => {
       return(
         <div className="well-sm" key={obj._id}>
@@ -84,7 +93,7 @@ class UserList extends Component {
              
             </div>
             <div className="media-body">
-              <h4 className="media-heading"> {obj.firstName} {obj.lastName} </h4>
+              <h4 className="media-heading text-capitalize"> {obj.firstName} {obj.lastName} </h4>
               <p>
              {  
               (()=>{
