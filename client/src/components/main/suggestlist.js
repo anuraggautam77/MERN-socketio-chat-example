@@ -25,7 +25,14 @@ class Newfriend extends Component {
       alert ("opertaion not active!");
     }
 
-  }
+  };
+  
+  
+  
+  notifymessgae(type,obj){
+      PubSub.publish ('LANDING_MESSGAE', obj.message);
+  };
+  
 
   primarybtnAction(e, id, type) {
     let obj = {requestedby: this.state.userid, requestedto: id},
@@ -35,8 +42,19 @@ class Newfriend extends Component {
       e.target.disabled = true;
       posturl = `/api/sendrequest`;
       this.sereviceCall (posturl, obj, () => {
-
-        var updatefrndlist = this.state.newfriendList.filter (e => e._id !== id);
+         
+             var updatefrndlist=   this.state.newfriendList.filter((e)=>{
+            if(e._id!==id){
+               return e ; 
+            }else{
+               this.notifymessgae("SUCCESS",{
+                 message:`Request successfully sent to ${e.firstName} ${ e.lastName} !!`
+               });
+             
+            };
+        }); 
+         
+      
         this.setState ({newfriendList: updatefrndlist});
 
       });
@@ -48,9 +66,12 @@ class Newfriend extends Component {
          
          var updatefrndlist=   this.state.recevingRequest.filter((e)=>{
             if(e._id!==id){
-             
+              return e ; 
             }else{
-               console.log(e);
+               this.notifymessgae("SUCCESS",{
+               message:`${e.firstName} ${ e.lastName} is successfully added in your Conversation List !!`
+                   
+            });
                PubSub.publish ('UPDATE_USERLIST', e);
             };
         }); 
