@@ -26,7 +26,9 @@ export default class Professional extends Component {
         'skill': newprops.userdata.userDetail.professional.skill
       }
       this.setState ({formdata: obj,edit:newprops.userdata.edit});
-      }
+      } 
+    }else{
+        this.setState ({edit:newprops.userdata.edit}); 
     }
   }
   
@@ -84,9 +86,12 @@ export default class Professional extends Component {
    
        {
          (()=>{ 
+           
           if(this.state.edit){
-            return(<btn><a href="javascript:void(0)" className={this.state.simpletext}><i onClick={() => this.changeState('basicinfo')} className="glyphicon glyphicon-pencil pull-right"></i></a>
-   <button type="button" onClick={() => this.cancelClickState ('basicinfo')}  className={`pull-right btn btn-secondary  ${this.state.editable}`}>Cancel</button></btn>)
+              
+         
+            return(<div><a href="javascript:void(0)" className={this.state.simpletext}><i onClick={() => this.changeState('basicinfo')} className="glyphicon glyphicon-pencil pull-right"></i></a>
+   <button type="button" onClick={() => this.cancelClickState ('basicinfo')}  className={`pull-right btn btn-secondary  ${this.state.editable}`}>Cancel</button></div>)
       
           
            }

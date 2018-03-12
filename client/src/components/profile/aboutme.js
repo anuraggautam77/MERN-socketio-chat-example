@@ -27,8 +27,8 @@ import  'whatwg-fetch';
       }
        this.setState ({formdata: obj,edit:newprops.userdata.edit});
       }
-      
-     
+     }else{
+        this.setState ({edit:newprops.userdata.edit}); 
     }
   }
 
