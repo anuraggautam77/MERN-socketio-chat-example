@@ -26,7 +26,8 @@ export default class Routing extends Component {
                  </div>
                  <div className="container">
                     <Route path="/home" exact component={Home} />
-                    <Route path="/login" component={Login} />
+                    <Route path="/" exact component={Landing} />
+                    <Route path="/login" exact component={Login} />
                     <Route path="/posts" component={Posts} />
                     <Route path="/list" component={List} />
                     <Route path="/profile" exact component={Profile} />
