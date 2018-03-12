@@ -11,10 +11,10 @@ class Signin extends Component {
       lastName: '',
       email: '',
       password: '',
-    username: 'anurag@gmail.com',
-      loginpass: '11111111',
-//      username: '',
-//      loginpass: '', 
+  //  username: 'anurag@gmail.com',
+    //  loginpass: '11111111',
+     username: '',
+       loginpass: '', 
       loginError: '',
       signupError: ''
     };
@@ -88,7 +88,7 @@ class Signin extends Component {
                 this.handleSignIn} className="btn  btn-transparent" value="Sign in!" type="button"/>
           </div>	
           <div className="new-acount">
-            <p>Don't Have an account? &nbsp; &nbsp; <a href="jascsript:void(0)" onClick={()=>this.props.statechange('signin')}> SIGN UP</a></p>
+            <p>Don't Have an account? &nbsp; &nbsp; <a href="javascript:void(0)" onClick={()=>this.props.statechange('signin')}> SIGN UP</a></p>
           </div>
        
       </div>
