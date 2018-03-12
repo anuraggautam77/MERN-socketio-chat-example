@@ -28,7 +28,7 @@ class Profilecard extends Component {
                     'country':json.list[0].country
                   }
           if (json.list[0].hasOwnProperty ('userDetail')) {
-            obj.tagline = json.list[0].userDetail.hasOwnProperty ('aboutme') ? json.list[0].userDetail.aboutme.tagline : ''
+            obj.tagline = json.list[0].userDetail.hasOwnProperty ('aboutme') ? ((json.list[0].userDetail.aboutme !==null) ? json.list[0].userDetail.aboutme.tagline : ''):''
              if (json.list[0].userDetail.hasOwnProperty ('professional')) {
                 obj.professional = json.list[0].userDetail.professional;
           }
