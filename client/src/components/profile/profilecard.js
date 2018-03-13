@@ -56,14 +56,14 @@ class Profilecard extends Component {
            {(()=>{
               
               
-               if (this.state.hasOwnProperty('professional')) {
+               if (this.state.hasOwnProperty('professional') && this.state.professional!==null) {
                   var str='', flag=false;
                   if(this.state.professional.hasOwnProperty ('occupation')){
                       str+=this.state.professional.occupation;
                     }else{
                       flag=true;
                   };
-                 if(this.state.professional.hasOwnProperty ('company')&&   this.state.professional.company!=='' && 
+                 if(this.state.professional.hasOwnProperty ('company') &&  this.state.professional.company!=='' && 
                       this.state.professional.company!==null){
                       str+=" at " +this.state.professional.company;
                     }else{
