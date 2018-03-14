@@ -16,6 +16,8 @@
     width: 50px;
     max-height: 50px;
   }
+  
+  
   .panel-order .row .row {
     border-bottom: 0;
   }
@@ -26,6 +28,11 @@
     padding-top: 7px;
     padding-bottom: 7px; 
   }
+  
+  .panel-order .row {
+    border-bottom: 1px solid rgb(218, 111, 111);
+   }
+  
   .panel-order .row .row .col-md-12:last-child {
     font-size: 11px; 
     color: #555;  

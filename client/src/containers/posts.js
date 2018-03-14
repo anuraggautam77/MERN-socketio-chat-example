@@ -52,8 +52,9 @@ export default class Posts extends Component {
       
             <div className="col-md-9 col-sm-9 col-xs-12">
               <Route path="/posts/" exact component={MyPosts} />
-              <Route path="/posts/newpost" component={AddPost} />
+              <Route path="/posts/newpost" exact component={AddPost} />
               <Route path="/posts/myposts" exact component={MyPosts} />
+              <Route path="/posts/newpost/:id" exact component={AddPost} />
               <Route path="/posts/listing" component={Listing} />  
             </div>
       
