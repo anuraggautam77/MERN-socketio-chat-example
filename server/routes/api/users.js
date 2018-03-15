@@ -473,7 +473,7 @@ module.exports = (apiRoutes) => {
                 res.json({status: error});
             }
             res.json({status: "Mil gaya data", posts: posts});
-        })
+        }).sort({date: -1})
 
 
     });
