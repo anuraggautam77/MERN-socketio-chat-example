@@ -21,7 +21,7 @@ class Mypost extends Component {
             savebutton:savetxt,
             postid:this.postId
         };
-        this.updateContent = this.updateContent.bind(this);
+      
         this.onChange = this.onChange.bind(this);
         this.titlechange = this.titlechange.bind(this);
         this.tagchange = this.tagchange.bind(this);
@@ -29,11 +29,12 @@ class Mypost extends Component {
         this.cancelPost = this.cancelPost.bind(this);
         this.submitPost = this.submitPost.bind(this);
 
+        this.onInstanceReady= this.onInstanceReady.bind(this);
     }
 
     componentWillMount() {
  
-        if (this.state.edit) {
+      /*  if (this.state.edit) {
             fetch(`/api/getmyposts`, {
                   method: "post",
                   headers: {'Content-Type': 'application/json'},
@@ -46,29 +47,54 @@ class Mypost extends Component {
                   this.setDatainform(json.posts);
                 
             });
-        }
+        }*/
 
     }
     
     
     setDatainform(data){
-        
         this.refs.posttitle.value=data[0].title;
         this.refs.tags.value=data[0].tags;
         
-         this.setState({
-            content: data[0].body
-        });
         
     }
+    
+    onInstanceReady(evnt){
+         if (this.state.edit) {
+            fetch(`/api/getmyposts`, {
+                  method: "post",
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify(
+                         {userid: this.state.userid,  postid:this.postId }
+                        )
+                   }
+            ).then(res => res.json()
+            ).then(json => {
+                    this.setDatainform(json.posts);
+                    evnt.editor.setData(json.posts[0].body);
+            });
+        }
+        
+    }
+    
     
 
     submitPost() {
   
-        if (this.state.content !== '' && this.refs.posttitle.value !== '') {
-            this.callNewUserApi(this.state);
+      if (this.state.content !== '' && this.refs.posttitle.value !== '') {
+            
+      var  obj = {
+            content: this.state.content,
+            title: this.refs.posttitle.value,
+            tags:  this.refs.tags.value,
+            userid:  this.state.userid,
+            flag: 's',
+            postid:this.postId
+         };
+            
+         this.callNewUserApi(obj);
         }else{
-            alert('Please fill Title and Content!! ')
+            alert('Please fill Title and Content!! ');
         }
     }
 
@@ -86,11 +112,7 @@ class Mypost extends Component {
         console.log(this.state);
     }
 
-    updateContent(newContent) {
-        this.setState({
-            content: newContent
-        });
-    }
+     
 
     tagchange(e) {
         this.setState({
@@ -105,6 +127,7 @@ class Mypost extends Component {
     }
 
     onChange(evt) {
+         console.log(">>");
         var newContent = evt.editor.getData();
         this.setState({
             content: newContent
@@ -133,11 +156,20 @@ class Mypost extends Component {
                         </div>
                         <div className="form-group">
                             <label>Content</label>
+                            
                             <CKEditor ref='editor' activeClass="p10" 
-                                      config={{language: 'en', toolbarCanCollapse: false}} 
+                                      config={{language: 'en',isScriptLoaded:true, toolbarCanCollapse: false}} 
                                       content={this.state.content}
                                       placeholder="Trying ..."
-                                      events={{"blur": this.onBlur, "afterPaste": this.afterPaste, "change": this.onChange}}
+                                      events={
+                                      {  
+                                           "blur": this.onBlur,
+                                          "afterPaste": this.afterPaste,
+                                          "change": this.onChange,
+                                          "instanceReady": this.onInstanceReady
+             
+                    
+                                        }}
                                       />
                         </div>
                         <div className="form-group">
