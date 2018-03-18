@@ -34,7 +34,8 @@ const SERVICE_CONST = {
     ACCEPT_FRIEND_LIST: 'acceptfriendlist',
 
     SAVE_POST: 'savepost',
-    GET_MY_POSTS: 'getmyposts'
+    GET_MY_POSTS: 'getmyposts',
+    DELETE_MY_POST: 'deletemypost'
 
 };
 
@@ -401,7 +402,8 @@ module.exports = (apiRoutes) => {
                         "foreignField": "_id",
                         "as": "finaldata"
 
-                    }},
+                    }
+                },
             ]).exec((err, results) => {
                 if (err) {
                     res.json({status: "error", message: "Something goes wrong!!!!"});
@@ -448,40 +450,66 @@ module.exports = (apiRoutes) => {
                     messgae = "Post has been Published successfully";
                 }
                 res.json({status: "success", message: messgae});
-            })
+            });
         }
 
 
     });
 
     apiRoutes.post(`/${SERVICE_CONST.GET_MY_POSTS}`, function (req, res) {
-
-
-        console.log(req.body);
-
-
         let reqdata = req.body, postid = '', obj = {};
         if (req.body.hasOwnProperty('postid')) {
             postid = req.body.postid;
         }
         if (reqdata.userid !== '') {
-            obj = {_author: cryptr.decrypt(reqdata.userid)};
+            obj = {'_author': mongoose.Types.ObjectId(cryptr.decrypt(reqdata.userid))};
             if (postid !== '') {
-                obj._id = postid;
+                obj._id = mongoose.Types.ObjectId(postid);
             }
+        } else {
+            obj.flag = 'p';
         }
-        Posts.find(obj, (error, posts) => {
+       
+        Posts.aggregate([  
+            {"$match": obj} ,
+            { $sort: { date: -1 } },
+            {
+                $lookup:
+                        {
+                            from: 'users',
+                            localField: '_author',
+                            foreignField: '_id',
+                            as: 'userDetail'
+                        }
+            } 
 
-            if (error) {
+        ]).exec((error, results) => {
+
+             if (error) {
                 res.json({status: error});
             }
-            res.json({status: "Mil gaya data", posts: posts});
-        }).sort({date: -1})
+           
+            var contr = new UserController();
+            res.json({status: "Post Listing", posts:  contr.getPostDetails(results), obj:obj});
+        });
+        ;
+       
 
 
     });
 
+    apiRoutes.post(`/${SERVICE_CONST.DELETE_MY_POST}`, function (req, res) {
 
+        let userId = cryptr.decrypt(req.body.userid);
+        if (req.body.postid !== '') {
+            Posts.deleteOne({_id: req.body.postid, _author: userId}, (data) => {
+                let messgae = "Post has been Deleted successfully";
+                res.json({status: "success", message: messgae});
+            });
+        }
+
+
+    });
 
 
 };

@@ -20,13 +20,28 @@ class Preview extends Component {
 
         this.editPost = this.editPost.bind(this);
         this.submitPost = this.submitPost.bind(this);
+        this.deletePost= this.deletePost.bind(this);
 
-
-    }
+    };
     
-      
+    deletePost(id){
+     let obj={ userid: this.state.userid,  postid:id };
+       fetch('/api/deletemypost',
+                     {method: 'post', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(obj)}
+              )
+                .then(res => res.json())
+                .then(json => { 
+                        var updatedpost= this.state.posts.filter((e)=>{
+                                             if(e._id!==id){ return e ;  }  
+                         }); 
+                    
+                         this.setState({"alertmessage": json.message, posts: updatedpost, isnotify: 'alert alert-success bd'},()=>{
+                                 this.resetErrorConatiner();
+                          });   
+                               
+                 })
+    } 
     
-    ;
     editPost(id) {
         this.props.history.push(`/posts/newpost/${id}`);
     }
@@ -41,10 +56,15 @@ class Preview extends Component {
           fetch('/api/savepost', {method: 'post', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(obj)})
                 .then(res => res.json())
                 .then(json => {
-               this.setState({"alertmessage": json.message, isnotify: 'alert alert-success bd'},()=>{
-               this.resetErrorConatiner();
-           });
-
+            
+          
+                var updatedpost= this.state.posts.filter((e)=>{
+                                      if(e._id===id){ 
+                                          e.flag=flag;
+                                      } 
+                              return e;
+                         }); 
+                    this.setState({ posts:updatedpost, "alertmessage": json.message});
         });
     };
     
@@ -71,23 +91,23 @@ class Preview extends Component {
     myPostLitsing(posts) {
         let listItems = "";
         listItems = posts.map(obj => {
+            
+         let status= 'Saved';
+           if(obj.flag==='p'){
+                status='Published'
+            } 
             return (
                     <div className="row" key={obj._id}>
                         <div className="col-md-12">
                             <div className="row">
                                 <div className="col-md-12">
-                    
-                                    <span><strong>{obj.title}</strong></span><br/>
-                                    <div className="pull-right"><i className="fa fa-certificate"></i>
-                            <button type="button"  onClick={(e) => {  this.submitPost('p', obj._id) } }  className="btn btn-success btn-xs">Publish</button> &nbsp;
-                             <button type="button"  onClick={(e) => { this.editPost(obj._id)  }}  className="btn btn-primary btn-xs">Edit</button>
-                                    </div>
+                                  <strong>Title :  </strong><span>{obj.title}</span><br/>
                                 </div>
                                 <br/>                       
-                    
                                 <div className="col-md-12">
-                                    Posted on: 
-                                    {new Date(obj.date).toLocaleString("en-US", {
+                                 <div className="pull-left">
+                                  <strong>Status:  </strong>{status}  &nbsp;&nbsp;
+                                  <strong>  Posted on: </strong>  {new Date(obj.date).toLocaleString("en-US", {
                                                     hour: "numeric",
                                                     day: "2-digit",
                                                     month: "numeric",
@@ -95,6 +115,35 @@ class Preview extends Component {
                                                     hour12: true,
                                     minute: "numeric"
                                     })}{" "}
+                                </div>  
+             <div className="pull-right">
+                 <button type="button"  onClick={(e) => {
+                            if(obj.flag==='p'){
+                              this.submitPost('s' , obj._id)
+                         }else{
+                               this.submitPost('p' , obj._id)
+                         } 
+                    } 
+                     } 
+                 className="btn btn-success btn-xs">
+                   
+                   { 
+                      (()=>{
+                        if(obj.flag==='p'){
+                              return ("Un-publish");
+                         }else{
+                               return ("Publish");
+                         } 
+                      })()
+                    }
+                    
+                   </button> &nbsp;
+                 <button type="button"  onClick={(e) => { this.editPost(obj._id)  }}  className="btn btn-primary btn-xs">Edit</button>
+                 &nbsp; <button type="button"  onClick={(e) => { this.deletePost(obj._id)  }}  className="btn btn-danger btn-xs">Delete</button>
+              </div>
+                                  
+                                  
+                                  
                                 </div>
                             </div>
                         </div>

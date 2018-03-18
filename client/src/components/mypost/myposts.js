@@ -31,7 +31,7 @@ class Listing extends Component {
         <div className="well" key={obj._id}>
           <h4 className="media-heading">{obj.title}</h4>
             <hr />
-           <p className="text-right">By :</p>
+           <p className="text-right"> By <span className="glyphicon glyphicon-user"></span>{` ${obj.user.fname} ${obj.user.lname}`}</p>
           <p dangerouslySetInnerHTML={{ __html: obj.body }} />
             
           <hr />
