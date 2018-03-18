@@ -2,7 +2,6 @@ import React, { Component } from "react";
 class Listing extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     let userId='';
     if(!props.hasOwnProperty('forall')){
       userId=window.localStorage.getItem("userid");
@@ -14,13 +13,12 @@ class Listing extends Component {
     };
   }
   componentDidMount() {
-    
+ 
     fetch("/api/getmyposts", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(this.state)
     }) .then(res => res.json()) .then(json => {
-      
       this.setState({ posts: json.posts });
       });
   }

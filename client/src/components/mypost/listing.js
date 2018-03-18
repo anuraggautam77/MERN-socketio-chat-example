@@ -12,7 +12,9 @@ class Preview extends Component {
         }
         this.state = {
             userid: userId,
-            posts: []
+            posts: [],
+            isnotify: 'dn',
+            alertmessage: ''
 
         };
 
@@ -21,15 +23,38 @@ class Preview extends Component {
 
 
     }
+    
+      
+    
     ;
     editPost(id) {
         this.props.history.push(`/posts/newpost/${id}`);
     }
 
     submitPost(flag, id) {
+       var obj = {
+            userid: this.state.userid,
+            flag: flag,
+            postid:id
+        };
 
+          fetch('/api/savepost', {method: 'post', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(obj)})
+                .then(res => res.json())
+                .then(json => {
+               this.setState({"alertmessage": json.message, isnotify: 'alert alert-success bd'},()=>{
+               this.resetErrorConatiner();
+           });
 
+        });
+    };
+    
+     resetErrorConatiner(){
+        setTimeout(()=>{
+             this.setState({"alertmessage": '', isnotify: 'dn'});
+        },3000);
     }
+    
+    
 
     componentDidMount() {
 
@@ -54,12 +79,8 @@ class Preview extends Component {
                     
                                     <span><strong>{obj.title}</strong></span><br/>
                                     <div className="pull-right"><i className="fa fa-certificate"></i>
-                                        <button type="button"  onClick={(e) => {
-                            this.submitPost('PUB', obj._id)
-                    } }  className="btn btn-success btn-xs">Publish</button> &nbsp;
-                                        <button type="button"  onClick={(e) => {
-                                this.editPost(obj._id)
-                    }}  className="btn btn-primary btn-xs">Edit</button>
+                            <button type="button"  onClick={(e) => {  this.submitPost('p', obj._id) } }  className="btn btn-success btn-xs">Publish</button> &nbsp;
+                             <button type="button"  onClick={(e) => { this.editPost(obj._id)  }}  className="btn btn-primary btn-xs">Edit</button>
                                     </div>
                                 </div>
                                 <br/>                       
@@ -86,6 +107,10 @@ class Preview extends Component {
         render() {
             return (
                     <div className="postlisting">
+                       <div className={` ${this.state.isnotify} `}>
+                          <strong>{this.state.alertmessage}</strong>
+                        </div>
+                    
                         <div className="panel panel-default panel-order">
                     
                             <div className="panel-body">

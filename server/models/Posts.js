@@ -6,8 +6,8 @@ const PostSchema = new mongoose.Schema ({
     body: {type: String},
     date: {type: Date,default: Date.now},
     tags:{type: String},
-    flag:{type:String, default:'s'},
-    _author: {type: mongoose.Schema.Types.ObjectId, ref: 'Users'}
+    flag:{type:String},
+    _author: {type: mongoose.Schema.Types.ObjectId}
    
 });
  

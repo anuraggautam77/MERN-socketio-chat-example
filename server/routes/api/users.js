@@ -421,54 +421,57 @@ module.exports = (apiRoutes) => {
 
 
 
-    apiRoutes.post(`/${SERVICE_CONST.SAVE_POST}`, function (req, res) {
-        let reqdata = req.body;
-        obj = {
-            title: reqdata.title,
-            body: reqdata.content,
-            tags: reqdata.tags,
-            _author: cryptr.decrypt(reqdata.userid)
-        };
+    apiRoutes.post(`/${SERVICE_CONST.SAVE_POST}`, function (req, res, next) {
 
+        req.body._author = cryptr.decrypt(req.body.userid);
+        if (req.body.hasOwnProperty('content')) {
+            req.body.body = req.body.content;
+        }
         if (req.body.postid !== '') {
-             
-            Posts.update({_id: req.body.postid}, obj,{}, (data) => {
-                   res.json({status: "success", message: "Post has been updated successfully"});
-                } );
-            
-        } else {
 
-            let post = new Posts(obj);
-            post.save((err) => {
-                res.json({status: 'error', message: err});
-            }).then(() => {
-                res.json({status: "success", message: "Post has been saved successfully"});
+            Posts.update({_id: req.body.postid}, req.body, {}, (data) => {
+                let messgae = "Post has been Updated successfully";
+                if (req.body.flag === 'p') {
+                    messgae = "Post has been Published successfully";
+                }
+                res.json({status: "success", message: messgae});
             });
 
+        } else {
+            let post = new Posts(req.body);
+            post.save((err, data) => {
+                if (err !== null) {
+                    res.json({status: 'error', message: err});
+                }
+                let messgae = "Post has been Saved successfully";
+                if (req.body.flag === 'p') {
+                    messgae = "Post has been Published successfully";
+                }
+                res.json({status: "success", message: messgae});
+            })
         }
-
 
 
     });
 
     apiRoutes.post(`/${SERVICE_CONST.GET_MY_POSTS}`, function (req, res) {
-        let reqdata = req.body, postid = '';
+
+
+        console.log(req.body);
+
+
+        let reqdata = req.body, postid = '', obj = {};
         if (req.body.hasOwnProperty('postid')) {
             postid = req.body.postid;
         }
-
-
         if (reqdata.userid !== '') {
             obj = {_author: cryptr.decrypt(reqdata.userid)};
             if (postid !== '') {
                 obj._id = postid;
             }
-
-        } else {
-            obj = {};
         }
-        console.log(obj);
         Posts.find(obj, (error, posts) => {
+
             if (error) {
                 res.json({status: error});
             }

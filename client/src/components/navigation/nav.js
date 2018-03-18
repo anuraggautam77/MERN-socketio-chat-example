@@ -24,29 +24,16 @@ class NavMenu extends Component {
                if( this.props.islogin){
               return (
                 <ul className="nav navbar-nav">
-              {
-              /*<li>
-              <NavLink to="/home" activeClassName="active" >
-                <span className="glyphicon glyphicon-home"></span> Home
-              </NavLink>
-              </li>
-              */}
               <li>
               <NavLink to="/main" activeClassName="active" >
                 <span className="glyphicon glyphicon-home"></span> Home
               </NavLink>
               </li>
-
                <li>
                   <NavLink to='/profile' activeClassName="active" >
                     <span className="glyphicon glyphicon-user"></span> Profile 
                   </NavLink>
               </li>
-              { /*<li>
-                <NavLink to='/list' activeClassName="active">
-                <span className="glyphicon glyphicon-th-list"></span> Friends
-                </NavLink>
-              </li> */}
               <li>
               <NavLink to="/posts" activeClassName="active">
                 <span className="	glyphicon glyphicon-list-alt"></span> My Blog
@@ -57,8 +44,6 @@ class NavMenu extends Component {
                 <span className="glyphicon glyphicon-log-out"></span> Logout 
               </NavLink>
               </li>
-              
-              
                </ul>
               )
                }else{
@@ -67,7 +52,7 @@ class NavMenu extends Component {
                <ul className="nav navbar-nav">
               <li>
               <NavLink to="/main" activeClassName="active" >
-                <span className="glyphicon glyphicon-home"></span> Home
+                <span className="glyphicon glyphicon-home"></span> Main
               </NavLink>
               </li>
                
