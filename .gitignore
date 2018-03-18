@@ -1,5 +1,7 @@
 # Compiled files
 #dist/
+ config/configuration.js
+ config/config.js
 
 
 #netbean folders
@@ -24,5 +26,5 @@ $RECYCLE.BIN/
 .Spotlight-V100
 .Trashes
 /nbproject/private/
-config/config.js
+
  
