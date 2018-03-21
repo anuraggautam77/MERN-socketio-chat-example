@@ -68,7 +68,7 @@ class Listing extends Component {
 
             <span>
             <i className="glyphicon glyphicon-comment" /><a href="javascript:void(0)" onClick={
-                   (e)=>{  this.showComments(obj._id); }  }> {obj.commentdata.length} comments</a>
+                   (e)=>{  this.showComments(obj._id); }  }> {obj.commentdata.length} comment(s)</a>
             
             </span>
            <li>|</li>

@@ -9,27 +9,39 @@ class Comment extends Component {
         this.state = {
             postby: window.localStorage.getItem("userid"),
             postid:'',
-            comment:'',
+            comment:null,
             commentlist:props.commentsdata.length>0?props.commentsdata:[]
         };
         this._handleKeyPress = this._handleKeyPress.bind(this);
+        this.submitPost = this.submitPost.bind(this);
+        
     }
 
     _handleKeyPress(e,postid) {
         this.setState({ postid:postid, comment:e.target.value});
-        if (e.key === 'Enter') {
-           this.callNewUserApi(this.state);
-        }
+        
+    };
+    
+    submitPost(){
+        
+        this.callNewUserApi(this.state); 
+        this.refs.commentinput.value='';
+        this.setState({comment:null}); 
+        
+       
+       
     }
+    
+    
 
     callNewUserApi(state) {
 
         fetch('/api/savecomment', {method: 'post', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(state)})
                 .then(res => res.json())
                 .then(json => {
-                      console.log(json);
+                  this.setState({  commentlist: [...this.state.commentlist, json.commentdata] })  
                 });
-    }
+       }
 
 
     commentDatalist(list){
@@ -52,7 +64,7 @@ class Comment extends Component {
                                 })}{" "}
                                  
                                  </div>
-                                  <span className=" pull-right glyphicon glyphicon-user"> Anurag</span>
+                                  <span className="pull-right glyphicon glyphicon-user">   </span>
                                  </div>
                              </div>
                             </div>
@@ -87,13 +99,7 @@ class Comment extends Component {
         return (
                 <div className='mypost '>
                     <div className="comments">
-                        <div className="comment-wrap">
-                            <div className="comment-block">
-                   <textarea name="" onKeyPress={(e) => {
-                        this._handleKeyPress(e,this.props.postid)
-                }}  ref="commentinput" cols="30"  rows="2" placeholder="Add comment..."></textarea>
-                            </div>
-                        </div>
+                        
                         <div>
                         
                          {
@@ -103,6 +109,26 @@ class Comment extends Component {
                         
                             
                        </div>
+                       <div className="comment-wrap">
+                       <div className="comment-block">
+                   <textarea  onChange={(e) => {
+                        this._handleKeyPress(e,this.props.postid)
+                }}  ref="commentinput" cols="30"  rows="2" placeholder="Add comment..."></textarea>
+                 
+                 
+                        <div className="pull-left">
+                          {  (()=>{  
+                                 if(this.state.comment!==null && this.state.comment.trim()!==''){
+                                    return ( <button  onClick={(e) => { this.submitPost()  }}  type="button" className="btn btn-success btn-xs">Submit Post</button>)
+                                }   
+                            })()
+                          }
+                      </div>
+
+                
+                
+                </div>
+                        </div>
                     </div>
                 </div>
                     );

@@ -484,14 +484,6 @@ module.exports = (apiRoutes) => {
              
 
         ]).exec((error, results) => {
-            console.log(results[0]);
-            
-            
-           
-            
-            
-            
-            
              if (error) {
                 res.json({status: error});
             }
@@ -532,7 +524,7 @@ module.exports = (apiRoutes) => {
                 }
                 let messgae = "Comment has been Saved successfully";
                 
-                res.json({status: "success", message: messgae});
+                res.json({status: "success", message: messgae, commentdata:data});
             });
        
 
