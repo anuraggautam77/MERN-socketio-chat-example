@@ -36,7 +36,7 @@ class NavMenu extends Component {
               </li>
               <li>
               <NavLink to="/posts" activeClassName="active">
-                <span className="	glyphicon glyphicon-list-alt"></span> My Blog
+                <span className="glyphicon glyphicon-list-alt"></span> My Blog
               </NavLink>
               </li>
               <li className="navbar-right" >

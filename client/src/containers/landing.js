@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "../style/css/mainpage.scss";
+
 import PubSub from 'pubsub-js';
 import Profilecard from '../components/profile/profilecard';
 import Newfriend from '../components/main/suggestlist';

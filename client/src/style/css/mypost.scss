@@ -1,0 +1,73 @@
+.mypost{ 
+
+    background-color: #dddddd;
+
+
+    input, textarea {
+        outline: none;
+        border: none;
+        display: block;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        font-family: "PT Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+        font-size: 12px;
+        color: #555f77;
+    }
+    input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+        color: #ced2db;
+    }
+    input::-moz-placeholder, textarea::-moz-placeholder {
+        color: #ced2db;
+    }
+    input:-moz-placeholder, textarea:-moz-placeholder {
+        color: #ced2db;
+    }
+    input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+        color: #ced2db;
+    }
+
+    .comments {
+        padding: 10px;
+    }
+
+    .comment-wrap {
+        margin-bottom: 9px;
+        display: table;
+        width: 100%;
+    }
+ 
+
+    .comment-block {
+        padding: 5px;
+        background-color: #fff;
+        display: table-cell;
+        vertical-align: top;
+        border-radius: 0.1875rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+        .by{
+           color: #acb4c2;  
+        }
+    }
+    .comment-block textarea {
+        width: 100%;
+        resize: none;
+        
+        
+    }
+    
+    .comment-text {
+        margin-bottom: 1.25rem;
+    }
+
+    .bottom-comment {
+        color: #acb4c2;
+        font-size: 14px;
+    }
+
+    .comment-date {
+        float: left;
+    }
+
+   
+}

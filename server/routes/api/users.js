@@ -3,6 +3,9 @@ const UsersDetails = require('../../models/Userdetails');
 const UserController = require('../../userController');
 
 const Posts = require('../../models/Posts');
+const Comments = require('../../models/Comments');
+
+
 const bcrypt = require('bcrypt');
 const Cryptr = require('cryptr');
 const jwt = require('jsonwebtoken');
@@ -21,6 +24,7 @@ const SERVICE_CONST = {
 
     NEW_USER: "newuser",
     SIGN_IN: "singin",
+    
     AUTH_VALIDATE: "authvalidate",
     NEW_TOKEN: "newtoken",
     GET_USER_LIST: "getuserlist",
@@ -35,7 +39,11 @@ const SERVICE_CONST = {
 
     SAVE_POST: 'savepost',
     GET_MY_POSTS: 'getmyposts',
-    DELETE_MY_POST: 'deletemypost'
+    DELETE_MY_POST: 'deletemypost',
+    
+    SAVE_COMMENT: 'savecomment'
+    
+    
 
 };
 
@@ -371,9 +379,6 @@ module.exports = (apiRoutes) => {
 
     apiRoutes.get(`/${SERVICE_CONST.ACCEPT_FRIEND_LIST}/:id`, (req, res) => {
         var contr = new UserController();
-
-
-
         if (req.params.id !== 'null') {
             let decryptedString = mongoose.Types.ObjectId(cryptr.decrypt(req.params.id))
 
@@ -419,8 +424,6 @@ module.exports = (apiRoutes) => {
         }
 
     });
-
-
 
 
     apiRoutes.post(`/${SERVICE_CONST.SAVE_POST}`, function (req, res, next) {
@@ -473,29 +476,30 @@ module.exports = (apiRoutes) => {
         Posts.aggregate([  
             {"$match": obj} ,
             { $sort: { date: -1 } },
-            {
-                $lookup:
-                        {
-                            from: 'users',
-                            localField: '_author',
-                            foreignField: '_id',
-                            as: 'userDetail'
-                        }
-            } 
+           
+            { $lookup: { from: 'users', localField: '_author', foreignField:'_id', as:'userDetail'}}, // post+ user
+            { $lookup: { from: 'comments', localField: '_id', foreignField:'postid',  as:'commentdata'}},  // post+ comments
+           // { $lookup: { from: 'commentdata', foreignField: 'commentdata.postby', localField:'users._id', as:'commentuser'}},
+            { $project :{ "userDetail": {"registerTime":0, "friends": 0, "_id": 0, "token":0, "city":0,"password":0,"userid":0}}}
+             
 
         ]).exec((error, results) => {
-
+            console.log(results[0]);
+            
+            
+           
+            
+            
+            
+            
              if (error) {
                 res.json({status: error});
             }
-           
+         
             var contr = new UserController();
-            res.json({status: "Post Listing", posts:  contr.getPostDetails(results), obj:obj});
+            contr.getPostDetails(results);
+            res.json({status: "Post Listing", posts:  results, obj:obj});
         });
-        ;
-       
-
-
     });
 
     apiRoutes.post(`/${SERVICE_CONST.DELETE_MY_POST}`, function (req, res) {
@@ -510,6 +514,37 @@ module.exports = (apiRoutes) => {
 
 
     });
+
+
+
+    apiRoutes.post(`/${SERVICE_CONST.SAVE_COMMENT}`, function (req, res) {
+ 
+         let  obj = {
+            postby:mongoose.Types.ObjectId(cryptr.decrypt(req.body.postby)) ,
+            postid:mongoose.Types.ObjectId(req.body.postid),
+            comment:req.body.comment
+        }; 
+    
+            let comment = new Comments(obj);
+            comment.save((err, data) => {
+                if (err !== null) {
+                    res.json({status: 'error', message: err});
+                }
+                let messgae = "Comment has been Saved successfully";
+                
+                res.json({status: "success", message: messgae});
+            });
+       
+
+    });
+
+
+
+
+
+
+
+
 
 
 };

@@ -153,8 +153,19 @@ class Preview extends Component {
             return listItems;
         }
 
+
         render() {
-            return (
+            
+          if(this.state.posts.length===0){
+            
+           return (  
+                   <div className="alert alert-info">
+                        <strong>No record found by you !!!!</strong>.
+                    </div>
+               )
+           };
+             
+          return (
                     <div className="postlisting">
                        <div className={` ${this.state.isnotify} `}>
                           <strong>{this.state.alertmessage}</strong>

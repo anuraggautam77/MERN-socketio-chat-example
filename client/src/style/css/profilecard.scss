@@ -1,0 +1,60 @@
+.proilecard{
+  
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+p{
+  padding: 0 9px;
+}
+
+.title {
+  color: grey;
+  font-size: 15px;
+  margin: 5px;
+}
+
+.cardheader {
+    background-image: url('/img/bg/bg.jpg');
+    background-size: cover;
+    height: 135px;
+  }
+ .button-style {
+  border: none;
+  outline: 0;
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #c59292;
+  text-align: center;
+  cursor: pointer;
+  width: 70%;
+  font-size: 16px;
+} 
+  
+}
+
+.proilecard{
+  .panel-heading{
+    padding: 5px 10px;
+  }
+
+.friendlist{
+  max-height: 300px;
+  overflow: auto;
+  
+}
+
+}
+
+hr{
+    margin-top: 8px;
+    margin-bottom: 10px;
+    border: 0;
+    border-top: 1px solid rgb(173, 141, 141);
+}

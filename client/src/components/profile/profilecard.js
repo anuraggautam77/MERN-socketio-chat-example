@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import "../../style/css/profilecard.scss";
 import { NavLink ,withRouter } from 'react-router-dom';
 class Profilecard extends Component {
 
@@ -72,7 +72,7 @@ class Profilecard extends Component {
                    
                     if(flag){
                      return (
-                      <NavLink to='/profile' className="button" >
+                      <NavLink to='/profile' className="button-style" >
                          Update your Profile 
                      </NavLink>
                       )
@@ -87,7 +87,7 @@ class Profilecard extends Component {
                      
                   }else{
                      return (
-                      <NavLink to='/profile' className="button" >
+                      <NavLink to='/profile' className="button-style" >
                          Update your Profile 
                      </NavLink>
                       )

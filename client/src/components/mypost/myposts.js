@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import "../../style/css/mypost.scss";
+import Comment from './postcomment';
+
+
 class Listing extends Component {
   constructor(props) {
     super(props);
@@ -8,10 +12,21 @@ class Listing extends Component {
     } 
     this.state = {
       userid: userId,
-      posts: []
-      
+      posts: [],
+      commentShow:'dn'
     };
+    this.showComments= this.showComments.bind(this); 
   }
+  
+  
+   showComments(id){
+      this.refs[`comment-${id}`].setAttribute('class','db');
+   };
+  
+  
+  
+  
+  
   componentDidMount() {
  
     fetch("/api/getmyposts", {
@@ -52,23 +67,17 @@ class Listing extends Component {
             <li>|</li>
 
             <span>
-              <i className="glyphicon glyphicon-comment" /> 0 comments
+            <i className="glyphicon glyphicon-comment" /><a href="javascript:void(0)" onClick={
+                   (e)=>{  this.showComments(obj._id); }  }> {obj.commentdata.length} comments</a>
+            
             </span>
-            {/*   <li>|</li>
-            <li>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star"></span>
-              <span className="glyphicon glyphicon-star-empty"></span>
-            </li>
-        <li>|</li> 
-       */}
+           <li>|</li>
             <li>
               <span className="glyphicon glyphicon-tags">&nbsp;</span>
-              Tags : {obj.tags}
+               Tags : {obj.tags}
             </li>
           </ul>
+          <div className='dn' ref={`comment-${obj._id}`}> <Comment commentsdata={obj.commentdata} postid={obj._id} /> </div>
         </div>
       );
     });
