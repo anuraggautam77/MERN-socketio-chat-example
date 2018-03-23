@@ -14,11 +14,7 @@ class App extends Component {
     this.state = {
       "isLoggedIn": window.localStorage.getItem ('isLoggedIn')
     };
-  /*  this.auth = new Auth ();
-    this.auth.validateToken (() => {
-    
-    });
-*/
+  
     this.mySubscriber = this.mySubscriber.bind (this);
     PubSub.subscribe ('IS_LOGIN', this.mySubscriber);
 
@@ -45,11 +41,8 @@ class App extends Component {
 
     var boolFlag = window.localStorage.getItem ('isLoggedIn');
     if(data.hasOwnProperty ('callback')){
-      // redirecting to another page 
       data.callback();
     }
-    
-    
     this.setState ({
       isLoggedIn: (boolFlag !== null && boolFlag !== '') ? JSON.parse (boolFlag) : false
     });
@@ -57,7 +50,6 @@ class App extends Component {
   }
   ;
     render() {
-      
     return (
       <div>
         <Routing islogin={this.state.isLoggedIn} />

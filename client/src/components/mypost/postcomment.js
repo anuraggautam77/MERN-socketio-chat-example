@@ -91,23 +91,14 @@ class Comment extends Component {
                     )
         };
 
-
-
-
-
-
         return (
                 <div className='mypost '>
                     <div className="comments">
-                        
                         <div>
-                        
                          {
                              this.commentDatalist (this.state.commentlist) 
                              
                           } 
-                        
-                            
                        </div>
                        <div className="comment-wrap">
                        <div className="comment-block">
@@ -115,11 +106,10 @@ class Comment extends Component {
                         this._handleKeyPress(e,this.props.postid)
                 }}  ref="commentinput" cols="30"  rows="2" placeholder="Add comment..."></textarea>
                  
-                 
                         <div className="pull-left">
                           {  (()=>{  
                                  if(this.state.comment!==null && this.state.comment.trim()!==''){
-                                    return ( <button  onClick={(e) => { this.submitPost()  }}  type="button" className="btn btn-success btn-xs">Submit Post</button>)
+                                    return ( <button  onClick={(e) => { this.submitPost()  }}  type="button" className="btn btn-success btn-xs">Submit Comment</button>)
                                 }   
                             })()
                           }

@@ -43,7 +43,7 @@ class Listing extends Component {
 
     listItems = posts.map(obj => {
       return (
-        <div className="well" key={obj._id}>
+        <div className="well bg-secondary" key={obj._id}>
           <h4 className="media-heading">{obj.title}</h4>
             <hr />
            <p className="text-right"> By <span className="glyphicon glyphicon-user"></span>{` ${obj.user.fname} ${obj.user.lname}`}</p>

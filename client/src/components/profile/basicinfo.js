@@ -14,8 +14,6 @@ import 'whatwg-fetch';
   }
 
   componentWillReceiveProps(newprops) {
-    console.log(">>>")
-    console.log(newprops)
     if (newprops.userdata.hasOwnProperty ('user')) {
 
       var obj = {'firstName': newprops.userdata.user.firstName,
@@ -39,8 +37,6 @@ import 'whatwg-fetch';
     });
 
     this.setState ({editable: 'hidden', simpletext: ''});
-    
-
   }
   ;
     SaveEnableHandler() {
@@ -50,8 +46,6 @@ import 'whatwg-fetch';
       body: JSON.stringify ({"formdata": this.state.formdata, 'userId': id}),
       headers: {'Content-Type': 'application/json'}
     }).then (res => res.json ()).then (json => {
-
-
     });
 
   }
@@ -68,7 +62,6 @@ import 'whatwg-fetch';
   }
 
   render() {
-     console.log(this.state)
     return (
       <div className="panel panel-default">
         <div className="panel-heading clearfix">

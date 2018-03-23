@@ -18,6 +18,7 @@ import  'whatwg-fetch';
 
   componentWillReceiveProps(newprops) {
 
+    console.log(newprops);
     if (newprops.userdata.hasOwnProperty ('userDetail')) {
       if(newprops.userdata.userDetail.aboutme !==null){
         var obj = {
@@ -26,6 +27,8 @@ import  'whatwg-fetch';
         'hobby': newprops.userdata.userDetail.aboutme.hobby
       }
        this.setState ({formdata: obj,edit:newprops.userdata.edit});
+      }else{
+            this.setState ({edit:newprops.userdata.edit}); 
       }
      }else{
         this.setState ({edit:newprops.userdata.edit}); 

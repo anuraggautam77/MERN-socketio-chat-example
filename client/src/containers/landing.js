@@ -54,12 +54,15 @@ class Landing extends Component {
         }else{
                   return (
                       <div>
-                        <div className="col-md-8 col-sm-8">
+                        
+                        <div className="col-md-6 col-sm-6"> 
+                             <img src="../../img/logo/applogo.PNG"/>
+                        </div>
+                        
+                        <div className="col-md-6 col-sm-6">
                           <MyPosts forall="true"/>
                         </div>
-                        <div className="col-md-4 col-sm-4"> 
-                    
-                        </div>
+                        
                       </div>
 
                     );

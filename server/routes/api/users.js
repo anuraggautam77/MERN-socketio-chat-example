@@ -16,6 +16,7 @@ const saltRounds = 10;
 const SECRETKEY = 'iamnewinthistechstack';
 const USER_ID_ENCRYPT_DECTYPT = 'user_id_incrption_decription';
 const SECRETKEY_WRONG = 'wrongtoken';
+
 const DUPLICATE_CODE = 11000;
 const folderpath = path.resolve("server/upload/images");
 
