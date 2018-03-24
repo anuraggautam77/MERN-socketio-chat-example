@@ -50,23 +50,29 @@ app.use(cors());
 app.use (morgan('dev'));
 app.use(fileUpload());
 
-
+app.use (express.static (path.resolve (__dirname, '../dist')));
 app.use (bodyParser.urlencoded ({extended: true  }));
 app.use( bodyParser.json( { limit: '50MB' } ) );
 
 
-/*
-
-app.post('/uploads', (req, res, next) => {
-  let imageFile = req.files.file;
-  imageFile.mv(`${folderpath}\\${req.body.filename}`, function(err) {
-    if (err) {
-      return res.status(500).send(err);
-    };
-    res.json({file: "imagesupload/"+req.body.filename});
-  });
-})*/
 // catch 404 and forward to error handler
+
+
+app.use(function(req, res, next) {
+  // check header or url parameters or post parameters for token
+   console.log(">>>>>Middleware>>>>>>>>>>>>>>>>>>>>>>>")
+    next();
+   
+});
+
+
+
+
+
+
+
+
+
 
 app.use ('/api', apiRoutes);
 
@@ -74,7 +80,7 @@ app.use ('/api', apiRoutes);
 require ('./routes') (apiRoutes);
 
 
-app.use (express.static (path.resolve (__dirname, '../dist')));
+
  app.get ('/', function (req, res) {
   res.sendFile (path.resolve (__dirname, '../dist/index.html'));
    res.end ();

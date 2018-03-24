@@ -22,10 +22,8 @@ const folderpath = path.resolve("server/upload/images");
 
 
 const SERVICE_CONST = {
-
     NEW_USER: "newuser",
     SIGN_IN: "singin",
-    
     AUTH_VALIDATE: "authvalidate",
     NEW_TOKEN: "newtoken",
     GET_USER_LIST: "getuserlist",
@@ -33,66 +31,97 @@ const SERVICE_CONST = {
     USER_UPDATE_DETAIL: "updateuserdetail",
     UPDATE_USER_DATA: 'updateuserdata',
     IMAGE_UPLOAD: 'uploads',
-
     SEND_REQUEST: 'sendrequest',
     ACCEPT_REQUEST: 'acceptrequest',
     ACCEPT_FRIEND_LIST: 'acceptfriendlist',
-
     SAVE_POST: 'savepost',
     GET_MY_POSTS: 'getmyposts',
     DELETE_MY_POST: 'deletemypost',
-    
     SAVE_COMMENT: 'savecomment'
-    
-    
+
+
 
 };
 
 let cryptr = new Cryptr(USER_ID_ENCRYPT_DECTYPT);
 
 module.exports = (apiRoutes) => {
-    function getTokenHeader(req) {
-        var token = req.headers['x-access-token'];
+
+    function  generateNewToken(userId) {
+
+        var token = jwt.sign({
+            auth: userId,
+            exp: Math.floor(new Date().getTime() / 1000) + 7 * 24 * 60 * 60
+        }, SECRETKEY);
+
         return token;
     }
+
 
     function tokenVerify(req, res) {
-        var token = getTokenHeader(req);
+
+        let token = req.headers['x-access-token'],
+                userid = req.headers['id'], obj = {};
         if (token) {
-            jwt.verify(token, SECRETKEY, function (err, decoded) {
+            jwt.verify(token, SECRETKEY, function(err, decoded) {
                 if (decoded === undefined) {
-                    console.log('invalid or no token Provided');
-                } else {
-                    console.log('valid');
+                    obj.status = 403;
+                    obj.message = 'No token provided';
+                }
+                else if (decoded.auth === cryptr.decrypt(userid)) {
+                    obj.status = 200;
+                    obj.message = 'valid token';
+
+                }
+                else {
+                    obj.status = 403;
+                    obj.message = 'Invalid token';
+
                 }
             });
-        } else {
-            console.log('invalid or no token Provided');
         }
+        else {
+            obj.status = 403;
+            obj.message ='Invalid token';
+        }
+
+        return obj;
     }
 
 
-    function  generateNewToken() {
-        var token = jwt.sign({data: "password"}, SECRETKEY, {
-            expiresIn: 7500 // 75 sec
-        });
-        return token;
-    }
+    apiRoutes.post(`/${SERVICE_CONST.AUTH_VALIDATE}`, function(req, res) {
+        let objCheck = tokenVerify(req, res);
+        res.status(objCheck.status).json({status: objCheck.status, message: objCheck.message});
+
+    });
+
+    apiRoutes.post(`/${SERVICE_CONST.NEW_TOKEN}`, function(req, res) {
+        let objCheck = tokenVerify(req, res);
+        if (objCheck.status === 200) {
+            var token = generateNewToken(cryptr.decrypt(req.headers['id']));
+            res.status(objCheck.status).json({status: "success", message: 'New token !!', accesstoken: token, userid: req.headers['id']});
+
+        }
+        else {
+            res.status(objCheck.status).json({status: objCheck.status, message: objCheck.message});
+        }
+    });
+
+
 
     apiRoutes.post(`/${SERVICE_CONST.IMAGE_UPLOAD}`, (req, res, next) => {
         let imageFile = req.files.file;
-        imageFile.mv(`${folderpath}\\${req.body.filename}`, function (err) {
+        imageFile.mv(`${folderpath}\\${req.body.filename}`, function(err) {
             if (err) {
                 return res.status(500).send(err);
             }
-            ;
             res.json({file: "images/" + req.body.filename});
         });
-    })
+    });
 
-    apiRoutes.post(`/${SERVICE_CONST.NEW_USER}`, function (req, res) {
+    apiRoutes.post(`/${SERVICE_CONST.NEW_USER}`, function(req, res) {
 
-        bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+        bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
             req.body.password = hash;
             const users = new Users(req.body);
             users.save((err) => {
@@ -116,23 +145,24 @@ module.exports = (apiRoutes) => {
 
 
 
-    apiRoutes.post(`/${SERVICE_CONST.SIGN_IN}`, function (req, res) {
+    apiRoutes.post(`/${SERVICE_CONST.SIGN_IN}`, function(req, res) {
 
-        Users.find({email: req.body.username}, function (err, userdata) {
+        Users.find({email: req.body.username}, function(err, userdata) {
 
             if (userdata.length > 0) {
-                bcrypt.compare(req.body.loginpass, userdata[0].password, function (err, flag) {
-
-                    var token = generateNewToken();
+                bcrypt.compare(req.body.loginpass, userdata[0].password, function(err, flag) {
+                    var token = generateNewToken(userdata[0]._id, req);
                     var encryptedString = cryptr.encrypt(userdata[0]._id);
 
                     if (flag) {
                         res.json({status: "success", message: 'Login Successfully!!', accesstoken: token, userid: encryptedString});
-                    } else {
+                    }
+                    else {
                         res.json({status: "Error", message: 'Invalid Password!!!'});
                     }
                 });
-            } else {
+            }
+            else {
                 res.json({status: "Error", message: 'Invalid Username!!!'});
             }
 
@@ -141,53 +171,6 @@ module.exports = (apiRoutes) => {
     });
 
 
-
-    apiRoutes.post(`/${SERVICE_CONST.AUTH_VALIDATE}`, function (req, res) {
-        var token = getTokenHeader(req);
-        if (token) {
-            jwt.verify(token, SECRETKEY, function (err, decoded) {
-                if (decoded === undefined) {
-                    res.status(403).json({
-                        message: 'No token provided',
-                        statuscode: 403
-                    });
-
-                } else {
-                    res.status(200).json({
-                        message: 'valid token'
-                    });
-                }
-
-            });
-        } else {
-            res.status(403).json({
-                message: 'No token provided',
-                statuscode: 403
-            });
-        }
-
-    });
-
-    apiRoutes.post(`/ ${SERVICE_CONST.NEW_TOKEN}`, (req, res) => {
-        var headerToken = getTokenHeader(req);
-        if (headerToken) {
-
-            var token = generateNewToken();
-            if (flag) {
-                res.json({status: "success", message: 'Login Successfully!!', accesstoken: token});
-            } else {
-                res.json({status: "Error", message: 'Invalid Password!!!'});
-            }
-
-        } else {
-            console.log("Token Invalid");
-            res.status(403).json({
-                message: 'No token provided',
-                statuscode: 403
-            });
-        }
-
-    });
 
     apiRoutes.get(`/${SERVICE_CONST.GET_USER_LIST}/:id`, (req, res) => {
         if (req.params.id !== 'null') {
@@ -214,11 +197,13 @@ module.exports = (apiRoutes) => {
 
                     //  res.json ({status: "success", list: contr.getuserList (users)});
 
-                } else {
+                }
+                else {
                     res.json({status: "success", message: "No record found!!!!"});
                 }
             });
-        } else {
+        }
+        else {
             res.json({status: "error", message: "Something goes wrong!!!!"});
         }
     });
@@ -246,12 +231,14 @@ module.exports = (apiRoutes) => {
                         res.json({status: "success", list: list});
                     });
 
-                } else {
+                }
+                else {
 
                     res.json({status: "success", message: "No record found!!!!"});
                 }
             });
-        } else {
+        }
+        else {
             res.json({status: "error", message: "Something goes wrong!!!!"});
         }
     });
@@ -268,9 +255,11 @@ module.exports = (apiRoutes) => {
                 if (req.body.hasOwnProperty('imagedata')) {
                     obj.photodata = req.body.imagedata;
                     obj.isphoto = 'true'
-                } else if (req.body.hasOwnProperty('professional')) {
+                }
+                else if (req.body.hasOwnProperty('professional')) {
                     obj.professional = req.body.professional;
-                } else {
+                }
+                else {
                     obj.aboutme = req.body.aboutme;
                 }
 
@@ -279,15 +268,18 @@ module.exports = (apiRoutes) => {
                         obj, {}, (data) => {
                     res.json({status: "success", message: "Image Update Successfully!! !!!!"});
                 });
-            } else {
+            }
+            else {
 
                 var obj = {};
                 if (req.body.hasOwnProperty('imagedata')) {
                     obj.photodata = req.body.imagedata;
                     obj.isphoto = 'true'
-                } else if (req.body.hasOwnProperty('professional')) {
+                }
+                else if (req.body.hasOwnProperty('professional')) {
                     obj.professional = req.body.professional;
-                } else {
+                }
+                else {
                     obj.aboutme = req.body.aboutme;
                 }
                 obj.userId = cryptr.decrypt(req.body.userId);
@@ -335,7 +327,7 @@ module.exports = (apiRoutes) => {
                     ftype: 'SR',
                     userid: mongoose.Types.ObjectId(cryptr.decrypt(req.body.requestedto))
                 }}
-        }, function (err, doc) {
+        }, function(err, doc) {
             /** Push to another frind **/
             var query = {'_id': cryptr.decrypt(req.body.requestedto)};
             Users.findOneAndUpdate(query, {
@@ -344,7 +336,7 @@ module.exports = (apiRoutes) => {
                         ftype: 'RR',
                         userid: mongoose.Types.ObjectId(cryptr.decrypt(req.body.requestedby))
                     }}
-            }, function (err, doc) {
+            }, function(err, doc) {
                 res.json({status: "pending"});
             });
         });
@@ -361,7 +353,7 @@ module.exports = (apiRoutes) => {
         };
 
         Users.findOneAndUpdate(queryOne, {$set: {"friends.$.status": 'ACCEPT'}},
-                function (err, doc) {
+                function(err, doc) {
 
                     /** Push to another frind **/
                     var query = {
@@ -370,7 +362,7 @@ module.exports = (apiRoutes) => {
                     };
 
                     Users.findOneAndUpdate(query, {$set: {"friends.$.status": 'ACCEPT'}},
-                            function (err, doc) {
+                            function(err, doc) {
                                 res.json({status: doc});
                             });
                 });
@@ -400,7 +392,6 @@ module.exports = (apiRoutes) => {
                             }
                         }
                     }},
-
                 {
                     "$lookup": {
                         "from": "users",
@@ -417,7 +408,8 @@ module.exports = (apiRoutes) => {
                 ;
                 if (results.length > 0) {
                     res.json({status: "success", list: contr.getuserList(results[0].finaldata)});
-                } else {
+                }
+                else {
                     res.json({status: "success", message: "No record found!!!!"});
                 }
             });
@@ -427,7 +419,7 @@ module.exports = (apiRoutes) => {
     });
 
 
-    apiRoutes.post(`/${SERVICE_CONST.SAVE_POST}`, function (req, res, next) {
+    apiRoutes.post(`/${SERVICE_CONST.SAVE_POST}`, function(req, res, next) {
 
         req.body._author = cryptr.decrypt(req.body.userid);
         if (req.body.hasOwnProperty('content')) {
@@ -443,7 +435,8 @@ module.exports = (apiRoutes) => {
                 res.json({status: "success", message: messgae});
             });
 
-        } else {
+        }
+        else {
             let post = new Posts(req.body);
             post.save((err, data) => {
                 if (err !== null) {
@@ -460,7 +453,7 @@ module.exports = (apiRoutes) => {
 
     });
 
-    apiRoutes.post(`/${SERVICE_CONST.GET_MY_POSTS}`, function (req, res) {
+    apiRoutes.post(`/${SERVICE_CONST.GET_MY_POSTS}`, function(req, res) {
         let reqdata = req.body, postid = '', obj = {};
         if (req.body.hasOwnProperty('postid')) {
             postid = req.body.postid;
@@ -470,32 +463,32 @@ module.exports = (apiRoutes) => {
             if (postid !== '') {
                 obj._id = mongoose.Types.ObjectId(postid);
             }
-        } else {
+        }
+        else {
             obj.flag = 'p';
         }
-       
-        Posts.aggregate([  
-            {"$match": obj} ,
-            { $sort: { date: -1 } },
-           
-            { $lookup: { from: 'users', localField: '_author', foreignField:'_id', as:'userDetail'}}, // post+ user
-            { $lookup: { from: 'comments', localField: '_id', foreignField:'postid',  as:'commentdata'}},  // post+ comments
-           // { $lookup: { from: 'commentdata', foreignField: 'commentdata.postby', localField:'users._id', as:'commentuser'}},
-            { $project :{ "userDetail": {"registerTime":0, "friends": 0, "_id": 0, "token":0, "city":0,"password":0,"userid":0}}}
-             
+
+        Posts.aggregate([
+            {"$match": obj},
+            {$sort: {date: - 1}},
+            {$lookup: {from: 'users', localField: '_author', foreignField: '_id', as: 'userDetail'}}, // post+ user
+            {$lookup: {from: 'comments', localField: '_id', foreignField: 'postid', as: 'commentdata'}}, // post+ comments
+            // { $lookup: { from: 'commentdata', foreignField: 'commentdata.postby', localField:'users._id', as:'commentuser'}},
+            {$project: {"userDetail": {"registerTime": 0, "friends": 0, "_id": 0, "token": 0, "city": 0, "password": 0, "userid": 0}}}
+
 
         ]).exec((error, results) => {
-             if (error) {
+            if (error) {
                 res.json({status: error});
             }
-         
+
             var contr = new UserController();
             contr.getPostDetails(results);
-            res.json({status: "Post Listing", posts:  results, obj:obj});
+            res.json({status: "Post Listing", posts: results, obj: obj});
         });
     });
 
-    apiRoutes.post(`/${SERVICE_CONST.DELETE_MY_POST}`, function (req, res) {
+    apiRoutes.post(`/${SERVICE_CONST.DELETE_MY_POST}`, function(req, res) {
 
         let userId = cryptr.decrypt(req.body.userid);
         if (req.body.postid !== '') {
@@ -510,24 +503,24 @@ module.exports = (apiRoutes) => {
 
 
 
-    apiRoutes.post(`/${SERVICE_CONST.SAVE_COMMENT}`, function (req, res) {
- 
-         let  obj = {
-            postby:mongoose.Types.ObjectId(cryptr.decrypt(req.body.postby)) ,
-            postid:mongoose.Types.ObjectId(req.body.postid),
-            comment:req.body.comment
-        }; 
-    
-            let comment = new Comments(obj);
-            comment.save((err, data) => {
-                if (err !== null) {
-                    res.json({status: 'error', message: err});
-                }
-                let messgae = "Comment has been Saved successfully";
-                
-                res.json({status: "success", message: messgae, commentdata:data});
-            });
-       
+    apiRoutes.post(`/${SERVICE_CONST.SAVE_COMMENT}`, function(req, res) {
+
+        let  obj = {
+            postby: mongoose.Types.ObjectId(cryptr.decrypt(req.body.postby)),
+            postid: mongoose.Types.ObjectId(req.body.postid),
+            comment: req.body.comment
+        };
+
+        let comment = new Comments(obj);
+        comment.save((err, data) => {
+            if (err !== null) {
+                res.json({status: 'error', message: err});
+            }
+            let messgae = "Comment has been Saved successfully";
+
+            res.json({status: "success", message: messgae, commentdata: data});
+        });
+
 
     });
 

@@ -2,67 +2,35 @@ import PubSub from 'pubsub-js';
 import 'whatwg-fetch';
 
 export class Auth {
+    constructor() {
+        this.newTokenInmin = 6000;
+        this.interval = null;
 
-  constructor() {
-    // 1 min =60000
-    // 10 min=600000
-    this.newTokenInmin = 60000;
-    this.interval=null;
-
-  }
-
-  validateToken(pathtorediect) {
-    fetch ('/api/authvalidate', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': window.localStorage.getItem ('accessToken')
-      },
-      body: JSON.stringify ({})
     }
-    ).then (res => res.json ()).then (json => {
-      console.log (json);
-      if (json.statuscode === 403) {
-       PubSub.publish ('IS_LOGIN', {status: false, token: window.localStorage.getItem ('accessToken')});
-        pathtorediect ();
-      }
-    });
+    activeInterval() {
+        clearInterval(this.interval);
 
-  }
-  ;
-    distroyedToken(pathtorediect) {
-    fetch ('/api/invalidate', {
-      method: 'post',
-      body: JSON.stringify ({})
+        this.interval = setInterval(() => {
+            this.requestNewToken();
+        }, this.newTokenInmin);
     }
-    ).then (res => res.json ()).then (json => {
-      console.log (json);
-      if (json.statuscode === 403) {
-        pathtorediect ();
-      }
-    });
-
-  }
-  ;
+    stopInterval() {
+        clearInterval(this.interval);
+    }
     requestNewToken() {
+        console.log(">>>New token >>");
 
-    this.interval = setInterval (() => {
-      fetch ('/api/newtoken', {
-        method: 'post',
-        body: JSON.stringify ({})
-      }
-      ).then (res => res.json ()).then (json => {
-        console.log ("newToken>>>>>>>>>", json);
-        window.localStorage.setItem ('accessToken', json.accesstoken);
-      });
-    }, this.newTokenInmin);
-
-  };
-  
-  clearInterval(){
-    
-    clearInterval( this.interval);
-    
-  }
-
+        fetch('/api/newtoken', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-access-token': window.localStorage.getItem('accessToken'),
+                'id': window.localStorage.getItem('userid')
+            },
+            body: JSON.stringify({})
+        }
+        ).then(res => res.json()).then(json => {
+            window.localStorage.setItem('accessToken', json.accesstoken);
+        });
+    }
 }
