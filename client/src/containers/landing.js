@@ -23,7 +23,6 @@ class Landing extends Component {
   render() {
     return (
       <div className="main-landing row content">
-      
         {
           (() => {
             if (this.state.currentuser) {
@@ -33,11 +32,9 @@ class Landing extends Component {
                         <Profilecard/>
                         <div className="panel panel-default">
                           <div className="panel-heading">
-                            <h5><b>Conversation </b> </h5>
                           </div>
                           <UserList/>
                         </div>
-                  
                       </div>
                       <div className="col-md-6 col-sm-6">
                         <div className={` ${this.state.isnotify} `}>
@@ -54,11 +51,9 @@ class Landing extends Component {
         }else{
                   return (
                       <div>
-                        
                         <div className="col-md-6 col-sm-6"> 
-                             <img src="../../img/logo/applogo.PNG"/>
+                             <img className="logoImg-connect" src="../../img/logo/applogo.PNG"/>
                         </div>
-                        
                         <div className="col-md-6 col-sm-6">
                           <MyPosts forall="true"/>
                         </div>

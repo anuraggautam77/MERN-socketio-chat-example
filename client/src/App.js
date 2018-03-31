@@ -1,36 +1,35 @@
-import React, {Component} from 'react';
+import React, {PropTypes, Component} from 'react';
 import { withRouter } from "react-router-dom";
 import {Auth} from './common/auth';
 import PubSub from 'pubsub-js';
 import './style/css/App.scss';
 import Routing from './router/router';
 
+import Speechcontainer from './speechcontainer';
+
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {"isLoggedIn": window.localStorage.getItem('isLoggedIn')};
-        
-        
         this.mySubscriber = this.mySubscriber.bind(this);
         PubSub.subscribe('IS_LOGIN', this.mySubscriber);
         this.auth = new Auth();
-        
-        if(this.state.isLoggedIn){
-             this.auth.activeInterval();
-        }else{
+
+        if (this.state.isLoggedIn) {
+            this.auth.activeInterval(this.props.history);
+        }
+        else {
             this.auth.stopInterval();
         }
-        
-
     }
     mySubscriber(msg, data) {
-      
+
         if (data.status) {
             window.localStorage.setItem('accessToken', data.token);
             window.localStorage.setItem('userid', data.userid);
             window.localStorage.setItem('isLoggedIn', true);
-            this.auth.activeInterval();
+            this.auth.activeInterval(this.props.history);
         }
         else {
             window.localStorage.removeItem('accessToken');
@@ -51,9 +50,9 @@ class App extends Component {
 
     }
     render() {
-        console.log(this.state.isLoggedIn);
         return (
                 <div>
+                    <Speechcontainer/>
                     <Routing islogin={this.state.isLoggedIn} />
                 </div>);
     }

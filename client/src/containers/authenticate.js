@@ -19,7 +19,7 @@ class Authentication extends Component {
         }
         ).then(res => res.json()).then(json => {
 
-            if (json.status === 403) {
+            if (json.status!== 200) {
                 this.props.check(false);
                 PubSub.publish('IS_LOGIN', {status: false, token: window.localStorage.getItem('accessToken')});
                 this.props.history.push("/login");

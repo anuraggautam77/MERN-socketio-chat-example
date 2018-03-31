@@ -4,8 +4,6 @@ const UserController = require('../../userController');
 
 const Posts = require('../../models/Posts');
 const Comments = require('../../models/Comments');
-
-
 const bcrypt = require('bcrypt');
 const Cryptr = require('cryptr');
 const jwt = require('jsonwebtoken');
@@ -39,8 +37,6 @@ const SERVICE_CONST = {
     DELETE_MY_POST: 'deletemypost',
     SAVE_COMMENT: 'savecomment'
 
-
-
 };
 
 let cryptr = new Cryptr(USER_ID_ENCRYPT_DECTYPT);
@@ -49,11 +45,7 @@ module.exports = (apiRoutes) => {
 
     function  generateNewToken(userId) {
 
-        var token = jwt.sign({
-            auth: userId,
-            exp: Math.floor(new Date().getTime() / 1000) + 7 * 24 * 60 * 60
-        }, SECRETKEY);
-
+        var token = jwt.sign({ auth: userId }, SECRETKEY,{ expiresIn: '20000' });
         return token;
     }
 
@@ -66,16 +58,16 @@ module.exports = (apiRoutes) => {
             jwt.verify(token, SECRETKEY, function(err, decoded) {
                 if (decoded === undefined) {
                     obj.status = 403;
-                    obj.message = 'No token provided';
+                    obj.message = 'No token provided>>';
                 }
                 else if (decoded.auth === cryptr.decrypt(userid)) {
                     obj.status = 200;
-                    obj.message = 'valid token';
+                    obj.message = 'valid token>>>>>';
 
                 }
                 else {
                     obj.status = 403;
-                    obj.message = 'Invalid token';
+                    obj.message = 'Invalid token>>>>>';
 
                 }
             });
@@ -103,6 +95,7 @@ module.exports = (apiRoutes) => {
 
         }
         else {
+             
             res.status(objCheck.status).json({status: objCheck.status, message: objCheck.message});
         }
     });
@@ -523,14 +516,6 @@ module.exports = (apiRoutes) => {
 
 
     });
-
-
-
-
-
-
-
-
 
 
 };

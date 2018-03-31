@@ -39,7 +39,7 @@ class Preview extends Component {
                                  this.resetErrorConatiner();
                           });   
                                
-                 })
+                 });
     } 
     
     editPost(id) {
@@ -94,7 +94,7 @@ class Preview extends Component {
             
          let status= 'Saved';
            if(obj.flag==='p'){
-                status='Published'
+                status='Published';
             } 
             return (
                     <div className="row" key={obj._id}>

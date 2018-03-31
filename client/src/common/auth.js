@@ -5,11 +5,13 @@ export class Auth {
     constructor() {
         this.newTokenInmin = 6000;
         this.interval = null;
+        this.history = null;
 
     }
-    activeInterval() {
-        clearInterval(this.interval);
+    activeInterval(history) {
+        this.history = history;
 
+        clearInterval(this.interval);
         this.interval = setInterval(() => {
             this.requestNewToken();
         }, this.newTokenInmin);
@@ -18,8 +20,6 @@ export class Auth {
         clearInterval(this.interval);
     }
     requestNewToken() {
-        console.log(">>>New token >>");
-
         fetch('/api/newtoken', {
             method: 'post',
             headers: {
@@ -30,7 +30,13 @@ export class Auth {
             body: JSON.stringify({})
         }
         ).then(res => res.json()).then(json => {
-            window.localStorage.setItem('accessToken', json.accesstoken);
+            if (json.accesstoken !== undefined) {
+                window.localStorage.setItem('accessToken', json.accesstoken);
+            }
+            else {
+                PubSub.publish('IS_LOGIN', {status: false, token: window.localStorage.getItem('accessToken')});
+            }
+
         });
     }
 }
