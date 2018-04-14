@@ -37,7 +37,7 @@ npm run start:dev
 
 ## Demo Link
 
-- [Click here](https://mern-socketio.herokuapp.com/)
+- [Click here](https://share-and-connect.herokuapp.com/)
 
 
 Screenshot
