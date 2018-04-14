@@ -23,12 +23,11 @@ class Detail extends Component {
   
   
   componentDidMount() {
- console.log(this.state.userid)
-    fetch("/api/getmyposts", {
+    fetch("/api/getdetailpost", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(
-             {userid: this.state.userid, postid: this.state.postid}
+             {postid: this.state.postid}
        )
     }) .then(res => res.json()) .then(json => {
       this.setState({ posts: json.posts });
@@ -74,7 +73,7 @@ class Detail extends Component {
                Tags : {obj.tags}
             </li>
           </ul>
-          <div className='dn' ref={`comment-${obj._id}`}> <Comment commentsdata={obj.commentdata} postid={obj._id} /> </div>
+          <div ref={`comment-${obj._id}`}> <Comment commentsdata={obj.commentdata} postid={obj._id} /> </div>
         </div>
       );
     });

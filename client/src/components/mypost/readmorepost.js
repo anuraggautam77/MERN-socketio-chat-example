@@ -24,7 +24,7 @@ class ReadMorePost extends Component {
         this.state = {
             userid: userId,
             posts: [],
-            commentShow: 'dn',
+            commentShow: '',
             onlytext: onlytext,
             isGrid: isGrid
 
@@ -148,7 +148,12 @@ class ReadMorePost extends Component {
                                             <li>|</li>
                                             <li>
                                                 <span>
-                                                    <i className="glyphicon glyphicon-comment" /><a href="javascript:void(0)"> {obj.commentdata.length} comment(s)</a>
+                                                    <i className="glyphicon glyphicon-comment" />
+                                                   
+                                                    <NavLink to={ `post/${obj._id}/${linkurl}`} className="post-title" >
+                                                      {obj.commentdata.length} comment(s)
+                                                   </NavLink>
+                                                    
                                                 </span>
                                             </li> 
                                             <li> |</li>

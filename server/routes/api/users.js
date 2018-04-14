@@ -35,7 +35,8 @@ const SERVICE_CONST = {
     SAVE_POST: 'savepost',
     GET_MY_POSTS: 'getmyposts',
     DELETE_MY_POST: 'deletemypost',
-    SAVE_COMMENT: 'savecomment'
+    SAVE_COMMENT: 'savecomment',
+    DETAIL_POST:'getdetailpost'
 
 };
 
@@ -458,9 +459,7 @@ module.exports = (apiRoutes) => {
             if (postid !== '') {
                 obj._id = mongoose.Types.ObjectId(postid);
             }
-        }else if(reqdata.userid == '' & postid!=''){
-             obj._id = mongoose.Types.ObjectId(postid);
-        }
+        } 
         else {
             obj.flag = 'p';
         }
@@ -484,7 +483,37 @@ module.exports = (apiRoutes) => {
             res.json({status: "Post Listing", posts: results, obj: obj});
         });
     });
+    
+    apiRoutes.post(`/${SERVICE_CONST.DETAIL_POST}`, function(req, res) {
+        let reqdata = req.body, postid = '', obj = {};
+       
+        if (req.body.hasOwnProperty('postid')) {
+            postid = req.body.postid;
+        }
+        if (postid !== '') {
+                obj._id = mongoose.Types.ObjectId(postid);
+         }
+         obj.flag = 'p';
+        
+        Posts.aggregate([
+            {"$match": obj},
+            {$lookup: {from: 'users', localField: '_author', foreignField: '_id', as: 'userDetail'}}, // post+ user
+            {$lookup: {from: 'comments', localField: '_id', foreignField: 'postid', as: 'commentdata'}}, // post+ comments
+            // { $lookup: { from: 'commentdata', foreignField: 'commentdata.postby', localField:'users._id', as:'commentuser'}},
+            {$project: {"userDetail": {"registerTime": 0, "friends": 0, "_id": 0, "token": 0, "city": 0, "password": 0, "userid": 0}}}
 
+
+        ]).exec((error, results) => {
+            if (error) {
+                res.json({status: error});
+            }
+
+            var contr = new UserController();
+            contr.getPostDetails(results,req.body.onlytext);
+            res.json({status: "Post Listing", posts: results, obj: obj});
+        });
+    });
+    
     apiRoutes.post(`/${SERVICE_CONST.DELETE_MY_POST}`, function(req, res) {
 
         let userId = cryptr.decrypt(req.body.userid);
