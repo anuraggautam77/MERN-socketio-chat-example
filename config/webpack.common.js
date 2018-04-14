@@ -33,7 +33,6 @@ module.exports = {
       // JS files
       {
         test: /\.js$/,
-       // exclude: /(node_modules)/,
         options: {
           ignore: ['/node_modules/','/server/','/config']
         },

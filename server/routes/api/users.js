@@ -451,11 +451,15 @@ module.exports = (apiRoutes) => {
         if (req.body.hasOwnProperty('postid')) {
             postid = req.body.postid;
         }
+        
+        
         if (reqdata.userid !== '') {
             obj = {'_author': mongoose.Types.ObjectId(cryptr.decrypt(reqdata.userid))};
             if (postid !== '') {
                 obj._id = mongoose.Types.ObjectId(postid);
             }
+        }else if(reqdata.userid == '' & postid!=''){
+             obj._id = mongoose.Types.ObjectId(postid);
         }
         else {
             obj.flag = 'p';
@@ -476,7 +480,7 @@ module.exports = (apiRoutes) => {
             }
 
             var contr = new UserController();
-            contr.getPostDetails(results);
+            contr.getPostDetails(results,req.body.onlytext);
             res.json({status: "Post Listing", posts: results, obj: obj});
         });
     });

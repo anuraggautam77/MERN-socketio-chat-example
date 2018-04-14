@@ -56,8 +56,6 @@ class Preview extends Component {
           fetch('/api/savepost', {method: 'post', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(obj)})
                 .then(res => res.json())
                 .then(json => {
-            
-          
                 var updatedpost= this.state.posts.filter((e)=>{
                                       if(e._id===id){ 
                                           e.flag=flag;

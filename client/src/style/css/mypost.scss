@@ -1,8 +1,5 @@
 .mypost{ 
-
     background-color: #dddddd;
-
-
     input, textarea {
         outline: none;
         border: none;
@@ -36,8 +33,6 @@
         display: table;
         width: 100%;
     }
- 
-
     .comment-block {
         padding: 5px;
         background-color: #fff;
@@ -52,8 +47,6 @@
     .comment-block textarea {
         width: 100%;
         resize: none;
-        
-        
     }
     
     .comment-text {
@@ -68,6 +61,4 @@
     .comment-date {
         float: left;
     }
-
-   
 }

@@ -3,23 +3,16 @@ import "../../style/css/mypost.scss";
 import Comment from './postcomment';
 
 
-class Listing extends Component {
+class Detail extends Component {
   constructor(props) {
     super(props);
-    let userId='', onlytext=false;
-    
-    if(!props.hasOwnProperty('forall')){
-      userId=window.localStorage.getItem("userid");
-    } 
-    if(props.hasOwnProperty('onlytext')){
-        onlytext=true;
-    } 
-    
+     let userid=window.localStorage.getItem("userid");
+         
     this.state = {
-      userid: userId,
-      posts: [],
-      commentShow:'dn',
-      onlytext:onlytext
+      userid: (userid==null)? '':userid,
+      posts:[],
+      postid:props.postid,
+      commentShow:'dn'
     };
     this.showComments= this.showComments.bind(this); 
   }
@@ -30,11 +23,13 @@ class Listing extends Component {
   
   
   componentDidMount() {
- 
+ console.log(this.state.userid)
     fetch("/api/getmyposts", {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify(
+             {userid: this.state.userid, postid: this.state.postid}
+       )
     }) .then(res => res.json()) .then(json => {
       this.setState({ posts: json.posts });
       });
@@ -92,4 +87,4 @@ class Listing extends Component {
   }
 }
 
-export default Listing;
+export default Detail;

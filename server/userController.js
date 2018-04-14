@@ -5,9 +5,10 @@
  */
 const mongoose = require('mongoose');
 const Cryptr = require('cryptr');
+const sanitizeHtml = require('sanitize-html');
+const _ = require('lodash');
 const USER_ID_ENCRYPT_DECTYPT = 'user_id_incrption_decription';
 module.exports = class UserController {
-
     getuserList(userdata) {
         let cryptr = new Cryptr(USER_ID_ENCRYPT_DECTYPT);
         let userList = [];
@@ -27,7 +28,6 @@ module.exports = class UserController {
         });
         return userList;
     }
-
     returnfnrdData(data, cryptr) {
         var temp = [];
         data.forEach((val1, k) => {
@@ -36,7 +36,6 @@ module.exports = class UserController {
         return  temp;
 
     }
-
     getUserDetails(detail) {
 
         let cryptr = new Cryptr(USER_ID_ENCRYPT_DECTYPT);
@@ -56,19 +55,33 @@ module.exports = class UserController {
         }
         return userList;
     }
-
-    getPostDetails(posts) {
+    getPostDetails(posts, onlytext) {
         let cryptr = new Cryptr(USER_ID_ENCRYPT_DECTYPT);
         posts.forEach((val, i) => {
-            val.user={};
+
+            if (onlytext) {
+                var re = /<img[^>]+src="?([^"\s]+)"?[^>]*\/>/g;
+                var results = re.exec(val.body);
+                var img = "";
+                if (results)
+                    img = results[1];
+                let stringdata = sanitizeHtml(val.body, {
+                    allowedTags: [],
+                    allowedAttributes: [],
+                    selfClosing: []
+                });
+                val.img = img;
+                val.body = _.truncate(_.trim(stringdata), { 'length': 350, 'separator': /,? +/ });
+            }
+            val.user = {};
             val._author = cryptr.encrypt(val._author);
             val.user.fname = val.userDetail[0].firstName;
             val.user.lname = val.userDetail[0].lastName;
-            val.user.email=val.userDetail[0].email;
+            val.user.email = val.userDetail[0].email;
             delete val.userDetail;
         });
 
-      return posts;
+        return posts;
     }
     ;
 };

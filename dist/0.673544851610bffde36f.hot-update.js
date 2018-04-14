@@ -1,1 +1,0 @@
-webpackHotUpdate(0,{151:!1,40:!1,41:function(e,t,r){"use strict";function u(e){return e&&e.__esModule?e:{default:e}}var a=r(0),l=u(a),n=r(42),d=u(n),c=r(2);r(86);var f=r(88),o=u(f);d.default.render(l.default.createElement(c.BrowserRouter,null,l.default.createElement(o.default,null)),document.getElementById("app-wrapper"))}});

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
  
-import Home from '../containers/home';
+//import Home from '../containers/home';
 import Posts from '../containers/posts';
 import Profile from '../containers/profile';
-import List from '../containers/list';
+ 
 import Login from '../containers/login';
-import Landing from '../containers/landing';
+import MainPage from '../containers/mainpage';
+import PostDetail from '../containers/postdetail';
+
 import NavMenu from '../components/navigation/nav';
+ 
+
 
 export default class Routing extends Component {
     
@@ -25,14 +29,14 @@ export default class Routing extends Component {
                       <NavMenu islogin={this.props.islogin}/>
                  </div>
                  <div className="container">
-                    <Route path="/home" exact component={Home} />
-                    <Route path="/" exact component={Landing} />
+                    <Route path="/" exact component={MainPage} />
+                    <Route path="/main" component={MainPage} />
                     <Route path="/login" exact component={Login} />
                     <Route path="/posts" component={Posts} />
-                    <Route path="/list" component={List} />
                     <Route path="/profile" exact component={Profile} />
                     <Route path="/profile/:id"  component={Profile} />
-                    <Route path="/main" component={Landing} />
+                    <Route path="/post/:id"  component={PostDetail} />
+                  
                      
                 </div>
              </div>      

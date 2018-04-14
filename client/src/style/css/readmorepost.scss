@@ -1,0 +1,33 @@
+.readmore{
+
+    .leftimage{
+        margin: 0 0px 0 0;
+        padding-left: 0; 
+    }
+
+    .btn
+    {
+        transition: all .2s linear;
+        -webkit-transition: all .2s linear;
+        -moz-transition: all .2s linear;
+        -o-transition: all .2s linear;
+    }
+    .btn-read-more
+    {
+        padding: 5px;
+        text-align: center;
+        border-radius: 0px;
+        display: inline-block;
+        border: 2px solid #662D91;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 12px;
+        color:#662D91;
+    }
+
+    .post { border-bottom:1px solid #DDD }
+    .post-title {  color:#662D91; }
+    .post .glyphicon { margin-right:5px; }
+    .post-content { padding: 15px;}
+}

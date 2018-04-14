@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Header from '../header/header';
 import BasicInfo from './basicinfo';
 import Aboutme from './aboutme';
 import Professional from './professional';
