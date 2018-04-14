@@ -42,7 +42,7 @@ npm run start:dev
 
 Screenshot
 One To One Chat 
-![chat](https://user-images.githubusercontent.com/1465967/35788070-cb037cae-0a58-11e8-8fb7-b71f804f3ba9.PNG)
+![capture](https://user-images.githubusercontent.com/1465967/38768216-913d7944-400d-11e8-9a3e-12807b8ef86e.PNG)
 
 
 User 1
