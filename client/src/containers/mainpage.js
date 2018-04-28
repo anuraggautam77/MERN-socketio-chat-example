@@ -21,50 +21,48 @@ class MainPage extends Component {
     }
     render() {
         return (
-<div className="main-landing row content">
-    {
-                (() => {
-                if (this.state.currentuser) {
-                return (
-    <div className="landing-page">
-        <div className="col-md-3 col-sm-6 proilecard"> 
-            <Profilecard/>
-            <div className="panel panel-default">
-                <div className="panel-heading">
+                <div className="main-landing row content">
+                    {
+                        (() => {
+                            if (this.state.currentuser) {
+                                    return (
+                                                <div className="landing-page">
+                                                    <div className="col-md-3 col-sm-6 proilecard"> 
+                                                        <Profilecard/>
+                                                        <div className="panel panel-default">
+                                                            <div className="panel-heading">
+                                                            </div>
+                                                            <UserList/>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-6 col-sm-6">
+                                                        <div className={` ${this.state.isnotify} `}>
+                                                            <strong>{this.state.alertmessage}</strong>
+                                                        </div>
+                                                        <ReadMorePost forall="true" onlytext="true"  />
+                                                    </div>
+                                                    <div className="col-md-3 col-sm-6 proilecard">
+                                                        <Newfriend/>      
+                                                    </div>
+                                                    <Chatwindow/>
+                                                </div>
+                                            );
+                    }else{
+                                            return (
+                                                        <div className="col-md-12 col-sm-12">
+                                                            <ReadMorePost forall="true" onlytext="true" isGrid="true"  />      
+                                                        </div>
+                                                    );
+                    }
+                
+                    })()
+                    }
+                
                 </div>
-                <UserList/>
-            </div>
-        </div>
-        <div className="col-md-6 col-sm-6">
-            <div className={` ${this.state.isnotify} `}>
-                <strong>{this.state.alertmessage}</strong>
-            </div>
-            {  /* <MyPosts forall="true" onlytext="true" /> */ }
-            <ReadMorePost forall="true" onlytext="true"  />
-        </div>
-        <div className="col-md-3 col-sm-6 proilecard">
-            <Newfriend/>      
-        </div>
-        <Chatwindow/>
-    </div>
-                        );
-    }else{
-          return (
-        <div className="col-md-12 col-sm-12">
-             <ReadMorePost forall="true" onlytext="true" isGrid="true"  />      
-        </div>
-       );
+
+
+                    );
     }
+}
 
-    })()
-    }
-
-</div>
-
-
-                );
-            }
-        }
-        ;
-
-        export default MainPage;
+export default MainPage;

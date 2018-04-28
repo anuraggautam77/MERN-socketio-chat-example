@@ -6,19 +6,20 @@ class speechContainer extends Component {
         this.state = {
             notimessage: ''
         };
-
+        this.recognition= null;
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         this.synth = window.speechSynthesis;
-        this.utterance = new SpeechSynthesisUtterance();
+     
 
         if (navigator.userAgent.indexOf('Chrome') != - 1) {
+               this.utterance = new SpeechSynthesisUtterance();
             this.recognition = new SpeechRecognition();
             this.recognition.start();
-        }
+         }
 
     }
     componentWillMount() {
-
+        if(this.recognition!==null){
         this.recognition.addEventListener('speechstart', () => {
             console.log('Speech has been detected.');
         });
@@ -37,25 +38,15 @@ class speechContainer extends Component {
             console.log("endded");
             this.recognition.start();
         });
-
-
-
-
+        }
     }
     whatYouSpeak(obj) {
-
         let last = obj.length - 1;
         let text = obj[last][0].transcript;
-
          let  notitext = `You mean to say : ${text} `;
          this.setState({notimessage: notitext});
-
         this.utterance.text = notitext;
         this.synth.speak(this.utterance);
-
-
-
-
     }
     /*
      this.recognition.addEventListener('result', (e) => {
