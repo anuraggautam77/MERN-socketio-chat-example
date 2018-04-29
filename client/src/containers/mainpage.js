@@ -18,6 +18,12 @@ class MainPage extends Component {
         PubSub.subscribe('LANDING_MESSGAE', (type, message) => {
             this.setState({"alertmessage": message, isnotify: 'alert alert-success bd'});
         });
+        
+        PubSub.subscribe('IS_LOGOUT', (type, message) => {
+            this.setState({"currentuser": false});
+        });
+        
+        
     }
     render() {
         return (

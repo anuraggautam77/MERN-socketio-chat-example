@@ -43,7 +43,6 @@ messaging.requestPermission()
         });
 
 if ('serviceWorker' in navigator) {
-    console.log(">> In service !!");
     navigator.serviceWorker.register('firebase-messaging-sw.js')
             .then(function (registration) {
                 console.log('Registration successful, scope is:', registration.scope);

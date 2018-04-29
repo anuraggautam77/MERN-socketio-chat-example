@@ -29,15 +29,13 @@ export default class Routing extends Component {
                       <NavMenu islogin={this.props.islogin}/>
                  </div>
                  <div className="container">
-                    <Route path="/" exact component={MainPage} />
-                    <Route path="/main" component={MainPage} />
+                    <Route path="/"   exact component={MainPage} />
+                    <Route path="/main"   component={MainPage} />
                     <Route path="/login" exact component={Login} />
                     <Route path="/posts" component={Posts} />
                     <Route path="/profile" exact component={Profile} />
                     <Route path="/profile/:id"  component={Profile} />
                     <Route path="/post/:id"  component={PostDetail} />
-                  
-                     
                 </div>
              </div>      
             </Router>

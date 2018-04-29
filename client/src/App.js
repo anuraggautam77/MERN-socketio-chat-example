@@ -4,9 +4,7 @@ import {Auth} from './common/auth';
 import PubSub from 'pubsub-js';
 import './style/css/App.scss';
 import Routing from './router/router';
-
 import Speechcontainer from './speechcontainer';
-
 
 class App extends Component {
     constructor(props) {
@@ -37,17 +35,22 @@ class App extends Component {
             window.localStorage.removeItem('isLoggedIn');
             this.auth.stopInterval();
         }
-        this.isLoggedIn(data);
+       this.isLoggedIn(data);
     }
     isLoggedIn(data) {
         var boolFlag = window.localStorage.getItem('isLoggedIn');
         if (data.hasOwnProperty('callback')) {
             data.callback();
         }
+        
+        if(!data.status){
+            PubSub.publish('IS_LOGOUT');   
+        }
+     
         this.setState({
             isLoggedIn: (boolFlag !== null && boolFlag !== '') ? JSON.parse(boolFlag) : false
         });
-
+     
     }
     render() {
         return (
