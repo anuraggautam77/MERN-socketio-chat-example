@@ -12,9 +12,8 @@ class NavMenu extends Component {
     logoutclick() {
       PubSub.publish ('IS_LOGIN', {status: false, token: window.localStorage.getItem ('accessToken'),callback:()=>{
            this.props.history.push ("/login");
-      }}); 
-  }
-  ;
+     }}); 
+  } 
     render() {
     return (
       <nav className="navbar navbar-default">
