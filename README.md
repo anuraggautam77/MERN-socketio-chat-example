@@ -7,6 +7,13 @@ This is a boilerplate project using the following technologies:
 - [Webpack](https://webpack.github.io/) for compilations
 - [Socket io](https://socket.io/) for One to One chat between multiple user
 - [JWT Token](https://jwt.io/) for Token Signing/Verification 
+ 
+#Progressive web APP
+
+- [PWA](https://developers.google.com/web/progressive-web-apps/)  PWA Implemenation
+- [FCM](https://firebase.google.com/docs/cloud-messaging/) FCM (FireBase Cloud Message) FireBase Push Notification to Devices
+
+
 
 
 ## Requirements
