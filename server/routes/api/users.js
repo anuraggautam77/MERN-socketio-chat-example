@@ -1,7 +1,6 @@
 const Users = require('../../models/User');
 const UsersDetails = require('../../models/Userdetails');
 const UserController = require('../../userController');
-
 const Posts = require('../../models/Posts');
 const Comments = require('../../models/Comments');
 const Fcm = require('../../models/fcm');
@@ -15,11 +14,8 @@ const saltRounds = 10;
 const SECRETKEY = 'iamnewinthistechstack';
 const USER_ID_ENCRYPT_DECTYPT = 'user_id_incrption_decription';
 const SECRETKEY_WRONG = 'wrongtoken';
-
 const DUPLICATE_CODE = 11000;
 const folderpath = path.resolve("server/upload/images");
-
-
 const SERVICE_CONST = {
     NEW_USER: "newuser",
     SIGN_IN: "singin",
@@ -39,21 +35,17 @@ const SERVICE_CONST = {
     SAVE_COMMENT: 'savecomment',
     DETAIL_POST: 'getdetailpost',
     USER_FCM: 'savefcm',
-    GET_FCM: 'getfcm'
-
+    GET_FCM: 'getfcm',
+    GET_SUB_NOTIFICATION: 'subnotification',
+    POST_NOTIFICATION: 'postnotification',
 };
-
 let cryptr = new Cryptr(USER_ID_ENCRYPT_DECTYPT);
-
 module.exports = (apiRoutes) => {
 
     function  generateNewToken(userId) {
         var token = jwt.sign({auth: userId}, SECRETKEY, {expiresIn: '20000'});
         return token;
     }
-
-
-
 
     function tokenVerify(req, res) {
 
@@ -67,11 +59,9 @@ module.exports = (apiRoutes) => {
                 } else if (decoded.auth === cryptr.decrypt(userid)) {
                     obj.status = 200;
                     obj.message = 'valid token>>>>>';
-
                 } else {
                     obj.status = 403;
                     obj.message = 'Invalid token>>>>>';
-
                 }
             });
         } else {
@@ -86,23 +76,17 @@ module.exports = (apiRoutes) => {
     apiRoutes.post(`/${SERVICE_CONST.AUTH_VALIDATE}`, function (req, res) {
         let objCheck = tokenVerify(req, res);
         res.status(objCheck.status).json({status: objCheck.status, message: objCheck.message});
-
     });
-
     apiRoutes.post(`/${SERVICE_CONST.NEW_TOKEN}`, function (req, res) {
         let objCheck = tokenVerify(req, res);
         if (objCheck.status === 200) {
             var token = generateNewToken(cryptr.decrypt(req.headers['id']));
             res.status(objCheck.status).json({status: "success", message: 'New token !!', accesstoken: token, userid: req.headers['id']});
-
         } else {
 
             res.status(objCheck.status).json({status: objCheck.status, message: objCheck.message});
         }
     });
-
-
-
     apiRoutes.post(`/${SERVICE_CONST.IMAGE_UPLOAD}`, (req, res, next) => {
         let imageFile = req.files.file;
         imageFile.mv(`${folderpath}\\${req.body.filename}`, function (err) {
@@ -112,46 +96,96 @@ module.exports = (apiRoutes) => {
             res.json({file: "images/" + req.body.filename});
         });
     });
-
-
-
-
-
     apiRoutes.post(`/${SERVICE_CONST.USER_FCM}`, function (req, res) {
-        let objCheck = tokenVerify(req, res);
+        Fcm.find({
+            'userid': cryptr.decrypt(req.body.userId)
+        }, (error, data) => {
 
-        const fcm = new Fcm(req.body);
-        fcm.save((err) => {
-            if (err !== null) {
-                if (err.code === DUPLICATE_CODE) {
-                    res.json({statuscode: DUPLICATE_CODE, status: 'error', message: 'Token alreday exist'});
+            if (data.length > 0) {
+                var obj = {};
+                if (req.body.subtype === 'P') {
+                    obj.promotiontype = req.body.status;
+                } else {
+                    obj.coupontype = req.body.status;
                 }
+
+                Fcm.update(
+                        {'userid': cryptr.decrypt(req.body.userId)},
+                        {
+                            $addToSet: {token: req.body.token},
+                            $set: obj,
+                        }, (data) => {
+                    res.json({status: "200", message: "Subscribe Updtaed Scucessfully!!"});
+                });
+            } else {
+                var obj = {};
+                if (req.body.subtype === 'P') {
+                    obj.promotiontype = req.body.status;
+                } else {
+                    obj.coupontype = req.body.status;
+                }
+                obj.token = req.body.token;
+                obj.userid = cryptr.decrypt(req.body.userId);
+                new Fcm(obj).save().then(() => {
+                    res.json({status: "200", message: "Subscribe Successfully!! !!!!"});
+                });
             }
-        }).then(() => {
-            //fcm.update({_id: fcm._id}, {'userId': users._id});
-            res.json({statuscode: '200', status: 'success', message: 'Register Sucucessfully '});
-        }).catch((err) => {
-            console.log("asdexcetion >>>>", err);
         });
     });
+    apiRoutes.post(`/${SERVICE_CONST.POST_NOTIFICATION}`, function (req, res) {
+        let obj = {};
+        if (req.body.ptype === 'p') {
+            obj.promotiontype = 'sub';
+        } else {
+            obj.coupontype = 'sub';
+        }
+
+        Fcm.aggregate([
+            {"$match": obj},
+            {$sort: {date: -1}},
+            {$lookup: {from: 'users', localField: 'userid', foreignField: '_id', as: 'userDetail'}} // FCM+ user
+        ]).exec((error, results) => {
+            if (error) {
+                res.json({status: error});
+            }
+
+            if (results.length > 0) {
+                var contr = new UserController();
+                contr.postToSubscriber(req.body, results, function (data) {
+                    res.json({status: "success", message: "Notifictions send to " + data + " Devices!"});
+                });
+            } else {
+                res.json({status: "success", message: "No record Found!!"});
+            }
 
 
-    
-    
-    apiRoutes.get(`/${SERVICE_CONST.GET_FCM}`, (req, res) => {
-            Fcm.find((error, list) => {
-                if (list.length > 0) {
-                       res.json ({status: "success", list:list});
-                } else {
-                    res.json({status: "success", message: "No record found!!!!"});
-                }
-            });
-        
+        });
+
+
     });
+    apiRoutes.get(`/${SERVICE_CONST.GET_FCM}`, (req, res) => {
+        Fcm.find((error, list) => {
+            if (list.length > 0) {
+                res.json({status: "success", list: list});
+            } else {
+                res.json({status: "success", message: "No record found!!!!"});
+            }
+        });
+    });
+    apiRoutes.get(`/${SERVICE_CONST.GET_SUB_NOTIFICATION}/:id`, (req, res) => {
 
-
-
-
+        let decryptedString = cryptr.decrypt(req.params.id);
+        Fcm.find({'userid': decryptedString}, (error, users) => {
+            if (users.length > 0) {
+                res.json({status: "success", list: {
+                        promotion: users[0]['promotiontype'],
+                        coupontype: users[0]['coupontype']
+                    }});
+            } else {
+                res.json({status: "success", message: "No record found!!!!"});
+            }
+        });
+    });
     apiRoutes.post(`/${SERVICE_CONST.NEW_USER}`, function (req, res) {
 
         bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
@@ -166,18 +200,11 @@ module.exports = (apiRoutes) => {
             }).then(() => {
                 users.update({_id: users._id}, {'userId': users._id});
                 res.json({statuscode: '200', status: 'success', message: 'Register Sucucessfully '});
-
-
             }).catch((err) => {
                 console.log("asdexcetion >>>>", err);
             });
-
         });
-
     });
-
-
-
     apiRoutes.post(`/${SERVICE_CONST.SIGN_IN}`, function (req, res) {
 
         Users.find({email: req.body.username}, function (err, userdata) {
@@ -186,7 +213,6 @@ module.exports = (apiRoutes) => {
                 bcrypt.compare(req.body.loginpass, userdata[0].password, function (err, flag) {
                     var token = generateNewToken(userdata[0]._id, req);
                     var encryptedString = cryptr.encrypt(userdata[0]._id);
-
                     if (flag) {
                         res.json({status: "success", message: 'Login Successfully!!', accesstoken: token, userid: encryptedString});
                     } else {
@@ -198,10 +224,7 @@ module.exports = (apiRoutes) => {
             }
 
         });
-
     });
-
-
     apiRoutes.get(`/${SERVICE_CONST.GET_USER_LIST}/:id`, (req, res) => {
         if (req.params.id !== 'null') {
             let decryptedString = cryptr.decrypt(req.params.id);
@@ -209,7 +232,6 @@ module.exports = (apiRoutes) => {
                 if (users.length > 0) {
 
                     var contr = new UserController();
-
                     UsersDetails.find({'userId': {$ne: decryptedString}}, (error, details) => {
                         let list = contr.getuserList(users);
                         let detail = contr.getUserDetails(details);
@@ -224,7 +246,6 @@ module.exports = (apiRoutes) => {
                         });
                         res.json({status: "success", list: list});
                     });
-
                     //  res.json ({status: "success", list: contr.getuserList (users)});
 
                 } else {
@@ -235,12 +256,9 @@ module.exports = (apiRoutes) => {
             res.json({status: "error", message: "Something goes wrong!!!!"});
         }
     });
-
-
     apiRoutes.get(`/${SERVICE_CONST.GET_USER_DETAIL}/:id`, (req, res) => {
         if (req.params.id !== 'null') {
             let decryptedString = cryptr.decrypt(req.params.id);
-
             Users.find({'_id': decryptedString}, (error, users) => {
                 if (users.length > 0) {
                     var contr = new UserController();
@@ -258,7 +276,6 @@ module.exports = (apiRoutes) => {
                         });
                         res.json({status: "success", list: list});
                     });
-
                 } else {
 
                     res.json({status: "success", message: "No record found!!!!"});
@@ -268,8 +285,6 @@ module.exports = (apiRoutes) => {
             res.json({status: "error", message: "Something goes wrong!!!!"});
         }
     });
-
-
     apiRoutes.post(`/${SERVICE_CONST.USER_UPDATE_DETAIL}`, (req, res) => {
 
         UsersDetails.find({
@@ -297,24 +312,20 @@ module.exports = (apiRoutes) => {
                 var obj = {};
                 if (req.body.hasOwnProperty('imagedata')) {
                     obj.photodata = req.body.imagedata;
-                    obj.isphoto = 'true'
+                    obj.isphoto = 'true';
                 } else if (req.body.hasOwnProperty('professional')) {
                     obj.professional = req.body.professional;
                 } else {
                     obj.aboutme = req.body.aboutme;
                 }
                 obj.userId = cryptr.decrypt(req.body.userId);
-
                 new UsersDetails(obj).save().then(() => {
                     res.json({status: "success", message: "Image upload Successfully!! !!!!"});
                 });
                 ;
-
             }
         });
-
     });
-
     apiRoutes.post(`/${SERVICE_CONST.UPDATE_USER_DATA}`, (req, res) => {
         Users.find({
             '_id': cryptr.decrypt(req.body.userId)
@@ -335,10 +346,7 @@ module.exports = (apiRoutes) => {
             }
             ;
         });
-
     });
-
-
     apiRoutes.post(`/${SERVICE_CONST.SEND_REQUEST}`, (req, res) => {
 
         var queryOne = {'_id': cryptr.decrypt(req.body.requestedby)};
@@ -361,18 +369,13 @@ module.exports = (apiRoutes) => {
                 res.json({status: "pending"});
             });
         });
-
-
     });
-
-
     apiRoutes.post(`/${SERVICE_CONST.ACCEPT_REQUEST}`, (req, res) => {
 
         var queryOne = {
             "_id": cryptr.decrypt(req.body.requestedby),
             "friends.userid": mongoose.Types.ObjectId(cryptr.decrypt(req.body.requestedto))
         };
-
         Users.findOneAndUpdate(queryOne, {$set: {"friends.$.status": 'ACCEPT'}},
                 function (err, doc) {
 
@@ -381,16 +384,12 @@ module.exports = (apiRoutes) => {
                         "_id": cryptr.decrypt(req.body.requestedto),
                         "friends.userid": mongoose.Types.ObjectId(cryptr.decrypt(req.body.requestedby))
                     };
-
                     Users.findOneAndUpdate(query, {$set: {"friends.$.status": 'ACCEPT'}},
                             function (err, doc) {
                                 res.json({status: doc});
                             });
                 });
-
     });
-
-
     apiRoutes.get(`/${SERVICE_CONST.ACCEPT_FRIEND_LIST}/:id`, (req, res) => {
         var contr = new UserController();
         if (req.params.id !== 'null') {
@@ -433,12 +432,9 @@ module.exports = (apiRoutes) => {
                     res.json({status: "success", message: "No record found!!!!"});
                 }
             });
-
         }
 
     });
-
-
     apiRoutes.post(`/${SERVICE_CONST.SAVE_POST}`, function (req, res, next) {
 
         req.body._author = cryptr.decrypt(req.body.userid);
@@ -454,7 +450,6 @@ module.exports = (apiRoutes) => {
                 }
                 res.json({status: "success", message: messgae});
             });
-
         } else {
             let post = new Posts(req.body);
             post.save((err, data) => {
@@ -471,7 +466,6 @@ module.exports = (apiRoutes) => {
 
 
     });
-
     apiRoutes.post(`/${SERVICE_CONST.GET_MY_POSTS}`, function (req, res) {
         let reqdata = req.body, postid = '', obj = {};
         if (req.body.hasOwnProperty('postid')) {
@@ -507,10 +501,8 @@ module.exports = (apiRoutes) => {
             res.json({status: "Post Listing", posts: results, obj: obj});
         });
     });
-
     apiRoutes.post(`/${SERVICE_CONST.DETAIL_POST}`, function (req, res) {
         let reqdata = req.body, postid = '', obj = {};
-
         if (req.body.hasOwnProperty('postid')) {
             postid = req.body.postid;
         }
@@ -518,7 +510,6 @@ module.exports = (apiRoutes) => {
             obj._id = mongoose.Types.ObjectId(postid);
         }
         obj.flag = 'p';
-
         Posts.aggregate([
             {"$match": obj},
             {$lookup: {from: 'users', localField: '_author', foreignField: '_id', as: 'userDetail'}}, // post+ user
@@ -537,7 +528,6 @@ module.exports = (apiRoutes) => {
             res.json({status: "Post Listing", posts: results, obj: obj});
         });
     });
-
     apiRoutes.post(`/${SERVICE_CONST.DELETE_MY_POST}`, function (req, res) {
 
         let userId = cryptr.decrypt(req.body.userid);
@@ -550,9 +540,6 @@ module.exports = (apiRoutes) => {
 
 
     });
-
-
-
     apiRoutes.post(`/${SERVICE_CONST.SAVE_COMMENT}`, function (req, res) {
 
         let  obj = {
@@ -560,19 +547,13 @@ module.exports = (apiRoutes) => {
             postid: mongoose.Types.ObjectId(req.body.postid),
             comment: req.body.comment
         };
-
         let comment = new Comments(obj);
         comment.save((err, data) => {
             if (err !== null) {
                 res.json({status: 'error', message: err});
             }
             let messgae = "Comment has been Saved successfully";
-
             res.json({status: "success", message: messgae, commentdata: data});
         });
-
-
     });
-
-
 };

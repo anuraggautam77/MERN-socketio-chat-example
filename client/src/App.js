@@ -55,7 +55,6 @@ class App extends Component {
     render() {
         return (
                 <div>
-                    <Speechcontainer/>
                     <Routing islogin={this.state.isLoggedIn} />
                 </div>);
     }

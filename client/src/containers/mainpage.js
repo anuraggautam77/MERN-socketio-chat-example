@@ -7,6 +7,8 @@ import UserList from '../components/users/userlist';
 import MyPosts from '../components/mypost/myposts';
 import ReadMorePost from '../components/mypost/readmorepost';
 import Chatwindow from '../components/chatwindow/chatwindow';
+import Subscription from '../components/notifications/subscription';
+
 class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -47,7 +49,11 @@ class MainPage extends Component {
                                                         </div>
                                                         <ReadMorePost forall="true" onlytext="true"  />
                                                     </div>
+                                                    
+                        
+                        
                                                     <div className="col-md-3 col-sm-6 proilecard">
+                                                        <Subscription/>
                                                         <Newfriend/>      
                                                     </div>
                                                     <Chatwindow/>

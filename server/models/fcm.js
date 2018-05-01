@@ -1,9 +1,11 @@
 const mongoose = require ('mongoose');
 
 const FcmSchema = new mongoose.Schema ({
-  token: {type: String, default: null,unique: true},
-  devicedetail:{type: String, default: null}
-   
+  token: {type: Array, default:[]},
+  devicedetail:{type: String, default: null},
+  coupontype: {type: String, default: null},
+  promotiontype: {type: String, default: null},
+  userid: {type: mongoose.Schema.Types.ObjectId,unique: true}
 });
  
 module.exports = mongoose.model ('Fcm', FcmSchema);

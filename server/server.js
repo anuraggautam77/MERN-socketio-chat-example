@@ -60,14 +60,8 @@ app.use( bodyParser.json( { limit: '50MB' } ) );
 
 app.use(function(req, res, next) {
   // check header or url parameters or post parameters for token
-   console.log(">>>>>Middleware>>>>>>>>>>>>>>>>>>>>>>>")
     next();
-   
 });
-
- 
-
-
 
 
 app.use ('/api', apiRoutes);

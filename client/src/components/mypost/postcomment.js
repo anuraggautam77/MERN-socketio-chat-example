@@ -27,12 +27,7 @@ class Comment extends Component {
         this.callNewUserApi(this.state); 
         this.refs.commentinput.value='';
         this.setState({comment:null}); 
-        
-       
-       
     }
-    
-    
 
     callNewUserApi(state) {
 

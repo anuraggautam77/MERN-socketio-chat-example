@@ -21,7 +21,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
-const messaging = firebase.messaging();
+var messaging = firebase.messaging();
 
 messaging.requestPermission()
         .then(function () {
@@ -30,12 +30,12 @@ messaging.requestPermission()
         .then(function (token) {
             console.log(token);
         
-      fetch ('/api/savefcm', {method: 'post', headers: {'Content-Type': 'application/json'}, body: JSON.stringify ({token:token})})
+     /* fetch ('/api/savefcm', {method: 'post', headers: {'Content-Type': 'application/json'}, body: JSON.stringify ({token:token})})
       .then (res => res.json ())
       .then (json => {
-        // this.serviceHandler (json)
-      });
-            window.localStorage.setItem('deviceToken', token);
+       
+      });*/
+         window.localStorage.setItem('deviceToken', token);
         })
         .catch(function (err) {
             alert(err);

@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const Cryptr = require('cryptr');
 const sanitizeHtml = require('sanitize-html');
 const _ = require('lodash');
+const request = require('request');
 const USER_ID_ENCRYPT_DECTYPT = 'user_id_incrption_decription';
 module.exports = class UserController {
     getuserList(userdata) {
@@ -71,7 +72,7 @@ module.exports = class UserController {
                     selfClosing: []
                 });
                 val.img = img;
-                val.body = _.truncate(_.trim(stringdata), { 'length': 350, 'separator': /,? +/ });
+                val.body = _.truncate(_.trim(stringdata), {'length': 350, 'separator': /,? +/});
             }
             val.user = {};
             val._author = cryptr.encrypt(val._author);
@@ -83,7 +84,54 @@ module.exports = class UserController {
 
         return posts;
     }
-    ;
+     
+       postToSubscriber(message, users, callback) {
+        var count=0, tokencount=0;
+        users.forEach((obj) => {
+            message.text = message.text.replace('{{name}}', _.capitalize(obj.userDetail[0].firstName) + ' ' + _.capitalize(obj.userDetail[0].lastName))
+            obj.token.forEach((token) => {
+                tokencount++;
+                request({
+                    url: 'https://fcm.googleapis.com/fcm/send',
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': ' application/json',
+                        'Authorization': 'key=AIzaSyCZk3C2aQwpNmOV6j8i4TEOSH6409PtD08'
+                    },
+                    body: JSON.stringify(
+                            {
+                                "notification": {
+                                    "title": message.title,
+                                    "body": message.text,
+                                    "icon": "https://share-and-connect.herokuapp.com/img/icons/apple-icon-57x57.png",
+                                    "click_action": "https://share-and-connect.herokuapp.com"
+                                },
+                                "to": token
+                            }
+                    )
+                }, function (error, response, body) {
+                    if (error) {
+                        console.error(error, response, body);
+                    } else if (response.statusCode >= 400) {
+                        console.error('HTTP Error: ' + response.statusCode + ' - ' + response.statusMessage + '\n' + body);
+                    } else {
+                        count++;
+                         console.log(count+'.Send to '+obj.userDetail[0].firstName);
+                         if(count===tokencount){
+                            callback(count);
+                            console.log("/////////////////////");  
+                            console.log("Message send to >>"+count+' Devices');
+                            console.log("/////////////////////");
+                         };
+                      
+                    }
+                });
+            });
+        });
+
+ 
+    }
+     
 };
 
 
