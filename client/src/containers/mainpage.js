@@ -37,6 +37,7 @@ class MainPage extends Component {
                                                 <div className="landing-page">
                                                     <div className="col-md-3 col-sm-6 proilecard"> 
                                                         <Profilecard/>
+                                                         <Subscription/>
                                                         <div className="panel panel-default">
                                                             <div className="panel-heading">
                                                             </div>
@@ -53,7 +54,7 @@ class MainPage extends Component {
                         
                         
                                                     <div className="col-md-3 col-sm-6 proilecard">
-                                                        <Subscription/>
+                                                       
                                                         <Newfriend/>      
                                                     </div>
                                                     <Chatwindow/>
