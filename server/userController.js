@@ -86,6 +86,7 @@ module.exports = class UserController {
     }
      
        postToSubscriber(message, users, callback) {
+           
         var count=0, tokencount=0;
         users.forEach((obj) => {
             message.text = message.text.replace('{{name}}', _.capitalize(obj.userDetail[0].firstName) + ' ' + _.capitalize(obj.userDetail[0].lastName))

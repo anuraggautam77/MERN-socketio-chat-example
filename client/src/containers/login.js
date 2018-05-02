@@ -31,14 +31,15 @@ export default class Login extends Component {
         <div className="login-component">
           <section  className="contact-us section-bg">
               <div className="block">
-                <div className="col-md-6">
-                  <div className="col-md-12">
-                     <img className="img-fluid" src="img/bg/login.jpg" alt="desk-image"/>
-                  </div>
-                </div>
+               
                 <div className="col-md-6 form-box">    
                         <div className={this.state.signin}><Signin statechange={this.statechange} /></div>    
                         <div className={this.state.signup}><Signup statechange={this.statechange} /></div>
+                </div>
+                 <div className="col-md-6">
+                  <div className="col-md-12">
+                     <img className="img-fluid" src="img/bg/login.jpg" alt="desk-image"/>
+                  </div>
                 </div>
             </div> 
           </section>
