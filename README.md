@@ -1,6 +1,6 @@
 # JavaScript Stack 
 
-[![Nodejs](/client/public/img/techstack/nodejs.png)](https://nodejs.org/)
+
 [![React](/client/public/img/techstack/react.png)](https://facebook.github.io/react/)
 [![ExpressJs](/client/public/img/techstack/express.png)](https://expressjs.com/)
 [![React Router](/client/public/img/techstack/react-router.png)](https://github.com/ReactTraining/react-router)
