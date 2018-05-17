@@ -1,3 +1,18 @@
+# JavaScript Stack 
+
+[![Nodejs](/client/public/img/techstack/nodejs.png)](https://nodejs.org/)
+[![React](/client/public/img/techstack/react.png)](https://facebook.github.io/react/)
+[![ExpressJs](/client/public/img/techstack/express.png)](https://expressjs.com/)
+[![React Router](/client/public/img/techstack/react-router.png)](https://github.com/ReactTraining/react-router)
+[![Webpack](/client/public/img/techstack/webpack.png)](https://webpack.github.io/)
+[![Bootstrap](/client/public/img/techstack/bootstrap.png)](http://getbootstrap.com/)
+[![JWT](/client/public/img/techstack/jwt.PNG)](https://jwt.io/)
+[![Socket-io](/client/public/img/techstack/socketio.png)](https://socket.io/)
+[![mongodb](/client/public/img/techstack/mongodb.png)](https://www.mongodb.com/)
+
+
+
+
 # MERN-boilerplate
 
 This is a boilerplate project using the following technologies:
@@ -55,5 +70,8 @@ Landing page without login
 User Dashboard
 ![capture](https://user-images.githubusercontent.com/1465967/38768216-913d7944-400d-11e8-9a3e-12807b8ef86e.PNG)
 
+ ## Credits
 
+Created by [@anuraggautam77](https://www.linkedin.com/in/anuraggautam77/)
+ 
 
