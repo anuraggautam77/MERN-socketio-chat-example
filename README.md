@@ -8,7 +8,7 @@
 [![Bootstrap](/client/public/img/techstack/bootstrap.png)](http://getbootstrap.com/)
 [![JWT](/client/public/img/techstack/jwt.PNG)](https://jwt.io/)
 [![Socket-io](/client/public/img/techstack/socketio.png)](https://socket.io/)
-[![mongodb](/client/public/img/techstack/mongodb.png)](https://www.mongodb.com/)
+
 
 
 
