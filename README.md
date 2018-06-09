@@ -75,7 +75,7 @@ User Dashboard
 Created by [@anuraggautam77](https://www.linkedin.com/in/anuraggautam77/)
 
  ## Cheer me
-(https://www.buymeacoffee.com/assets/img/bmc-f-logo.svg) Cheer me up with a coffee! [![React Router](https://www.buymeacoffee.com/assets/img/bmc-f-logo.svg)](https://www.buymeacoffee.com/fL0O9wW)
+Cheer me up with a coffee! [![React Router](https://www.buymeacoffee.com/assets/img/bmc-f-logo.svg)](https://www.buymeacoffee.com/fL0O9wW)
 
  
 
