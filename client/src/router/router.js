@@ -22,7 +22,7 @@ export default class Routing extends Component {
     render() {
      
         return (
-            <Router>
+           
                <div>
                 <div className="container-full">
                       <NavMenu islogin={this.props.islogin}/>
@@ -38,7 +38,7 @@ export default class Routing extends Component {
                     <Route path="/post/:id"  component={PostDetail} />
                 </div>
              </div>      
-            </Router>
+           
         )
     }
 };

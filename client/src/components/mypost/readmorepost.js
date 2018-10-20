@@ -2,8 +2,14 @@ import React, { Component } from "react";
 import "../../style/css/readmorepost.scss";
 import _ from 'lodash';
 import { NavLink, withRouter } from 'react-router-dom';
+import Masonry from 'react-masonry-component';
 
 import Comment from './postcomment';
+
+const masonryOptions = {
+    transitionDuration: 6
+};
+const imagesLoadedOptions = {background: '.my-bg-image-el'};
 
 
 class ReadMorePost extends Component {
@@ -48,7 +54,7 @@ class ReadMorePost extends Component {
 
             let linkurl = _.kebabCase(obj.title);
             return (
-                    <div className="col-sm-6 col-md-4"   key={obj._id}>
+                    <div className="image-element-class col-sm-6 col-md-4"   key={obj._id}>
                         <div className="thumbnail">
                             {
                         (() => {
@@ -172,8 +178,20 @@ class ReadMorePost extends Component {
 
                         if (this.state.isGrid) {
                             return (
-                                    <div> {
-                                        this.gridList(this.state.posts)} 
+                                    <div> 
+									
+								 <Masonry
+                        className={'my-gallery-class'} 
+                        options={masonryOptions}  
+                        updateOnEachImageLoad={false} 
+                        imagesLoadedOptions={imagesLoadedOptions} 
+                        >
+                        { this.gridList(this.state.posts) }          
+                    </Masonry>
+									
+									
+									
+									 
                                     </div>
                                     );
                         }
