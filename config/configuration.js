@@ -1,7 +1,5 @@
 
 module.exports = {
-db: 'mongodb://mystuffuser:mystuffuser123@ds225038.mlab.com:25038/mystuff',
-//db_dev: 'mongodb://localhost:27017/mystuff'
-db_dev: 'mongodb://mystuffuser:mystuffuser123@ds225038.mlab.com:25038/mystuff'
+ db: 'mongodb://localhost:27017/mystuff'
 
 };
