@@ -59,7 +59,7 @@ class ReadMorePost extends Component {
                             {
                         (() => {
                             if (obj.img !== '') {
-                                return(<img src={obj.img} alt=""/>)
+                                return(<img src={obj.img} style={{"width":"100%"}} alt=""/>)
                      }
                             })()
                             }

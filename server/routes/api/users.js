@@ -4,7 +4,9 @@ const UserController = require('../../userController');
 const Posts = require('../../models/Posts');
 const Comments = require('../../models/Comments');
 const Fcm = require('../../models/fcm');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt-nodejs');
+
+
 const Cryptr = require('cryptr');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
