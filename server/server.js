@@ -41,7 +41,7 @@ const server = app.listen(port, function(){
 // Configuration
 // ================================================================================================
 // Set up Mongoose
-mongoose.connect (isDev ? config.db_dev : config.db, {
+mongoose.connect (isDev ? process.env.DB_URL : config.db, {
   useMongoClient: true
 });
 mongoose.Promise = global.Promise;
