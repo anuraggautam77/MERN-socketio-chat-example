@@ -11,7 +11,7 @@ const path = require ('path');
 const config = require ('../config/configuration');
 const chatContoller =require('./chatController.js');
 const cors = require('cors');
-const fileUpload = require('express-fileupload');
+ 
 
 
 
@@ -27,7 +27,7 @@ const app = express ();
 const apiRoutes = express.Router ();
 
 const isDev = process.env.NODE_ENV !== 'production';
-const port = process.env.PORT || 3300;
+ const port = process.env.PORT || 3300;
 
 
 const server = app.listen(port, function(){
@@ -41,14 +41,17 @@ const server = app.listen(port, function(){
 // Configuration
 // ================================================================================================
 // Set up Mongoose
-mongoose.connect (isDev ? process.env.DB_URL : config.db, {
+
+const connection= process.env.DB_URL||config.local;
+
+mongoose.connect (connection, {
   useMongoClient: true
 });
 mongoose.Promise = global.Promise;
 
 app.use(cors());
 app.use (morgan('dev'));
-app.use(fileUpload());
+ 
 
 app.use (express.static (path.resolve (__dirname, '../dist')));
 app.use (bodyParser.urlencoded ({extended: true  }));

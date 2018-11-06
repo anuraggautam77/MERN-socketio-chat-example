@@ -47,33 +47,7 @@ class speechContainer extends Component {
          this.setState({notimessage: notitext});
         this.utterance.text = notitext;
         this.synth.speak(this.utterance);
-    }
-    /*
-     this.recognition.addEventListener('result', (e) => {
-     console.log('Result has been detected.');
-     console.log(e.results);
-     let last = e.results.length - 1;
-     let text = e.results[last][0].transcript;
-     let  notitext = `You meant to Say : ${text} `
-     this.setState({notimessage: notitext})
-     
-     
-     
-     
-     
-     
-     
-     utterance.addEventListener('start', function() {
-     console.log('started');
-     });
-     
-     utterance.addEventListener('end', () => {
-     console.log("endded");
-     this.recognition.start();
-     });
-     
-     
-     }); */
+    } 
 
 
     render() {
