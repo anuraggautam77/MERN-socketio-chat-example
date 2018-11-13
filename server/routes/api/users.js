@@ -189,12 +189,17 @@ module.exports = (apiRoutes) => {
         });
     });
     apiRoutes.post(`/${SERVICE_CONST.NEW_USER}`, function (req, res) {
-
-        bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+	 
+      bcrypt.hash(req.body.password, null, null, function(err, hash) {
             req.body.password = hash;
+			 
             const users = new Users(req.body);
-            users.save((err) => {
+			console.log(users);
+          
+           
+			users.save((err) => {
                 if (err !== null) {
+					console.log(err);
                     if (err.code === DUPLICATE_CODE) {
                         res.json({statuscode: DUPLICATE_CODE, status: 'error', message: 'Email is already exist'});
                     }
@@ -204,7 +209,7 @@ module.exports = (apiRoutes) => {
                 res.json({statuscode: '200', status: 'success', message: 'Register Sucucessfully '});
             }).catch((err) => {
                 console.log("asdexcetion >>>>", err);
-            });
+            });  
         });
     });
     apiRoutes.post(`/${SERVICE_CONST.SIGN_IN}`, function (req, res) {
