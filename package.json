@@ -35,7 +35,7 @@
     "lodash": "^4.17.5",
     "mongoose": "^4.11.7",
     "morgan": "^1.9.0",
-    "node-sass": "^4.9.4",
+    "node-sass": "^4.13.1",
     "nodemon": "^1.18.4",
     "postcss-loader": "^2.0.6",
     "pubsub-js": "^1.6.0",
