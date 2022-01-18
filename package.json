@@ -30,7 +30,7 @@
     "css-loader": "^0.28.5",
     "es6-promise": "^4.2.4",
     "express": "^4.15.4",
-    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-fetch": "^3.0.0",
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.5",
     "mongoose": "^4.11.7",
