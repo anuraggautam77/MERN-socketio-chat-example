@@ -33,7 +33,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.5",
-    "mongoose": "^4.11.7",
+    "mongoose": "^4.13.21",
     "morgan": "^1.9.0",
     "node-sass": "^4.9.4",
     "nodemon": "^1.18.4",
