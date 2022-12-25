@@ -19,7 +19,7 @@
   "dependencies": {
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
+    "babel-loader": "^8.2.4",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "bcrypt-nodejs": "0.0.3",
@@ -27,7 +27,7 @@
     "connect-history-api-fallback": "^1.3.0",
     "cors": "^2.8.4",
     "cryptr": "^2.0.0",
-    "css-loader": "^0.28.5",
+    "css-loader": "^4.0.0",
     "es6-promise": "^4.2.4",
     "express": "^4.15.4",
     "isomorphic-fetch": "^2.2.1",
@@ -37,7 +37,7 @@
     "morgan": "^1.9.0",
     "node-sass": "^4.9.4",
     "nodemon": "^1.18.4",
-    "postcss-loader": "^2.0.6",
+    "postcss-loader": "^4.0.0",
     "pubsub-js": "^1.6.0",
     "react": "^16.2.0",
     "react-ckeditor-component": "^1.0.7",
@@ -46,10 +46,10 @@
     "react-router": "^4.1.2",
     "react-router-dom": "^4.2.2",
     "sanitize-html": "^1.18.2",
-    "sass-loader": "^6.0.6",
+    "sass-loader": "^9.0.0",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
-    "style-loader": "^0.18.2"
+    "style-loader": "^1.1.4"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^4.0.1",
